@@ -1,4 +1,9 @@
-# Primeira rodada e resultados
+---
+title: "Primeira rodada e resultados"
+aliases:
+  - 05-rodando.html
+  - 06-resultados-r.html
+---
 
 Neste capítulo rodamos o TRIGRS no exemplo tutorial e analisamos **tudo** que sai dele — do
 mapa de fator de segurança ao volume mobilizável célula a célula, fechando com a aplicação
