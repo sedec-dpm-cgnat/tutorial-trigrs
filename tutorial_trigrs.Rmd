@@ -1,0 +1,287 @@
+---
+title: "TRIGRS na prática — Parte 1: instalação, compilação e primeira rodada (Windows)"
+author: "Cássio G. Rampinelli & Érico de Castro Borges"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    highlight: tango
+    code_folding: show
+lang: pt-BR
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.align = "center", fig.width = 7, fig.height = 5.5)
+```
+
+# Sobre este tutorial
+
+O **TRIGRS** (*Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis*),
+do Serviço Geológico dos Estados Unidos (USGS), é um dos modelos físicos mais utilizados no mundo
+para mapear **deslizamentos rasos deflagrados por chuva**. Ele resolve a infiltração transiente da
+chuva no solo (soluções analíticas 1-D, condições saturadas ou não saturadas) e calcula, célula a
+célula de uma grade raster, o **Fator de Segurança (FS)** de um talude infinito ao longo do tempo
+de uma chuva.
+
+Este tutorial mostra, do zero, como:
+
+1. instalar o compilador **gfortran** no Windows;
+2. baixar e **compilar** o código-fonte oficial do TRIGRS 2.1 (evitando uma pegadinha clássica
+   dos executáveis pré-compilados);
+3. rodar o **exemplo tutorial** que acompanha o programa (TopoIndex → TRIGRS);
+4. **visualizar e interpretar** os resultados no R.
+
+Todos os arquivos usados aqui (dados do exemplo, arquivos de inicialização já corrigidos e
+resultados) estão no repositório GitHub:
+<https://github.com/sedec-dpm-cgnat/tutorial-trigrs>
+
+> Este material integra a pesquisa de mestrado de Érico de Castro Borges sobre acoplamento entre
+> mapeamento de estabilidade de encostas (TRIGRS) e estimativa de volumes de fluxo de detritos
+> pela metodologia GIDES/JICA, com estudo de caso na região serrana do Rio de Janeiro.
+
+## Referências essenciais
+
+- Baum, R.L., Savage, W.Z. & Godt, J.W. (2008). *TRIGRS — A Fortran program for transient
+  rainfall infiltration and grid-based regional slope-stability analysis, version 2.0*.
+  USGS Open-File Report 2008-1159.
+- Baum, R.L., Godt, J.W. & Savage, W.Z. (2010). Estimating the timing and location of shallow
+  rainfall-induced landslides using a model for transient, unsaturated infiltration.
+  *J. Geophys. Res.*, 115, F03013.
+- Código-fonte oficial: <https://code.usgs.gov/usgs/landslides-trigrs>
+- Aplicações no Brasil: Schwarz & Michel (2017, XXII SBRH — Ibirama/SC); Konig, Kux & Corsi
+  (2022, *Geociências* — Campos do Jordão/SP).
+
+# Passo 1 — Instalar o gfortran
+
+O TRIGRS é escrito em Fortran e é distribuído como **código-fonte**. Vamos compilá-lo com o
+**gfortran** (gratuito).
+
+1. Baixe o instalador de 64 bits em <https://www.equation.com/servlet/equation.cmd?fa=fortran>
+   (ex.: `gcc-14.2.0-64.exe`).
+2. Instale no local padrão sugerido (ex.: `C:\Users\SEU_USUARIO\gcc`). O instalador adiciona o
+   compilador ao PATH automaticamente.
+3. Feche e abra **um novo** PowerShell e confirme:
+
+```powershell
+gfortran --version
+# GNU Fortran (GCC) 14.2.0  <- resposta esperada
+```
+
+# Passo 2 — Baixar e compilar o TRIGRS
+
+## 2.1 Por que não usar os executáveis prontos?
+
+O USGS distribui binários de Windows (`TRIGRS_2.1_Win64.zip`), mas eles foram compilados sob
+**Cygwin** e dependem da biblioteca `cygwin1.dll`. Em uma máquina sem Cygwin, o programa
+simplesmente **não abre** — o Windows retorna o erro silencioso `0xC0000135` (DLL não
+encontrada), sem nenhuma mensagem útil. Compilando nós mesmos com a opção `-static`, o
+executável fica autossuficiente.
+
+## 2.2 Baixar o código-fonte
+
+Baixe a release oficial 2.1.0 em
+<https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0> e extraia, por exemplo, para
+`C:\TRIGRS\landslides-trigrs-2.1.0\`. A pasta `src\` contém quatro programas:
+
+| Programa | Função |
+|---|---|
+| `TRIGRS` | Modelo principal: infiltração + fator de segurança |
+| `TopoIndex` | Pré-processador topográfico (roteamento do runoff e dimensionamento das matrizes) |
+| `GridMatch` | Verifica se as grades de entrada são congruentes |
+| `UnitConvert` | Conversão de unidades das grades |
+
+## 2.3 Compilar (PowerShell)
+
+Na pasta `src\` do código-fonte, execute (ajuste o caminho do gfortran se necessário). A ordem
+dos arquivos **importa** — módulos primeiro:
+
+```powershell
+# TopoIndex
+gfortran -O2 -w -static -o topoindex.exe TopoIndex\ssizgrd.f95 TopoIndex\tpindx.f90 `
+  TopoIndex\nxtcel.f90 TopoIndex\isvgrd.f TopoIndex\mpfldr.f TopoIndex\rdflodir.f `
+  TopoIndex\sindex.f TopoIndex\slofac.f TopoIndex\srdgrd1.f
+
+# TRIGRS (versão serial — suficiente para bacias pequenas e médias)
+gfortran -O2 -w -static -o trigrs.exe TRIGRS\grids.f95 TRIGRS\input_file_defs.f95 `
+  TRIGRS\input_vars.f95 TRIGRS\model_vars.f95 TRIGRS\dsimps.f95 TRIGRS\iverson.f95 `
+  TRIGRS\pstpi.f95 TRIGRS\satfin.f95 TRIGRS\savage.f95 TRIGRS\steady.f95 TRIGRS\trini.f95 `
+  TRIGRS\unsinf.f95 TRIGRS\ivestp.f95 TRIGRS\pstpf.f95 TRIGRS\rnoff.f95 TRIGRS\satinf.f95 `
+  TRIGRS\smallt.f95 TRIGRS\svgstp.f95 TRIGRS\unsfin.f95 TRIGRS\unsth.f95 TRIGRS\ssizgrd.f95 `
+  TRIGRS\svlist.f95 TRIGRS\trigrs.f90 TRIGRS\flux.f90 TRIGRS\prpijz.f90 TRIGRS\svxmdv.f90 `
+  TRIGRS\svijz.f90 TRIGRS\dzero_brac.f90 TRIGRS\calerf.f TRIGRS\dbsct.f TRIGRS\derfc.f `
+  TRIGRS\irdgrd.f TRIGRS\irdswm.f TRIGRS\isvgrd.f TRIGRS\roots.f TRIGRS\srdgrd.f `
+  TRIGRS\srdswm.f TRIGRS\ssvgrd.f
+
+# GridMatch
+gfortran -O2 -w -static -o gridmatch.exe GridMatch\ssizgrd.f95 GridMatch\gridmatch.f90 `
+  GridMatch\srdgrd.f GridMatch\ssvgrd.f
+
+# UnitConvert (este precisa da flag -fdec por causa de um format antigo no código)
+gfortran -O2 -w -static -fdec -o unitconvert.exe UnitConvert\unitconvert.f90 `
+  UnitConvert\srdgrd.f UnitConvert\ssvgrd.f
+```
+
+Ao final você terá `topoindex.exe`, `trigrs.exe`, `gridmatch.exe` e `unitconvert.exe`.
+Guarde-os em uma pasta `bin\` — serão copiados para cada projeto.
+
+> **Nota:** o Makefile que acompanha o código usa `mpif90` (MPI) para a versão paralela
+> (`trigrs_p`). Não é necessária para começar; a versão serial resolve bacias pequenas
+> em segundos.
+
+# Passo 3 — Conhecer o exemplo tutorial
+
+O repositório deste tutorial traz a pasta `exemplo_01\` com os dados do tutorial oficial do
+USGS: uma grade minúscula de **10 × 10 células** (2 zonas de propriedades, chuva em 2 períodos,
+60 h de simulação) — perfeita para entender o fluxo de trabalho sem esperar processamento.
+
+```
+exemplo_01\
+├── tpx_in.txt      <- arquivo de inicialização do TopoIndex
+├── tr_in.txt       <- arquivo de inicialização do TRIGRS (JÁ CORRIGIDO, ver nota)
+├── data\           <- grades de entrada (formato ESRI ASCII)
+│   ├── dem.asc         MDE (elevação)
+│   ├── directions.asc  direção de fluxo D8
+│   ├── slope.asc       declividade (graus)
+│   ├── zones.asc       zonas de propriedades (1, 2, ...)
+│   ├── zmax.asc        profundidade máxima do solo (m)
+│   ├── depthwt.asc     profundidade inicial do lençol freático (m)
+│   ├── rizero.asc      infiltração antecedente (m/s)
+│   └── ri1.asc, ri2.asc  intensidade de chuva dos períodos 1 e 2 (m/s)
+└── Resultados\     <- saídas do TRIGRS (as deste repositório já vêm prontas)
+```
+
+**Copie para dentro de `exemplo_01\` os executáveis** `topoindex.exe` e `trigrs.exe`
+compilados no Passo 2.
+
+> **Correções que fizemos no `tr_in.txt` original** (se você baixar o exemplo direto do USGS):
+> os caminhos apontavam para uma pasta `Data/tutorial/` que não existe na distribuição — foram
+> ajustados para `data/`; o nome da grade `TIdscelGrid_tutorial` foi ajustado para a extensão
+> `.txt` (é assim que o TopoIndex a grava); e a pasta de saída `Resultados\` precisa **existir
+> antes** de rodar (o TRIGRS não a cria).
+
+## Unidades — a pegadinha nº 1
+
+O TRIGRS trabalha em **SI**: metros, segundos, Pascal. A chuva entra em **m/s**:
+
+$$ 50\ \text{mm/h} = \frac{50}{1000 \times 3600} = 1{,}39 \times 10^{-5}\ \text{m/s} $$
+
+# Passo 4 — Rodar o TopoIndex e o TRIGRS
+
+Abra o PowerShell **na pasta** `exemplo_01\` e rode os dois programas, nesta ordem:
+
+```powershell
+cd caminho\para\exemplo_01
+.\topoindex.exe    # lê tpx_in.txt -> gera data\TI*_tutorial.* (índices e pesos de roteamento)
+.\trigrs.exe       # lê tr_in.txt  -> gera Resultados\TR*.asc
+```
+
+Cada rodada leva ~1 segundo nessa grade de brinquedo. O TopoIndex define a ordem de cálculo do
+escoamento (D8) e o tamanho das matrizes; o TRIGRS faz a infiltração e a estabilidade.
+
+Saídas principais em `Resultados\`:
+
+| Arquivo | Conteúdo |
+|---|---|
+| `TRfs_min_tutorial_1.asc`, `_2.asc` | **FS mínimo** por célula nos tempos de saída (48 h e 60 h) |
+| `TRz_at_fs_min_*.asc` | Profundidade (m) da superfície crítica (onde ocorre o FS mínimo) |
+| `TRp_at_fs_min_*.asc` | Poro-pressão (m) na profundidade crítica |
+| `TRwater_depth_*.asc` | Profundidade simulada do lençol freático |
+| `TrigrsLog.txt` | Log — **sempre conferir** avisos e o balanço de massa |
+
+# Passo 5 — Visualizar os resultados no R
+
+Os resultados são rasters ESRI ASCII — o pacote `terra` lê diretamente. Os chunks abaixo usam
+os arquivos deste repositório.
+
+```{r pacotes}
+library(terra)
+```
+
+## 5.1 Entrada: topografia e chuva
+
+```{r entradas, fig.height=4.5}
+dem   <- rast("exemplo_01/data/dem.asc")
+slope <- rast("exemplo_01/data/slope.asc")
+zones <- rast("exemplo_01/data/zones.asc")
+
+par(mfrow = c(1, 3))
+plot(dem,   main = "MDE (m)",            col = terrain.colors(25))
+plot(slope, main = "Declividade (graus)", col = hcl.colors(25, "YlOrRd", rev = TRUE))
+plot(as.factor(zones), main = "Zonas de propriedades")
+```
+
+## 5.2 Fator de segurança ao longo da chuva
+
+```{r fs, fig.height=4.8}
+fs48 <- rast("exemplo_01/Resultados/TRfs_min_tutorial_1.asc")  # t = 48 h
+fs60 <- rast("exemplo_01/Resultados/TRfs_min_tutorial_2.asc")  # t = 60 h
+
+# FS é truncado em 10 pelo TRIGRS (células estáveis); limitamos a escala p/ leitura
+brks <- c(0, 0.8, 1.0, 1.2, 1.5, 2, 3, 10)
+cols <- hcl.colors(length(brks) - 1, "RdYlGn")
+
+par(mfrow = c(1, 2))
+plot(fs48, main = "FS mínimo — 48 h", breaks = brks, col = cols)
+plot(fs60, main = "FS mínimo — 60 h (fim da chuva)", breaks = brks, col = cols)
+```
+
+Células com **FS < 1** (vermelho) são previstas como **instáveis**. Compare os dois tempos:
+com o avanço da infiltração a poro-pressão cresce e o FS cai.
+
+## 5.3 Onde e a que profundidade romperia?
+
+```{r ruptura, fig.height=4.8}
+zfs  <- rast("exemplo_01/Resultados/TRz_at_fs_min_tutorial_2.asc")
+pfs  <- rast("exemplo_01/Resultados/TRp_at_fs_min_tutorial_2.asc")
+
+par(mfrow = c(1, 2))
+plot(zfs, main = "Profundidade do FS mínimo (m)", col = hcl.colors(25, "Blues", rev = TRUE))
+plot(pfs, main = "Poro-pressão na prof. crítica (m)", col = hcl.colors(25, "PuBuGn", rev = TRUE))
+```
+
+## 5.4 Quantificando a instabilidade
+
+```{r estatisticas}
+inst <- fs60 < 1
+n_inst <- global(inst, "sum", na.rm = TRUE)[1, 1]
+area_celula <- prod(res(fs60))                       # m² por célula
+z_medio <- global(mask(zfs, inst, maskvalues = 0), "mean", na.rm = TRUE)[1, 1]
+
+data.frame(
+  celulas_instaveis   = n_inst,
+  area_instavel_m2    = n_inst * area_celula,
+  prof_media_ruptura_m = round(z_medio, 2),
+  volume_mobilizavel_m3 = round(n_inst * area_celula * z_medio, 1)
+)
+```
+
+Esse último número — **área instável × profundidade de ruptura** — é a ponte entre o TRIGRS e a
+estimativa de **volume de fluxo de detritos** (por exemplo, os volumes Vdy1/Vdy2 da metodologia
+GIDES/JICA), tema da Parte 2 deste tutorial.
+
+# Erros comuns (checklist de socorro)
+
+| Sintoma | Causa provável |
+|---|---|
+| O `.exe` "não faz nada" e fecha | Binário Cygwin sem `cygwin1.dll` — compile com `-static` (Passo 2) |
+| `Grid mismatch` | Grades com nodata em posições diferentes — recorte tudo com a mesma máscara e confira com `gridmatch.exe` |
+| Resultados não aparecem | A pasta de saída indicada no `tr_in.txt` não existe |
+| FS = 10 em toda parte | Normal em células estáveis/planas (FS é truncado em 10) |
+| Valores absurdos | Unidades — chuva em mm/h em vez de m/s é o clássico |
+
+# Próximos passos
+
+- **Parte 2 (em preparação):** aplicação a uma bacia real — bacia do Hospital São Lucas,
+  Nova Friburgo/RJ (megadesastre de janeiro/2011): preparação das grades no QGIS, calibração
+  com inventário de cicatrizes e estimativa de volumes de fluxo de detritos.
+- **Parte 3 (em preparação):** incorporação de cenários de mudança climática na chuva de
+  projeto e efeito sobre os volumes estimados.
+
+---
+
+*Tutorial produzido no âmbito da cooperação SEDEC/MIDR — arquivos e atualizações em*
+<https://github.com/sedec-dpm-cgnat/tutorial-trigrs>.

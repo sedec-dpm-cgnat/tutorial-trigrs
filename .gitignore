@@ -1,0 +1,14 @@
+# Executáveis e artefatos de compilação (o tutorial ensina a compilar)
+*.exe
+*.o
+*.mod
+
+# Artefatos de knit/render
+*.html
+tutorial_trigrs_files/
+rsconnect/
+
+# R
+.Rproj.user/
+.Rhistory
+.RData

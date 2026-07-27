@@ -1,0 +1,3 @@
+ imax      nrow      ncol      nwf
+         100          10          10         154
+ 
