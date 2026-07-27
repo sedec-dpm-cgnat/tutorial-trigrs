@@ -10,7 +10,19 @@ Este apêndice é o guia de trabalho para os autores (especialmente para o Éric
 - [R](https://cran.r-project.org/) com o pacote `terra` (para os capítulos com mapas):
   `install.packages("terra")`.
 
-## Fluxo de trabalho
+## Editando pelo RStudio (recomendado)
+
+O repositório inclui o arquivo **`tutorial-trigrs.Rproj`** — dê dois cliques nele (ou
+*File → Open Project* no RStudio) e todo o projeto abre no RStudio:
+
+1. Os capítulos `.qmd` aparecem no painel *Files* — abra, edite (o editor Visual do RStudio
+   permite editar como se fosse um documento Word) e salve;
+2. Botão **Render** (ou *Build → Render Book*) para ver o resultado no navegador;
+3. Aba **Git** do RStudio para *Commit* (marque os arquivos → mensagem → Commit) e *Push* —
+   sem precisar de linha de comando;
+4. Em 1–2 minutos o site público está atualizado.
+
+## Fluxo de trabalho (linha de comando)
 
 ```bash
 # 1. Clonar (só na primeira vez)

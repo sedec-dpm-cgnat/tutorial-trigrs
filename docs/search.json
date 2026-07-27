@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Minicurso TRIGRS",
     "section": "",
-    "text": "Apresentação\nEste minicurso documenta, passo a passo e com todo o histórico versionado no GitHub, a aplicação do modelo TRIGRS (Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis, USGS) para mapeamento de estabilidade de encostas deflagradas por chuva — da instalação do compilador à aplicação em uma bacia real.\nO material nasce da pesquisa de mestrado de Érico de Castro Borges, desenvolvida no Programa de Mestrado Profissional em Defesa e Segurança Civil, cujo objetivo é acoplar os resultados do TRIGRS à estimativa de volumes de fluxo de detritos da metodologia GIDES/JICA (volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas (Nova Friburgo/RJ, megadesastre de janeiro/2011) e incorporação de cenários de mudança climática na chuva de projeto.",
+    "text": "Apresentação\nEste minicurso documenta, passo a passo e com todo o histórico versionado no GitHub, a aplicação do modelo TRIGRS (Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis, USGS) para mapeamento de estabilidade de encostas deflagradas por chuva — da instalação do compilador à aplicação em uma bacia real.\nO material nasce da pesquisa de mestrado de Érico de Castro Borges, desenvolvida no Programa de Mestrado Profissional em Defesa e Segurança Civil, cujo objetivo é acoplar os resultados do TRIGRS à estimativa de volumes de fluxo de detritos da metodologia GIDES/JICA (volumes Vdy1/Vdy2), com estudos de caso em bacias dos municípios de Nova Friburgo, Petrópolis e Teresópolis (Região Serrana do RJ, palco do megadesastre de janeiro/2011) e incorporação de cenários de mudança climática na chuva de projeto.",
     "crumbs": [
       "Apresentação"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#equipe",
     "title": "Minicurso TRIGRS",
     "section": "Equipe",
-    "text": "Equipe\n\n\n\nMestrando\nÉrico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF)\n\n\nCo-orientador\nCássio Guilherme Rampinelli, PhD (DPM/SEDEC/MIDR)\n\n\nOrientador\nProf. Marcos Barreto de Mendonça, PhD",
+    "text": "Equipe\n\n\n\nMestrando\nÉrico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF)\n\n\nCo-orientador\nCássio Guilherme Rampinelli, PhD (DPM/SEDEC/MIDR)\n\n\nOrientador\nProf. Marcos Barreto de Mendonça, PhD\n\n\nColaborador\nSaulo Aires de Souza, PhD (DPM/SEDEC/MIDR)",
     "crumbs": [
       "Apresentação"
     ]
@@ -44,7 +44,7 @@
     "href": "index.html#próximas-partes-em-construção",
     "title": "Minicurso TRIGRS",
     "section": "Próximas partes (em construção)",
-    "text": "Próximas partes (em construção)\n\nParte 2 — Bacia real: preparação das grades no QGIS para a bacia do Hospital São Lucas (Nova Friburgo/RJ), calibração com o inventário de cicatrizes de 2011.\nParte 3 — Volumes de fluxo de detritos: acoplamento TRIGRS → Vdy2 (metodologia GIDES/JICA).\nParte 4 — Mudança climática: chuvas de projeto sob cenários CMIP6 e efeito nos volumes.\n\n\n\n\n\n\n\nSobre o TRIGRS\n\n\n\nO TRIGRS é um programa de domínio público do U.S. Geological Survey que resolve a infiltração transiente da chuva (soluções analíticas 1-D, saturado/não saturado) e calcula o Fator de Segurança de talude infinito célula a célula de uma grade raster, ao longo do tempo de uma chuva. Referências completas no apêndice.",
+    "text": "Próximas partes (em construção)\n\nParte 2 — Bacias reais: preparação das grades no QGIS para os três estudos de caso na Região Serrana do RJ — Nova Friburgo (bacia Duas Pedras), Teresópolis e Petrópolis — e calibração com o inventário de cicatrizes de 2011.\nParte 3 — Volumes de fluxo de detritos: acoplamento TRIGRS → Vdy2 (metodologia GIDES/JICA).\nParte 4 — Mudança climática: chuvas de projeto sob cenários CMIP6 e efeito nos volumes.\n\n\n\n\n\n\n\nSobre o TRIGRS\n\n\n\nO TRIGRS é um programa de domínio público do U.S. Geological Survey que resolve a infiltração transiente da chuva (soluções analíticas 1-D, saturado/não saturado) e calcula o Fator de Segurança de talude infinito célula a célula de uma grade raster, ao longo do tempo de uma chuva. Referências completas no apêndice.",
     "crumbs": [
       "Apresentação"
     ]
@@ -353,11 +353,22 @@
     ]
   },
   {
-    "objectID": "91-como-contribuir.html#fluxo-de-trabalho",
-    "href": "91-como-contribuir.html#fluxo-de-trabalho",
+    "objectID": "91-como-contribuir.html#editando-pelo-rstudio-recomendado",
+    "href": "91-como-contribuir.html#editando-pelo-rstudio-recomendado",
     "title": "Apêndice B — Como adicionar capítulos",
-    "section": "B.2 Fluxo de trabalho",
-    "text": "B.2 Fluxo de trabalho\n# 1. Clonar (só na primeira vez)\ngit clone https://github.com/sedec-dpm-cgnat/tutorial-trigrs.git\ncd tutorial-trigrs\n\n# 2. Antes de começar a trabalhar, sempre atualizar\ngit pull\n\n# 3. Criar/editar um capítulo: por ex. 06-bacia-hsl.qmd\n#    (usar um capítulo existente como modelo)\n\n# 4. Registrar o novo capítulo no _quarto.yml (lista \"chapters:\")\n\n# 5. Renderizar e conferir localmente (abre o site no navegador)\nquarto preview\n\n# 6. Renderizar a versão final (gera o site na pasta docs/)\nquarto render\n\n# 7. Versionar e publicar\ngit add -A\ngit commit -m \"Adiciona capítulo: preparação das grades da bacia HSL\"\ngit push\nAo dar git push, o GitHub Pages publica automaticamente o conteúdo da pasta docs/ — em 1–2 minutos o site está atualizado.",
+    "section": "B.2 Editando pelo RStudio (recomendado)",
+    "text": "B.2 Editando pelo RStudio (recomendado)\nO repositório inclui o arquivo tutorial-trigrs.Rproj — dê dois cliques nele (ou File → Open Project no RStudio) e todo o projeto abre no RStudio:\n\nOs capítulos .qmd aparecem no painel Files — abra, edite (o editor Visual do RStudio permite editar como se fosse um documento Word) e salve;\nBotão Render (ou Build → Render Book) para ver o resultado no navegador;\nAba Git do RStudio para Commit (marque os arquivos → mensagem → Commit) e Push — sem precisar de linha de comando;\nEm 1–2 minutos o site público está atualizado.",
+    "crumbs": [
+      "Apêndices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Como adicionar capítulos</span>"
+    ]
+  },
+  {
+    "objectID": "91-como-contribuir.html#fluxo-de-trabalho-linha-de-comando",
+    "href": "91-como-contribuir.html#fluxo-de-trabalho-linha-de-comando",
+    "title": "Apêndice B — Como adicionar capítulos",
+    "section": "B.3 Fluxo de trabalho (linha de comando)",
+    "text": "B.3 Fluxo de trabalho (linha de comando)\n# 1. Clonar (só na primeira vez)\ngit clone https://github.com/sedec-dpm-cgnat/tutorial-trigrs.git\ncd tutorial-trigrs\n\n# 2. Antes de começar a trabalhar, sempre atualizar\ngit pull\n\n# 3. Criar/editar um capítulo: por ex. 06-bacia-hsl.qmd\n#    (usar um capítulo existente como modelo)\n\n# 4. Registrar o novo capítulo no _quarto.yml (lista \"chapters:\")\n\n# 5. Renderizar e conferir localmente (abre o site no navegador)\nquarto preview\n\n# 6. Renderizar a versão final (gera o site na pasta docs/)\nquarto render\n\n# 7. Versionar e publicar\ngit add -A\ngit commit -m \"Adiciona capítulo: preparação das grades da bacia HSL\"\ngit push\nAo dar git push, o GitHub Pages publica automaticamente o conteúdo da pasta docs/ — em 1–2 minutos o site está atualizado.",
     "crumbs": [
       "Apêndices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Como adicionar capítulos</span>"
@@ -367,8 +378,8 @@
     "objectID": "91-como-contribuir.html#boas-práticas",
     "href": "91-como-contribuir.html#boas-práticas",
     "title": "Apêndice B — Como adicionar capítulos",
-    "section": "B.3 Boas práticas",
-    "text": "B.3 Boas práticas\n\nUm capítulo por etapa vencida (ex.: preparação do MDE, calibração, análise de sensibilidade). Capítulos curtos e frequentes valem mais que um capítulo gigante no final.\nCommits pequenos com mensagens descritivas — eles são o “caderno de laboratório” da pesquisa.\nErros e becos sem saída também merecem registro (uma seção “o que não funcionou” vale ouro para quem vier depois — e para a dissertação).\nDados pesados (MDEs, shapefiles grandes) não entram no Git — ficam na pasta de rede/OneDrive do projeto; o capítulo documenta a origem e o pré-processamento.\nFiguras geradas por código (R/QGIS) são preferíveis a prints de tela — são reproduzíveis.",
+    "section": "B.4 Boas práticas",
+    "text": "B.4 Boas práticas\n\nUm capítulo por etapa vencida (ex.: preparação do MDE, calibração, análise de sensibilidade). Capítulos curtos e frequentes valem mais que um capítulo gigante no final.\nCommits pequenos com mensagens descritivas — eles são o “caderno de laboratório” da pesquisa.\nErros e becos sem saída também merecem registro (uma seção “o que não funcionou” vale ouro para quem vier depois — e para a dissertação).\nDados pesados (MDEs, shapefiles grandes) não entram no Git — ficam na pasta de rede/OneDrive do projeto; o capítulo documenta a origem e o pré-processamento.\nFiguras geradas por código (R/QGIS) são preferíveis a prints de tela — são reproduzíveis.",
     "crumbs": [
       "Apêndices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Como adicionar capítulos</span>"
@@ -378,8 +389,8 @@
     "objectID": "91-como-contribuir.html#estrutura-de-um-capítulo-típico",
     "href": "91-como-contribuir.html#estrutura-de-um-capítulo-típico",
     "title": "Apêndice B — Como adicionar capítulos",
-    "section": "B.4 Estrutura de um capítulo típico",
-    "text": "B.4 Estrutura de um capítulo típico\n# Título do capítulo\n\nContexto: o que esta etapa faz e por quê.\n\n## Dados usados\nOrigem, resolução, CRS...\n\n## Procedimento\nPasso a passo (comandos, parâmetros escolhidos e justificativa).\n\n```{r}\n# código R que gera figuras/tabelas a partir dos resultados\n```\n\n## Resultados e interpretação\n\n## Problemas encontrados e soluções",
+    "section": "B.5 Estrutura de um capítulo típico",
+    "text": "B.5 Estrutura de um capítulo típico\n# Título do capítulo\n\nContexto: o que esta etapa faz e por quê.\n\n## Dados usados\nOrigem, resolução, CRS...\n\n## Procedimento\nPasso a passo (comandos, parâmetros escolhidos e justificativa).\n\n```{r}\n# código R que gera figuras/tabelas a partir dos resultados\n```\n\n## Resultados e interpretação\n\n## Problemas encontrados e soluções",
     "crumbs": [
       "Apêndices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Como adicionar capítulos</span>"

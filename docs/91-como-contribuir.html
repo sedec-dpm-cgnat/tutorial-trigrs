@@ -228,9 +228,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#o-que-você-precisa-ter-instalado" id="toc-o-que-você-precisa-ter-instalado" class="nav-link active" data-scroll-target="#o-que-você-precisa-ter-instalado"><span class="header-section-number">B.1</span> O que você precisa ter instalado</a></li>
-  <li><a href="#fluxo-de-trabalho" id="toc-fluxo-de-trabalho" class="nav-link" data-scroll-target="#fluxo-de-trabalho"><span class="header-section-number">B.2</span> Fluxo de trabalho</a></li>
-  <li><a href="#boas-práticas" id="toc-boas-práticas" class="nav-link" data-scroll-target="#boas-práticas"><span class="header-section-number">B.3</span> Boas práticas</a></li>
-  <li><a href="#estrutura-de-um-capítulo-típico" id="toc-estrutura-de-um-capítulo-típico" class="nav-link" data-scroll-target="#estrutura-de-um-capítulo-típico"><span class="header-section-number">B.4</span> Estrutura de um capítulo típico</a></li>
+  <li><a href="#editando-pelo-rstudio-recomendado" id="toc-editando-pelo-rstudio-recomendado" class="nav-link" data-scroll-target="#editando-pelo-rstudio-recomendado"><span class="header-section-number">B.2</span> Editando pelo RStudio (recomendado)</a></li>
+  <li><a href="#fluxo-de-trabalho-linha-de-comando" id="toc-fluxo-de-trabalho-linha-de-comando" class="nav-link" data-scroll-target="#fluxo-de-trabalho-linha-de-comando"><span class="header-section-number">B.3</span> Fluxo de trabalho (linha de comando)</a></li>
+  <li><a href="#boas-práticas" id="toc-boas-práticas" class="nav-link" data-scroll-target="#boas-práticas"><span class="header-section-number">B.4</span> Boas práticas</a></li>
+  <li><a href="#estrutura-de-um-capítulo-típico" id="toc-estrutura-de-um-capítulo-típico" class="nav-link" data-scroll-target="#estrutura-de-um-capítulo-típico"><span class="header-section-number">B.5</span> Estrutura de um capítulo típico</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/91-como-contribuir.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -265,8 +266,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://cran.r-project.org/">R</a> com o pacote <code>terra</code> (para os capítulos com mapas): <code>install.packages("terra")</code>.</li>
 </ul>
 </section>
-<section id="fluxo-de-trabalho" class="level2" data-number="B.2">
-<h2 data-number="B.2" class="anchored" data-anchor-id="fluxo-de-trabalho"><span class="header-section-number">B.2</span> Fluxo de trabalho</h2>
+<section id="editando-pelo-rstudio-recomendado" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="editando-pelo-rstudio-recomendado"><span class="header-section-number">B.2</span> Editando pelo RStudio (recomendado)</h2>
+<p>O repositório inclui o arquivo <strong><code>tutorial-trigrs.Rproj</code></strong> — dê dois cliques nele (ou <em>File → Open Project</em> no RStudio) e todo o projeto abre no RStudio:</p>
+<ol type="1">
+<li>Os capítulos <code>.qmd</code> aparecem no painel <em>Files</em> — abra, edite (o editor Visual do RStudio permite editar como se fosse um documento Word) e salve;</li>
+<li>Botão <strong>Render</strong> (ou <em>Build → Render Book</em>) para ver o resultado no navegador;</li>
+<li>Aba <strong>Git</strong> do RStudio para <em>Commit</em> (marque os arquivos → mensagem → Commit) e <em>Push</em> — sem precisar de linha de comando;</li>
+<li>Em 1–2 minutos o site público está atualizado.</li>
+</ol>
+</section>
+<section id="fluxo-de-trabalho-linha-de-comando" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="fluxo-de-trabalho-linha-de-comando"><span class="header-section-number">B.3</span> Fluxo de trabalho (linha de comando)</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Clonar (só na primeira vez)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/sedec-dpm-cgnat/tutorial-trigrs.git</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> tutorial-trigrs</span>
@@ -291,8 +302,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ao dar <code>git push</code>, o <strong>GitHub Pages</strong> publica automaticamente o conteúdo da pasta <code>docs/</code> — em 1–2 minutos o site está atualizado.</p>
 </section>
-<section id="boas-práticas" class="level2" data-number="B.3">
-<h2 data-number="B.3" class="anchored" data-anchor-id="boas-práticas"><span class="header-section-number">B.3</span> Boas práticas</h2>
+<section id="boas-práticas" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="boas-práticas"><span class="header-section-number">B.4</span> Boas práticas</h2>
 <ul>
 <li><strong>Um capítulo por etapa vencida</strong> (ex.: preparação do MDE, calibração, análise de sensibilidade). Capítulos curtos e frequentes valem mais que um capítulo gigante no final.</li>
 <li><strong>Commits pequenos com mensagens descritivas</strong> — eles são o “caderno de laboratório” da pesquisa.</li>
@@ -301,8 +312,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Figuras geradas por código (R/QGIS) são preferíveis a prints de tela — são reproduzíveis.</li>
 </ul>
 </section>
-<section id="estrutura-de-um-capítulo-típico" class="level2" data-number="B.4">
-<h2 data-number="B.4" class="anchored" data-anchor-id="estrutura-de-um-capítulo-típico"><span class="header-section-number">B.4</span> Estrutura de um capítulo típico</h2>
+<section id="estrutura-de-um-capítulo-típico" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="estrutura-de-um-capítulo-típico"><span class="header-section-number">B.5</span> Estrutura de um capítulo típico</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Título do capítulo</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Contexto: o que esta etapa faz e por quê.</span>

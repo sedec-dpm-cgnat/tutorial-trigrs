@@ -16,9 +16,9 @@ chuva — da instalação do compilador à aplicação em uma bacia real.
 O material nasce da pesquisa de mestrado de **Érico de Castro Borges**, desenvolvida no
 **Programa de Mestrado Profissional em Defesa e Segurança Civil**, cujo objetivo é acoplar
 os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da metodologia
-**GIDES/JICA** (volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas
-(Nova Friburgo/RJ, megadesastre de janeiro/2011) e incorporação de cenários de
-**mudança climática** na chuva de projeto.
+**GIDES/JICA** (volumes Vdy1/Vdy2), com estudos de caso em bacias dos municípios de
+**Nova Friburgo, Petrópolis e Teresópolis** (Região Serrana do RJ, palco do megadesastre de
+janeiro/2011) e incorporação de cenários de **mudança climática** na chuva de projeto.
 
 ## Equipe {.unnumbered}
 
@@ -27,6 +27,7 @@ os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da met
 | **Mestrando** | Érico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF) |
 | **Co-orientador** | [Cássio Guilherme Rampinelli, PhD](https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4104421U3) (DPM/SEDEC/MIDR) |
 | **Orientador** | [Prof. Marcos Barreto de Mendonça, PhD](http://lattes.cnpq.br/9219077334380862) |
+| **Colaborador** | [Saulo Aires de Souza, PhD](http://lattes.cnpq.br/6021309864695571) (DPM/SEDEC/MIDR) |
 
 ## Como este minicurso funciona {.unnumbered}
 
@@ -49,8 +50,9 @@ os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da met
 
 ## Próximas partes (em construção) {.unnumbered}
 
-- **Parte 2 — Bacia real:** preparação das grades no QGIS para a bacia do Hospital São Lucas
-  (Nova Friburgo/RJ), calibração com o inventário de cicatrizes de 2011.
+- **Parte 2 — Bacias reais:** preparação das grades no QGIS para os três estudos de caso na
+  Região Serrana do RJ — **Nova Friburgo** (bacia Duas Pedras), **Teresópolis** e
+  **Petrópolis** — e calibração com o inventário de cicatrizes de 2011.
 - **Parte 3 — Volumes de fluxo de detritos:** acoplamento TRIGRS → Vdy2 (metodologia GIDES/JICA).
 - **Parte 4 — Mudança climática:** chuvas de projeto sob cenários CMIP6 e efeito nos volumes.
 

@@ -12,8 +12,9 @@ Windows à aplicação em bacia real, com visualização dos resultados no R.
   transiente) com fluxograma geral da metodologia, instalação do gfortran, compilação do
   código-fonte oficial, anatomia do exemplo tutorial, primeira rodada (TopoIndex + TRIGRS)
   e visualização dos resultados no R (`terra`).
-- **Parte 2 (em construção):** bacia do Hospital São Lucas, Nova Friburgo/RJ — preparação de
-  grades no QGIS e calibração com o inventário do megadesastre de janeiro/2011.
+- **Parte 2 (em construção):** estudos de caso na Região Serrana do RJ — Nova Friburgo
+  (bacia Duas Pedras), Teresópolis e Petrópolis — preparação de grades no QGIS e calibração
+  com o inventário do megadesastre de janeiro/2011.
 - **Parte 3 (em construção):** acoplamento TRIGRS → volumes de fluxo de detritos (Vdy1/Vdy2,
   metodologia GIDES/JICA).
 - **Parte 4 (em construção):** cenários de mudança climática na chuva de projeto.
@@ -23,7 +24,8 @@ Windows à aplicação em bacia real, com visualização dos resultados no R.
 Material desenvolvido no âmbito da pesquisa de mestrado de **Érico de Castro Borges**
 (Programa de Mestrado Profissional em Defesa e Segurança Civil/UFF), com co-orientação de
 **Cássio Guilherme Rampinelli, PhD** (DPM/SEDEC/MIDR) e orientação do
-**Prof. Marcos Barreto de Mendonça, PhD** (UFRJ). O repositório funciona
+**Prof. Marcos Barreto de Mendonça, PhD** (UFRJ) e colaboração de
+**Saulo Aires de Souza, PhD** (DPM/SEDEC/MIDR). O repositório funciona
 como caderno de laboratório da pesquisa: cada etapa vencida vira um capítulo, e o histórico
 de commits registra o caminho completo.
 
@@ -31,6 +33,8 @@ de commits registra o caminho completo.
 
 - Os dados do exemplo estão em [`exemplo_01/`](exemplo_01/) (com os arquivos de inicialização
   já corrigidos e os resultados prontos).
+- Para editar pelo **RStudio**: abra `tutorial-trigrs.Rproj` (projeto pronto, com botão
+  Render e aba Git integrados).
 - Para renderizar o livro localmente: `quarto render` (requer Quarto e R com o pacote `terra`).
 - O fluxo de contribuição (novos capítulos, commit, push → publicação automática no GitHub
   Pages) está documentado no apêndice
