@@ -1,9 +1,11 @@
 # Apresentação {.unnumbered}
 
-::: {layout="[55,45]" layout-valign="center"}
-![](logos/DPM-Circular.png){fig-alt="Logo do Departamento de Prevenção e Mitigação de Desastres" width="320"}
+::: {layout-ncol=3 layout-valign="center"}
+![](logos/DPM-Circular.png){fig-alt="Logo do Departamento de Prevenção e Mitigação de Desastres" height="170"}
 
-![](logos/logo_marca_sedec.png){fig-alt="Selo Proteção e Defesa Civil Brasil" width="230"}
+![](logos/logo_marca_sedec.png){fig-alt="Selo Proteção e Defesa Civil Brasil" height="170"}
+
+![](logos/UFF.png){fig-alt="Brasão da Universidade Federal Fluminense" height="170"}
 :::
 
 Este minicurso documenta, **passo a passo e com todo o histórico versionado no GitHub**, a
@@ -22,7 +24,7 @@ os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da met
 
 | | |
 |---|---|
-| **Mestrando** | Érico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil |
+| **Mestrando** | Érico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF) |
 | **Orientador** | [Prof. Marcos Barreto de Mendonça, PhD](https://buscatextual.cnpq.br/buscatextual/visualizacv.do;jsessionid=507BC3D109DF78AA7B412561234DBAF3.buscatextual_0) |
 | **Co-orientador** | [Cássio Guilherme Rampinelli, PhD](https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4104421U3) (DPM/SEDEC/MIDR) |
 
