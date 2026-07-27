@@ -287,7 +287,12 @@ flowchart TB
   A4 --> E4 --> C2
   E4 --> E3
 
-  style ETAPA3 fill:#dbeafe,stroke:#1f78b4
+  classDef default fill:#ffffff,stroke:#64748b,color:#111827
+  style ETAPA1 fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+  style ETAPA2 fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+  style ETAPA3 fill:#dbeafe,stroke:#1f78b4,color:#0f172a
+  style ETAPA4 fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+  style ETAPA5 fill:#fef3c7,stroke:#d97706,color:#0f172a
 ```
 
 E, dentro da etapa de modelagem, o **fluxo operacional** dos programas que você vai usar nos
@@ -302,7 +307,8 @@ flowchart LR
   R --> S["Resultados<br/>TRfs_min, TRz_at_fs_min,<br/>TRp_at_fs_min, runoff..."]
   S --> V["Visualização e análise<br/>(R/terra ou QGIS)"]
 
-  style R fill:#dbeafe,stroke:#1f78b4
+  classDef default fill:#ffffff,stroke:#64748b,color:#111827
+  style R fill:#dbeafe,stroke:#1f78b4,color:#0f172a
 ```
 
 ## Onde cada coisa está no minicurso
