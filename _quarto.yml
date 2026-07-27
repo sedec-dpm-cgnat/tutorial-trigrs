@@ -8,8 +8,9 @@ book:
   title: "Minicurso TRIGRS"
   subtitle: "Mapeamento de estabilidade de encostas deflagradas por chuva — do zero à aplicação"
   author:
-    - "Cássio Guilherme Rampinelli (DPM/SEDEC/MIDR — co-orientador)"
-    - "Érico de Castro Borges (mestrando)"
+    - "Érico de Castro Borges (mestrando — Programa de Mestrado Profissional em Defesa e Segurança Civil)"
+    - "Prof. Marcos Barreto de Mendonça, PhD (orientador)"
+    - "Cássio Guilherme Rampinelli, PhD (co-orientador)"
   date: today
   date-format: "DD/MM/YYYY"
   repo-url: https://github.com/sedec-dpm-cgnat/tutorial-trigrs

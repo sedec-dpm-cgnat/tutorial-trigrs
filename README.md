@@ -19,8 +19,10 @@ Windows à aplicação em bacia real, com visualização dos resultados no R.
 
 ## Contexto
 
-Material desenvolvido no âmbito da pesquisa de mestrado de **Érico de Castro Borges**,
-co-orientada por **Cássio Guilherme Rampinelli** (DPM/SEDEC/MIDR). O repositório funciona
+Material desenvolvido no âmbito da pesquisa de mestrado de **Érico de Castro Borges**
+(Programa de Mestrado Profissional em Defesa e Segurança Civil), sob orientação do
+**Prof. Marcos Barreto de Mendonça, PhD** e co-orientação de
+**Cássio Guilherme Rampinelli, PhD** (DPM/SEDEC/MIDR). O repositório funciona
 como caderno de laboratório da pesquisa: cada etapa vencida vira um capítulo, e o histórico
 de commits registra o caminho completo.
 

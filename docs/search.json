@@ -4,7 +4,17 @@
     "href": "index.html",
     "title": "Minicurso TRIGRS",
     "section": "",
-    "text": "Apresentação\nEste minicurso documenta, passo a passo e com todo o histórico versionado no GitHub, a aplicação do modelo TRIGRS (Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis, USGS) para mapeamento de estabilidade de encostas deflagradas por chuva — da instalação do compilador à aplicação em uma bacia real.\nO material nasce da pesquisa de mestrado de Érico de Castro Borges, co-orientada por Cássio Guilherme Rampinelli (DPM/SEDEC/MIDR), cujo objetivo é acoplar os resultados do TRIGRS à estimativa de volumes de fluxo de detritos da metodologia GIDES/JICA (volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas (Nova Friburgo/RJ, megadesastre de janeiro/2011) e incorporação de cenários de mudança climática na chuva de projeto.",
+    "text": "Apresentação\nEste minicurso documenta, passo a passo e com todo o histórico versionado no GitHub, a aplicação do modelo TRIGRS (Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis, USGS) para mapeamento de estabilidade de encostas deflagradas por chuva — da instalação do compilador à aplicação em uma bacia real.\nO material nasce da pesquisa de mestrado de Érico de Castro Borges, desenvolvida no Programa de Mestrado Profissional em Defesa e Segurança Civil, cujo objetivo é acoplar os resultados do TRIGRS à estimativa de volumes de fluxo de detritos da metodologia GIDES/JICA (volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas (Nova Friburgo/RJ, megadesastre de janeiro/2011) e incorporação de cenários de mudança climática na chuva de projeto.",
+    "crumbs": [
+      "Apresentação"
+    ]
+  },
+  {
+    "objectID": "index.html#equipe",
+    "href": "index.html#equipe",
+    "title": "Minicurso TRIGRS",
+    "section": "Equipe",
+    "text": "Equipe\n\n\n\nMestrando\nÉrico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil\n\n\nOrientador\nProf. Marcos Barreto de Mendonça, PhD\n\n\nCo-orientador\nCássio Guilherme Rampinelli, PhD (DPM/SEDEC/MIDR)",
     "crumbs": [
       "Apresentação"
     ]
