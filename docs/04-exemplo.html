@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./05-rodando.html" rel="next">
+<link href="./05-rodada-e-resultados.html" rel="next">
 <link href="./03-compilacao.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -173,14 +207,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-rodando.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./06-resultados-r.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span></a>
+  <a href="./05-rodada-e-resultados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada e resultados</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -222,9 +250,16 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#estrutura-de-pastas" id="toc-estrutura-de-pastas" class="nav-link active" data-scroll-target="#estrutura-de-pastas"><span class="header-section-number">4.1</span> Estrutura de pastas</a></li>
-  <li><a href="#os-arquivos-de-inicialização" id="toc-os-arquivos-de-inicialização" class="nav-link" data-scroll-target="#os-arquivos-de-inicialização"><span class="header-section-number">4.2</span> Os arquivos de inicialização</a></li>
-  <li><a href="#sec-unidades" id="toc-sec-unidades" class="nav-link" data-scroll-target="#sec-unidades"><span class="header-section-number">4.3</span> Unidades — a pegadinha nº 1</a></li>
+  <li><a href="#o-terreno-do-exemplo" id="toc-o-terreno-do-exemplo" class="nav-link active" data-scroll-target="#o-terreno-do-exemplo"><span class="header-section-number">4.1</span> O terreno do exemplo</a></li>
+  <li><a href="#estrutura-de-pastas" id="toc-estrutura-de-pastas" class="nav-link" data-scroll-target="#estrutura-de-pastas"><span class="header-section-number">4.2</span> Estrutura de pastas</a></li>
+  <li><a href="#as-grades-de-entrada-uma-a-uma" id="toc-as-grades-de-entrada-uma-a-uma" class="nav-link" data-scroll-target="#as-grades-de-entrada-uma-a-uma"><span class="header-section-number">4.3</span> As grades de entrada, uma a uma</a>
+  <ul class="collapse">
+  <li><a href="#topografia-dem.asc-slope.asc-directions.asc" id="toc-topografia-dem.asc-slope.asc-directions.asc" class="nav-link" data-scroll-target="#topografia-dem.asc-slope.asc-directions.asc"><span class="header-section-number">4.3.1</span> Topografia: <code>dem.asc</code>, <code>slope.asc</code>, <code>directions.asc</code></a></li>
+  <li><a href="#solo-zones.asc-zmax.asc-depthwt.asc" id="toc-solo-zones.asc-zmax.asc-depthwt.asc" class="nav-link" data-scroll-target="#solo-zones.asc-zmax.asc-depthwt.asc"><span class="header-section-number">4.3.2</span> Solo: <code>zones.asc</code>, <code>zmax.asc</code>, <code>depthwt.asc</code></a></li>
+  <li><a href="#chuva-de-projeto-hietograma-rizero.asc-ri1.asc-ri2.asc" id="toc-chuva-de-projeto-hietograma-rizero.asc-ri1.asc-ri2.asc" class="nav-link" data-scroll-target="#chuva-de-projeto-hietograma-rizero.asc-ri1.asc-ri2.asc"><span class="header-section-number">4.3.3</span> Chuva de projeto (hietograma): <code>rizero.asc</code>, <code>ri1.asc</code>, <code>ri2.asc</code></a></li>
+  </ul></li>
+  <li><a href="#os-arquivos-de-inicialização" id="toc-os-arquivos-de-inicialização" class="nav-link" data-scroll-target="#os-arquivos-de-inicialização"><span class="header-section-number">4.4</span> Os arquivos de inicialização</a></li>
+  <li><a href="#sec-unidades" id="toc-sec-unidades" class="nav-link" data-scroll-target="#sec-unidades"><span class="header-section-number">4.5</span> Unidades — a pegadinha nº 1</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/04-exemplo.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -250,29 +285,157 @@ window.Quarto = {
 </header>
 
 
-<p>Antes de aplicar o modelo a uma bacia real, vamos dominar o fluxo de trabalho no <strong>exemplo tutorial oficial do USGS</strong>: uma grade minúscula de <strong>10 × 10 células</strong>, com 2 zonas de propriedades, chuva em 2 períodos e 60 h de simulação. Ele roda em ~1 segundo e permite entender cada arquivo sem esperar processamento.</p>
+<p>Antes de aplicar o modelo a uma bacia real, vamos dominar o fluxo de trabalho no <strong>exemplo tutorial oficial do USGS</strong>: uma grade minúscula de <strong>10 × 10 células de 10 m</strong>, com 2 zonas de propriedades, chuva em 2 períodos e 60 h de simulação. Ele roda em ~1 segundo e permite entender cada arquivo sem esperar processamento.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Onde fica essa bacia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>É um <strong>recorte didático</strong> de apenas 100 m × 100 m distribuído pelo USGS junto com o programa — uma encosta-exemplo sem contexto de bacia real (as coordenadas UTM dos eixos são herdadas da grade de exemplo, mas a área é pequena demais para representar qualquer lugar). Nas Partes 2+ do minicurso aplicaremos o mesmo fluxo às bacias reais da Região Serrana/RJ.</p>
+</div>
+</div>
 <p>Os arquivos estão na pasta <a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/tree/main/exemplo_01"><code>exemplo_01/</code></a> deste repositório, <strong>já com as correções necessárias</strong> (ver nota ao final).</p>
-<section id="estrutura-de-pastas" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="estrutura-de-pastas"><span class="header-section-number">4.1</span> Estrutura de pastas</h2>
+<section id="o-terreno-do-exemplo" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="o-terreno-do-exemplo"><span class="header-section-number">4.1</span> O terreno do exemplo</h2>
+<p>Para criar intuição antes de olhar arquivo por arquivo, veja o relevo da “bacia” sintética:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/dem.asc"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> <span class="fu">shade</span>(<span class="fu">terrain</span>(dem, <span class="st">"slope"</span>, <span class="at">unit =</span> <span class="st">"radians"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">terrain</span>(dem, <span class="st">"aspect"</span>, <span class="at">unit =</span> <span class="st">"radians"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hs, <span class="at">col =</span> <span class="fu">grey</span>(<span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">40</span>)), <span class="at">legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Relevo sombreado + curvas de nível"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(dem, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#8b4513"</span>, <span class="at">labcex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">persp</span>(dem, <span class="at">theta =</span> <span class="dv">35</span>, <span class="at">phi =</span> <span class="dv">32</span>, <span class="at">expand =</span> <span class="fl">0.55</span>, <span class="at">col =</span> <span class="st">"#e8d9b8"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">border =</span> <span class="st">"#8a7550"</span>, <span class="at">main =</span> <span class="st">"Vista 3D"</span>, <span class="at">xlab =</span> <span class="st">"x (m)"</span>, <span class="at">ylab =</span> <span class="st">"y (m)"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">zlab =</span> <span class="st">"elev. (m)"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-exemplo_files/figure-html/contexto-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>O terreno sintético do tutorial: relevo sombreado com curvas de nível (esquerda) e vista em perspectiva 3D (direita).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="estrutura-de-pastas" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="estrutura-de-pastas"><span class="header-section-number">4.2</span> Estrutura de pastas</h2>
 <pre><code>exemplo_01\
 ├── tpx_in.txt      &lt;- inicialização do TopoIndex
 ├── tr_in.txt       &lt;- inicialização do TRIGRS (JÁ CORRIGIDO)
-├── data\           &lt;- grades de entrada (formato ESRI ASCII)
-│   ├── dem.asc         MDE (elevação, m)
-│   ├── directions.asc  direção de fluxo D8
-│   ├── slope.asc       declividade (graus)
-│   ├── zones.asc       zonas de propriedades (inteiros 1, 2, ...)
-│   ├── zmax.asc        profundidade máxima do solo (m)
-│   ├── depthwt.asc     profundidade inicial do lençol freático (m)
-│   ├── rizero.asc      infiltração antecedente de longo prazo (m/s)
-│   └── ri1.asc, ri2.asc  intensidade de chuva dos períodos 1 e 2 (m/s)
+├── data\           &lt;- grades de entrada (formato ESRI ASCII, .asc)
 └── Resultados\     &lt;- saídas do TRIGRS (criar antes de rodar!)</code></pre>
 </section>
-<section id="os-arquivos-de-inicialização" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="os-arquivos-de-inicialização"><span class="header-section-number">4.2</span> Os arquivos de inicialização</h2>
+<section id="as-grades-de-entrada-uma-a-uma" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="as-grades-de-entrada-uma-a-uma"><span class="header-section-number">4.3</span> As grades de entrada, uma a uma</h2>
+<p>Cada arquivo <code>.asc</code> da pasta <code>data\</code> responde a uma pergunta do modelo. Vamos vê-los em grupos, sempre com o mapa correspondente ao lado da descrição.</p>
+<section id="topografia-dem.asc-slope.asc-directions.asc" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="topografia-dem.asc-slope.asc-directions.asc"><span class="header-section-number">4.3.1</span> Topografia: <code>dem.asc</code>, <code>slope.asc</code>, <code>directions.asc</code></h3>
+<ul>
+<li><strong><code>dem.asc</code></strong> — o MDE: de onde vem toda a geometria;</li>
+<li><strong><code>slope.asc</code></strong> — declividade em <strong>graus</strong> (o δ da fórmula do FS);</li>
+<li><strong><code>directions.asc</code></strong> — direção de fluxo D8 (esquema ESRI: 1=L, 2=SE, 4=S, … 128=NE), usada pelo TopoIndex para rotear o runoff.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/slope.asc"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dirs  <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/directions.asc"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dem,   <span class="at">main =</span> <span class="st">"dem.asc — elevação (m)"</span>,        <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">25</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slope, <span class="at">main =</span> <span class="st">"slope.asc — declividade (°)"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">25</span>, <span class="st">"YlOrRd"</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.factor</span>(dirs), <span class="at">main =</span> <span class="st">"directions.asc — D8 (ESRI)"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-exemplo_files/figure-html/topografia-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>As três grades topográficas. Repare onde a declividade é maior — é lá que o FS vai cair primeiro.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="solo-zones.asc-zmax.asc-depthwt.asc" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="solo-zones.asc-zmax.asc-depthwt.asc"><span class="header-section-number">4.3.2</span> Solo: <code>zones.asc</code>, <code>zmax.asc</code>, <code>depthwt.asc</code></h3>
+<ul>
+<li><strong><code>zones.asc</code></strong> — a que <strong>zona de propriedades</strong> cada célula pertence (os parâmetros geotécnicos/hidráulicos de cada zona ficam no <code>tr_in.txt</code>);</li>
+<li><strong><code>zmax.asc</code></strong> — profundidade máxima do solo (a base impermeável do modelo);</li>
+<li><strong><code>depthwt.asc</code></strong> — profundidade <strong>inicial</strong> do lençol freático (condição antecedente).</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zones <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/zones.asc"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>zmax  <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/zmax.asc"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dwt   <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"exemplo_01/data/depthwt.asc"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.factor</span>(zones), <span class="at">main =</span> <span class="st">"zones.asc — zonas de propriedades"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zmax, <span class="at">main =</span> <span class="st">"zmax.asc — prof. do solo (m)"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">25</span>, <span class="st">"BrwnYl"</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dwt,  <span class="at">main =</span> <span class="st">"depthwt.asc — prof. inicial do NA (m)"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">25</span>, <span class="st">"Blues"</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-exemplo_files/figure-html/solo-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>As três grades de solo do tutorial: 2 zonas de propriedades, solo de até ~3 m e lençol freático inicial a ~2,4 m.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="chuva-de-projeto-hietograma-rizero.asc-ri1.asc-ri2.asc" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="chuva-de-projeto-hietograma-rizero.asc-ri1.asc-ri2.asc"><span class="header-section-number">4.3.3</span> Chuva de projeto (hietograma): <code>rizero.asc</code>, <code>ri1.asc</code>, <code>ri2.asc</code></h3>
+<ul>
+<li><strong><code>rizero.asc</code></strong> — infiltração antecedente de longo prazo (mantém o estado inicial);</li>
+<li><strong><code>ri1.asc</code>, <code>ri2.asc</code></strong> — intensidade de chuva de cada <strong>período</strong>, em <strong>m/s</strong>.</li>
+</ul>
+<p>A chuva entra no TRIGRS como um <strong>hietograma em degraus</strong>: a duração total é dividida em períodos (<code>nper</code> no <code>tr_in.txt</code>), cada um com sua intensidade — vinda de um valor uniforme ou de uma grade <code>ri*.asc</code> (chuva variando no espaço, ex.: interpolada de pluviômetros ou de radar). No tutorial são dois períodos — 48 h de chuva fraca antecedente e 12 h de tempestade (intencionalmente exagerada, para forçar instabilidade na grade minúscula):</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tt  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">48</span>, <span class="dv">48</span>, <span class="dv">60</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3e-7</span>, <span class="fl">3e-7</span>, <span class="fl">9e-5</span>, <span class="fl">9e-5</span>) <span class="sc">*</span> <span class="fl">3.6e6</span>      <span class="co"># m/s -&gt; mm/h</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tt, int, <span class="at">type =</span> <span class="st">"s"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#1f78b4"</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"tempo (h)"</span>, <span class="at">ylab =</span> <span class="st">"intensidade (mm/h)"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Chuva do tutorial: 2 períodos"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">48</span>, <span class="dv">48</span>, <span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.08</span>, <span class="fl">1.08</span>), <span class="at">col =</span> <span class="st">"#a6cee344"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">48</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">324</span>, <span class="dv">324</span>), <span class="at">col =</span> <span class="st">"#1f78b444"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">24</span>, <span class="dv">40</span>, <span class="st">"período 1: 1,08 mm/h × 48 h"</span>, <span class="at">cex =</span> <span class="fl">0.9</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">47</span>, <span class="dv">300</span>, <span class="st">"período 2: 324 mm/h × 12 h"</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">adj =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-exemplo_files/figure-html/chuva-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>O hietograma do tutorial (valores das grades ri1 e ri2 convertidos de m/s para mm/h). A tempestade final é irrealista de propósito — é um dado didático.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="os-arquivos-de-inicialização" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="os-arquivos-de-inicialização"><span class="header-section-number">4.4</span> Os arquivos de inicialização</h2>
 <p>Cada programa lê um arquivo de texto com parâmetros e caminhos, <strong>na pasta onde é executado</strong>:</p>
 <ul>
-<li><strong><code>tpx_in.txt</code></strong> (TopoIndex): aponta o MDE e a grade de direções de fluxo; define o esquema de numeração D8 (ESRI = 1, TopoIndex = 2) e quais listas/grades auxiliares salvar.</li>
+<li><strong><code>tpx_in.txt</code></strong> (TopoIndex): aponta o MDE e a grade de direções; define o esquema D8 (ESRI = 1, TopoIndex = 2) e quais listas/grades auxiliares salvar.</li>
 <li><strong><code>tr_in.txt</code></strong> (TRIGRS): o coração da rodada. Define, entre outros:
 <ul>
 <li>número de zonas e <strong>parâmetros geotécnicos/hidráulicos de cada zona</strong> (coesão em Pa, ângulo de atrito φ em graus, peso específico em N/m³, difusividade em m²/s, K<sub>sat</sub> em m/s, θ<sub>sat</sub>, θ<sub>res</sub>, α de Gardner);</li>
@@ -281,12 +444,73 @@ window.Quarto = {
 <li>tempos de saída e quais grades gravar.</li>
 </ul></li>
 </ul>
+<p>No tutorial, as duas zonas do <code>zones.asc</code> recebem estes parâmetros (linhas <code>zone, 1</code> e <code>zone, 2</code> do <code>tr_in.txt</code>):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parâmetro (unidade SI)</th>
+<th>Zona 1</th>
+<th>Zona 2</th>
+<th>Papel no modelo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Coesão c’ (Pa)</td>
+<td>3.500</td>
+<td>8.000</td>
+<td>resistência que não depende da tensão normal</td>
+</tr>
+<tr class="even">
+<td>Atrito φ’ (graus)</td>
+<td>35</td>
+<td>31</td>
+<td>resistência friccional</td>
+</tr>
+<tr class="odd">
+<td>Peso específico γs (N/m³)</td>
+<td>22.000</td>
+<td>22.000</td>
+<td>peso da coluna de solo</td>
+</tr>
+<tr class="even">
+<td>Difusividade D₀ (m²/s)</td>
+<td>6,0×10⁻⁶</td>
+<td>8,0×10⁻⁴</td>
+<td>velocidade da resposta de poro-pressão</td>
+</tr>
+<tr class="odd">
+<td>K<sub>sat</sub> (m/s)</td>
+<td>1,0×10⁻⁷</td>
+<td>1,0×10⁻⁴</td>
+<td>capacidade de infiltração</td>
+</tr>
+<tr class="even">
+<td>θ<sub>sat</sub> / θ<sub>res</sub></td>
+<td>0,45 / 0,05</td>
+<td>0,45 / 0,06</td>
+<td>teores de umidade saturado/residual</td>
+</tr>
+<tr class="odd">
+<td>α de Gardner (1/m)</td>
+<td>−0,5</td>
+<td>−8,0</td>
+<td>curva K(ψ) da zona não saturada</td>
+</tr>
+</tbody>
+</table>
+<p>Repare no contraste: a <strong>zona 1</strong> é mais coesiva porém muito menos permeável (responde devagar); a <strong>zona 2</strong> é menos resistente e muito mais permeável — a tempestade a atinge rápido. É esse jogo que produz o padrão de instabilidade que veremos no próximo capítulo.</p>
 </section>
-<section id="sec-unidades" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="sec-unidades"><span class="header-section-number">4.3</span> Unidades — a pegadinha nº 1</h2>
+<section id="sec-unidades" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-unidades"><span class="header-section-number">4.5</span> Unidades — a pegadinha nº 1</h2>
 <p>O TRIGRS trabalha em <strong>SI</strong>: metros, segundos, Pascal. A chuva entra em <strong>m/s</strong>:</p>
 <p><span class="math display">\[ 50\ \text{mm/h} = \frac{50}{1000 \times 3600} = 1{,}39 \times 10^{-5}\ \text{m/s} \]</span></p>
-<p>No exemplo, os períodos de chuva usam <code>3{,}0\times10^{-7}</code> m/s (~1,1 mm/h) por 48 h e <code>9{,}0\times10^{-5}</code> m/s (~324 mm/h) por 12 h — um período de chuva fraca antecedente seguido de uma tempestade intensa.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -737,8 +961,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./05-rodando.html" class="pagination-link" aria-label="Primeira rodada">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./05-rodada-e-resultados.html" class="pagination-link" aria-label="Primeira rodada e resultados">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada e resultados</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

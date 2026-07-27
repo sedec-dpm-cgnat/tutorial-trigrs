@@ -511,8 +511,8 @@ Em três frentes:
 :::
 
 É exatamente esse cálculo que faremos, na prática, no capítulo de
-[Resultados no R](06-resultados-r.qmd) — o bloco final de código computa
-`n_células instáveis × área × Z_cr médio` para o exemplo tutorial.
+[Primeira rodada e resultados](05-rodada-e-resultados.qmd) — que fecha mapeando o volume
+mobilizável célula a célula e aplicando a comparação com o V~dy2~ no exemplo tutorial.
 
 ## Premissas e limitações (ler antes de confiar no mapa!)
 
@@ -608,8 +608,7 @@ flowchart LR
 |---|---|
 | Instalar e compilar as ferramentas | [Instalação](02-instalacao.qmd) e [Compilação](03-compilacao.qmd) |
 | Entender grades e arquivos de entrada | [O exemplo tutorial](04-exemplo.qmd) |
-| Rodar TopoIndex + TRIGRS | [Primeira rodada](05-rodando.qmd) |
-| Visualizar FS e quantificar volumes | [Resultados no R](06-resultados-r.qmd) |
+| Rodar TopoIndex + TRIGRS, visualizar FS e quantificar volumes | [Primeira rodada e resultados](05-rodada-e-resultados.qmd) |
 | Bacia real, calibração, volumes, clima | Partes 2–4 (em construção) |
 
 ::: {.callout-tip}

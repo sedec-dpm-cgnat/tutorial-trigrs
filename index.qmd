@@ -44,9 +44,8 @@ janeiro/2011) e incorporação de cenários de **mudança climática** na chuva 
 | [Visão teórica](01-teoria.qmd) | Como o TRIGRS "pensa": talude infinito, infiltração transiente e o fluxograma geral da metodologia |
 | [Instalação](02-instalacao.qmd) | Instalar o compilador gfortran no Windows |
 | [Compilação](03-compilacao.qmd) | Baixar o código-fonte oficial e compilar o TRIGRS 2.1 |
-| [O exemplo tutorial](04-exemplo.qmd) | Anatomia dos arquivos de entrada (grades, unidades, inicialização) |
-| [Primeira rodada](05-rodando.qmd) | Rodar TopoIndex e TRIGRS no exemplo oficial do USGS |
-| [Resultados no R](06-resultados-r.qmd) | Visualizar e interpretar FS, profundidade de ruptura e volumes |
+| [O exemplo tutorial](04-exemplo.qmd) | Os arquivos de entrada, cada um com seu mapa: terreno, solo e hietograma |
+| [Primeira rodada e resultados](05-rodada-e-resultados.qmd) | Rodar TopoIndex + TRIGRS, mapear FS, Z~cr~ e volumes por célula, e calcular o V~dy2~ |
 
 ## Próximas partes (em construção) {.unnumbered}
 

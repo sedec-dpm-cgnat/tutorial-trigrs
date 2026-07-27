@@ -1,0 +1,190 @@
+# Primeira rodada e resultados
+
+Neste capítulo rodamos o TRIGRS no exemplo tutorial e analisamos **tudo** que sai dele — do
+mapa de fator de segurança ao volume mobilizável célula a célula, fechando com a aplicação
+da proposta da pesquisa (o papel do V~dy2~).
+
+## Preparação
+
+1. Clone (ou baixe) este repositório.
+2. Copie para dentro da pasta `exemplo_01\` os executáveis `topoindex.exe` e `trigrs.exe`
+   compilados no capítulo de [Compilação](03-compilacao.qmd).
+3. Confira que a pasta `exemplo_01\Resultados\` existe.
+
+## Rodar
+
+Abra o PowerShell **na pasta** `exemplo_01\` e execute os dois programas, nesta ordem:
+
+```powershell
+.\topoindex.exe    # lê tpx_in.txt -> gera data\TI*_tutorial.* (índices e pesos D8)
+.\trigrs.exe       # lê tr_in.txt  -> gera Resultados\TR*.asc
+```
+
+Cada rodada leva ~1 segundo nessa grade de brinquedo. O **TopoIndex** define a ordem de
+cálculo do escoamento superficial (D8), os pesos de distribuição do runoff e o tamanho das
+matrizes; o **TRIGRS** faz a infiltração transiente e a estabilidade. As saídas esperadas
+terminam com:
+
+```
+ No grid mismatch found!    <- TopoIndex: grades congruentes
+ ...
+ TRIGRS finished!           <- TRIGRS: rodada concluída
+```
+
+## O que foi gerado
+
+Em `exemplo_01\Resultados\`:
+
+| Arquivo | Conteúdo |
+|---|---|
+| `TRfs_min_tutorial_1.asc`, `_2.asc` | **FS mínimo** por célula nos tempos de saída (48 h e 60 h) |
+| `TRz_at_fs_min_*.asc` | **Profundidade crítica** Z~cr~ (m) — onde ocorre o FS mínimo |
+| `TRp_at_fs_min_*.asc` | Poro-pressão (m de coluna d'água) na profundidade crítica |
+| `TRwater_depth_*.asc` | Profundidade simulada do lençol freático |
+| `TRrunoffPer*.asc`, `TRinfilratPer*.asc` | Runoff e taxa de infiltração por período de chuva |
+| `TRlist_z_p_fs_tutorial.txt` | Listagem detalhada Z–P–FS por célula (perfis verticais) |
+| `TrigrsLog.txt` | Log da rodada — **sempre conferir** avisos e balanço de massa |
+
+Os rasters `.asc` abrem direto no QGIS (arrastar e soltar) — ou no R, como faremos agora.
+
+## Fator de segurança ao longo da chuva
+
+```{r pacotes}
+library(terra)
+```
+
+```{r fs, fig.height=4.8}
+#| fig-cap: "FS mínimo por célula nos dois tempos de saída. Células em vermelho (FS < 1) são previstas como instáveis."
+fs48 <- rast("exemplo_01/Resultados/TRfs_min_tutorial_1.asc")  # t = 48 h
+fs60 <- rast("exemplo_01/Resultados/TRfs_min_tutorial_2.asc")  # t = 60 h
+
+# FS é truncado em 10 pelo TRIGRS (células estáveis); limitamos a escala p/ leitura
+brks <- c(0, 0.8, 1.0, 1.2, 1.5, 2, 3, 10)
+cols <- hcl.colors(length(brks) - 1, "RdYlGn")
+
+par(mfrow = c(1, 2))
+plot(fs48, main = "FS mínimo — 48 h", breaks = brks, col = cols)
+plot(fs60, main = "FS mínimo — 60 h (fim da chuva)", breaks = brks, col = cols)
+```
+
+Compare os dois tempos: nas primeiras 48 h (chuva fraca) praticamente tudo está estável;
+nas 12 h finais, com a tempestade, a infiltração eleva a poro-pressão e o FS despenca nas
+células mais íngremes.
+
+## Onde e a que profundidade romperia?
+
+A grade `TRz_at_fs_min` é a **profundidade crítica** Z~cr~ de cada célula — o conceito da
+[@fig-quatro-celulas do capítulo teórico](01-teoria.qmd#sec-volume) saindo do modelo:
+
+```{r ruptura, fig.height=4.8}
+#| fig-cap: "Esquerda: profundidade crítica Z_cr (onde o FS é mínimo) — é a espessura da massa que tende a romper. Direita: poro-pressão atuando nessa profundidade."
+zfs <- rast("exemplo_01/Resultados/TRz_at_fs_min_tutorial_2.asc")
+pfs <- rast("exemplo_01/Resultados/TRp_at_fs_min_tutorial_2.asc")
+
+par(mfrow = c(1, 2))
+plot(zfs, main = "Profundidade crítica Z_cr (m)",
+     col = hcl.colors(25, "Blues", rev = TRUE))
+plot(pfs, main = "Poro-pressão na prof. crítica (m)",
+     col = hcl.colors(25, "PuBuGn", rev = TRUE))
+```
+
+## O volume mobilizável de cada célula
+
+Agora o passo central da proposta: nas células instáveis (FS < 1), o produto
+**área do pixel × Z~cr~** é o volume que aquela célula pode mobilizar. Montamos o mapa de
+volumes célula a célula:
+
+```{r volume-celula, fig.height=4.8}
+#| fig-cap: "Esquerda: profundidade crítica apenas das células instáveis (FS < 1). Direita: volume mobilizável de cada célula (área do pixel × Z_cr) — a soma deste mapa é o V_TRIGRS."
+area_celula <- prod(res(fs60))                    # m² por célula (aqui: 10 m x 10 m = 100 m²)
+
+zcr_inst <- ifel(fs60 < 1, zfs, NA)               # Z_cr só das células instáveis
+vol_px   <- zcr_inst * area_celula                # m³ por célula
+
+par(mfrow = c(1, 2))
+plot(zcr_inst, main = "Z_cr instáveis (m)",
+     col = hcl.colors(25, "Blues", rev = TRUE))
+plot(vol_px, main = "Volume por célula (m³)",
+     col = hcl.colors(25, "Reds", rev = TRUE))
+```
+
+```{r estatisticas}
+n_inst  <- global(fs60 < 1, "sum", na.rm = TRUE)[1, 1]
+z_medio <- global(zcr_inst, "mean", na.rm = TRUE)[1, 1]
+
+data.frame(
+  celulas_instaveis     = n_inst,
+  area_instavel_m2      = n_inst * area_celula,
+  prof_media_ruptura_m  = round(z_medio, 2),
+  volume_mobilizavel_m3 = round(global(vol_px, "sum", na.rm = TRUE)[1, 1], 1)
+)
+```
+
+## Aplicando a proposta: do TRIGRS ao Vdy2 {#sec-aplicando-vdy2}
+
+Fechamos o ciclo reproduzindo, na grade do tutorial, os dois caminhos descritos na
+[teoria](01-teoria.qmd#sec-gides): o **caminho físico** (V~TRIGRS~) e o **caminho empírico**
+do manual GIDES (V~dy2~, Equação 6), comparando-os ao final como faria o projetista.
+
+::: {.callout-warning}
+## Números ilustrativos!
+A grade do tutorial é sintética (100 células de 10 m) e a chuva do exemplo é irreal de
+propósito (a tempestade equivale a centenas de mm/h, para fins didáticos do USGS). Por isso
+adotamos aqui uma chuva de projeto **ilustrativa** de $P_d$ = 180 mm/dia e valores típicos
+de $K_{f2}$ e $C_d$. O que importa é o **procedimento** — nas bacias reais da pesquisa,
+cada número desses será obtido da análise de frequência local e do manual.
+:::
+
+### Passo 1 — Volume mobilizável físico (V~TRIGRS~)
+
+```{r vtrigrs}
+lambda <- 0.4                                    # porosidade do deposito (manual GIDES)
+
+V_insitu <- global(vol_px, "sum", na.rm = TRUE)[1, 1]  # solo intacto que rompe (m3)
+V_solto  <- V_insitu / (1 - lambda)              # corrigido p/ volume com vazios (empolado)
+
+cat("Células instáveis (FS<1):", n_inst,
+    "\nV in situ  =", round(V_insitu), "m³",
+    "\nV solto    =", round(V_solto), "m³  (comparável aos volumes do GIDES)\n")
+```
+
+A correção $1/(1-\lambda)$ coloca o volume na mesma base do manual: o GIDES trabalha com o
+**sedimento depositado, com vazios**, não com o solo intacto da encosta.
+
+### Passo 2 — Volume transportável empírico (V~dy2~, Equação 6)
+
+```{r vdy2}
+# area da bacia = celulas validas x area da celula (em km2)
+n_total <- global(!is.na(fs60), "sum")[1, 1]
+A_km2   <- n_total * area_celula / 1e6
+
+Pd  <- 180    # mm/dia -- chuva de projeto ILUSTRATIVA (TR definido pela analise de frequencia)
+Kf2 <- 0.5    # taxa de correcao: limite superior, tipico de bacias muito pequenas (Fig. 14)
+Cd  <- 0.35   # concentracao do fluxo de detritos (formula de equilibrio no anexo do manual)
+
+Vdy2 <- 1e3 * Pd * A_km2 / (1 - lambda) * Kf2 * Cd / (1 - Cd)
+
+cat("Área da bacia A =", A_km2, "km²",
+    "\nVdy2 = 10³ ×", Pd, "×", A_km2, "/ (1 −", lambda, ") ×", Kf2,
+    "×", Cd, "/ (1 −", Cd, ") =", round(Vdy2), "m³\n")
+```
+
+### Passo 3 — O confronto (a regra do menor)
+
+```{r confronto}
+data.frame(
+  caminho  = c("físico (TRIGRS, solto)", "empírico (Vdy2, Eq. 6)"),
+  volume_m3 = round(c(V_solto, Vdy2)),
+  papel = c("o que as encostas mobilizam p/ esta chuva",
+            "o que a chuva consegue transportar")
+)
+cat("\nVolume a considerar (regra do menor, análoga ao GIDES):",
+    round(min(V_solto, Vdy2)), "m³\n")
+```
+
+Leitura do resultado: se $V_{TRIGRS} > V_{dy2}$, as encostas produzem mais sedimento do que
+a chuva transporta — o transporte limita (cenário *transport-limited*); se
+$V_{TRIGRS} < V_{dy2}$, a produção nas encostas é o gargalo (*supply-limited*). Essa
+comparação, física de um lado e correlação japonesa do outro, é exatamente o experimento que
+a pesquisa fará nas bacias reais — com a vantagem de que, mudando apenas $P_d$ (por exemplo,
+majorada por cenários climáticos), **os dois caminhos respondem de forma consistente**.

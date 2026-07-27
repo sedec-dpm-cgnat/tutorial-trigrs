@@ -30,8 +30,7 @@ book:
     - 02-instalacao.qmd
     - 03-compilacao.qmd
     - 04-exemplo.qmd
-    - 05-rodando.qmd
-    - 06-resultados-r.qmd
+    - 05-rodada-e-resultados.qmd
   appendices:
     - 90-erros-comuns.qmd
     - 91-como-contribuir.qmd
