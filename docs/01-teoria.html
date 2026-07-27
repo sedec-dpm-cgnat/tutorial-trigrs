@@ -228,9 +228,10 @@ window.Quarto = {
   <li><a href="#o-problema-físico-em-uma-frase" id="toc-o-problema-físico-em-uma-frase" class="nav-link active" data-scroll-target="#o-problema-físico-em-uma-frase"><span class="header-section-number">1.1</span> O problema físico em uma frase</a></li>
   <li><a href="#ingrediente-1-o-talude-infinito" id="toc-ingrediente-1-o-talude-infinito" class="nav-link" data-scroll-target="#ingrediente-1-o-talude-infinito"><span class="header-section-number">1.2</span> Ingrediente 1 — o talude infinito</a></li>
   <li><a href="#ingrediente-2-a-infiltração-transiente" id="toc-ingrediente-2-a-infiltração-transiente" class="nav-link" data-scroll-target="#ingrediente-2-a-infiltração-transiente"><span class="header-section-number">1.3</span> Ingrediente 2 — a infiltração transiente</a></li>
-  <li><a href="#premissas-e-limitações-ler-antes-de-confiar-no-mapa" id="toc-premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="nav-link" data-scroll-target="#premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.4</span> Premissas e limitações (ler antes de confiar no mapa!)</a></li>
-  <li><a href="#sec-fluxograma" id="toc-sec-fluxograma" class="nav-link" data-scroll-target="#sec-fluxograma"><span class="header-section-number">1.5</span> O fluxograma geral da metodologia</a></li>
-  <li><a href="#onde-cada-coisa-está-no-minicurso" id="toc-onde-cada-coisa-está-no-minicurso" class="nav-link" data-scroll-target="#onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.6</span> Onde cada coisa está no minicurso</a></li>
+  <li><a href="#sec-volume" id="toc-sec-volume" class="nav-link" data-scroll-target="#sec-volume"><span class="header-section-number">1.4</span> Da profundidade crítica ao volume mobilizável (o papel do Vdy2)</a></li>
+  <li><a href="#premissas-e-limitações-ler-antes-de-confiar-no-mapa" id="toc-premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="nav-link" data-scroll-target="#premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.5</span> Premissas e limitações (ler antes de confiar no mapa!)</a></li>
+  <li><a href="#sec-fluxograma" id="toc-sec-fluxograma" class="nav-link" data-scroll-target="#sec-fluxograma"><span class="header-section-number">1.6</span> O fluxograma geral da metodologia</a></li>
+  <li><a href="#onde-cada-coisa-está-no-minicurso" id="toc-onde-cada-coisa-está-no-minicurso" class="nav-link" data-scroll-target="#onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.7</span> Onde cada coisa está no minicurso</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/01-teoria.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -381,8 +382,59 @@ Figura&nbsp;1.3: Resposta conceitual de uma célula durante um evento: o hietogr
 </div>
 </div>
 </section>
-<section id="premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.4</span> Premissas e limitações (ler antes de confiar no mapa!)</h2>
+<section id="sec-volume" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-volume"><span class="header-section-number">1.4</span> Da profundidade crítica ao volume mobilizável (o papel do Vdy2)</h2>
+<p>Cada célula tem, num dado instante da chuva, um perfil completo de <span class="math inline">\(FS(Z)\)</span> — do topo do solo até <code>zmax</code>. A profundidade onde o <span class="math inline">\(FS\)</span> é <strong>mínimo</strong> é a <strong>profundidade crítica</strong> <span class="math inline">\(Z_{cr}\)</span>: é ali que a ruptura tende a se formar, tipicamente onde a frente de pressão encontra a menor resistência relativa. O TRIGRS entrega as duas informações em grades separadas:</p>
+<ul>
+<li><code>TRfs_min</code> → o valor do FS mínimo da célula (instável se &lt; 1);</li>
+<li><code>TRz_at_fs_min</code> → a profundidade crítica <span class="math inline">\(Z_{cr}\)</span> dessa célula (em metros).</li>
+</ul>
+<p>A <a href="#fig-quatro-celulas" class="quarto-xref">Figura&nbsp;<span>1.4</span></a> mostra o conceito para <strong>quatro células vizinhas</strong> num mesmo instante de uma chuva:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-quatro-celulas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-quatro-celulas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-teoria_files/figure-html/fig-quatro-celulas-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quatro-celulas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.4: Modelo de ruptura para uma dada chuva, num dado instante, em quatro células vizinhas. Cada célula tem seu FS mínimo e sua profundidade crítica Z_cr (grade TRz_at_fs_min). Nas células instáveis (FS &lt; 1, em vermelho), o prisma acima da superfície de ruptura é o material mobilizável: volume = área do pixel × Z_cr. Somando os prismas de todas as células instáveis obtém-se o volume mobilizável estimado pelo TRIGRS — candidato a papel do Vdy2 da metodologia GIDES.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A leitura da figura é a receita completa da proposta metodológica:</p>
+<ol type="1">
+<li><strong>Rodar o TRIGRS</strong> com a chuva de interesse (o evento observado, ou a chuva de projeto de um dado tempo de retorno — a mesma <span class="math inline">\(P_d\)</span> que o GIDES usa no Vdy2);</li>
+<li>No instante analisado, <strong>selecionar as células com FS &lt; 1</strong> (grade <code>TRfs_min</code>);</li>
+<li><strong>Extrair a profundidade crítica</strong> <span class="math inline">\(Z_{cr}\)</span> dessas células (grade <code>TRz_at_fs_min</code>);</li>
+<li>O volume mobilizável de <strong>cada pixel</strong> é a área do pixel vezes sua profundidade crítica — e o total é a soma:</li>
+</ol>
+<p><span class="math display">\[
+V_{TRIGRS}(t) \;=\; \sum_{i \,:\, FS_i(t) &lt; 1} A_{px} \cdot Z_{cr,i}(t)
+\]</span></p>
+<p>em que <span class="math inline">\(A_{px}\)</span> é a área da célula (resolução², ex.: grade de 10 m → 100 m² por pixel).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dois cuidados na comparação com o Vdy2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Empolamento/porosidade:</strong> o <span class="math inline">\(V_{TRIGRS}\)</span> é volume de solo <em>in situ</em>; o Vdy2 do manual GIDES refere-se ao sedimento transportado com vazios (o fator <span class="math inline">\(1/(1-\lambda)\)</span>, com <span class="math inline">\(\lambda \approx 0{,}4\)</span>). Para comparar na mesma base, aplica-se a mesma correção.</li>
+<li><strong>Mobilizado ≠ transportado:</strong> o TRIGRS estima o que <em>rompe</em> nas encostas; quanto desse material efetivamente chega ao ponto de referência é a etapa de propagação — na comparação com Vdy1/Vdy2 (que é o <em>menor</em> dos dois no GIDES), essa diferença é parte da discussão da pesquisa.</li>
+</ol>
+</div>
+</div>
+<p>É exatamente esse cálculo que faremos, na prática, no capítulo de <a href="./06-resultados-r.html">Resultados no R</a> — o bloco final de código computa <code>n_células instáveis × área × Z_cr médio</code> para o exemplo tutorial.</p>
+</section>
+<section id="premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.5</span> Premissas e limitações (ler antes de confiar no mapa!)</h2>
 <p>O manual do TRIGRS é enfático: o programa é uma ferramenta para quem conhece o fenômeno, e interpretar resultados exige julgamento geológico-geotécnico. As principais simplificações:</p>
 <ul>
 <li>fluxo <strong>1-D vertical</strong> e solo isotrópico/homogêneo em cada célula (heterogeneidade só entre células/zonas);</li>
@@ -391,8 +443,8 @@ Figura&nbsp;1.3: Resposta conceitual de uma célula durante um evento: o hietogr
 <li>resultados são tão bons quanto os <strong>dados de entrada</strong> (MDE, profundidade do solo, parâmetros geotécnicos, chuva) — daí a importância da calibração com inventário de cicatrizes.</li>
 </ul>
 </section>
-<section id="sec-fluxograma" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="sec-fluxograma"><span class="header-section-number">1.5</span> O fluxograma geral da metodologia</h2>
+<section id="sec-fluxograma" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-fluxograma"><span class="header-section-number">1.6</span> O fluxograma geral da metodologia</h2>
 <p>O diagrama abaixo organiza <strong>todas as etapas</strong> do trabalho — da coleta de dados à estimativa de volumes sob mudança climática. Ele expande o roteiro inicial da pesquisa e serve de mapa para o minicurso inteiro:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -473,8 +525,8 @@ Figura&nbsp;1.3: Resposta conceitual de uma célula durante um evento: o hietogr
 </div>
 </div>
 </section>
-<section id="onde-cada-coisa-está-no-minicurso" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.6</span> Onde cada coisa está no minicurso</h2>
+<section id="onde-cada-coisa-está-no-minicurso" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.7</span> Onde cada coisa está no minicurso</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">

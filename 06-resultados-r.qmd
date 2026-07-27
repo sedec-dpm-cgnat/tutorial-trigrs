@@ -70,7 +70,9 @@ data.frame(
 ```
 
 Esse último número — **área instável × profundidade de ruptura** — é a ponte entre o TRIGRS
-e a estimativa de **volume de fluxo de detritos**. Na metodologia **GIDES/JICA**, o volume de
+e a estimativa de **volume de fluxo de detritos**, exatamente como ilustrado na
+[seção "Da profundidade crítica ao volume mobilizável"](01-teoria.qmd#sec-volume) do
+capítulo teórico. Na metodologia **GIDES/JICA**, o volume de
 sedimentos do plano é o menor entre o volume potencial gerável na bacia (**Vdy1**, com a
 parcela **Vdy12** vinda de rupturas de encostas) e o volume transportável pela chuva de
 projeto (**Vdy2**, função da precipitação máxima diária `Pd`). A proposta da pesquisa é usar

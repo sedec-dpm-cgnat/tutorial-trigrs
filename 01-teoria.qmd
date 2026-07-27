@@ -223,6 +223,138 @@ text(tf - 1, 1.13, sprintf("ruptura prevista (t ≈ %.0f h)", tf), adj = 1, cex 
 text(2, 0.72, "FS < 1: instável", adj = 0, cex = 0.9, col = "#b30000")
 ```
 
+## Da profundidade crítica ao volume mobilizável (o papel do Vdy2) {#sec-volume}
+
+Cada célula tem, num dado instante da chuva, um perfil completo de $FS(Z)$ — do topo do solo
+até `zmax`. A profundidade onde o $FS$ é **mínimo** é a **profundidade crítica** $Z_{cr}$: é
+ali que a ruptura tende a se formar, tipicamente onde a frente de pressão encontra a menor
+resistência relativa. O TRIGRS entrega as duas informações em grades separadas:
+
+- `TRfs_min` → o valor do FS mínimo da célula (instável se < 1);
+- `TRz_at_fs_min` → a profundidade crítica $Z_{cr}$ dessa célula (em metros).
+
+A @fig-quatro-celulas mostra o conceito para **quatro células vizinhas** num mesmo instante
+de uma chuva:
+
+```{r}
+#| label: fig-quatro-celulas
+#| fig-cap: "Modelo de ruptura para uma dada chuva, num dado instante, em quatro células vizinhas. Cada célula tem seu FS mínimo e sua profundidade crítica Z_cr (grade TRz_at_fs_min). Nas células instáveis (FS < 1, em vermelho), o prisma acima da superfície de ruptura é o material mobilizável: volume = área do pixel × Z_cr. Somando os prismas de todas as células instáveis obtém-se o volume mobilizável estimado pelo TRIGRS — candidato a papel do Vdy2 da metodologia GIDES."
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5.6
+layout(matrix(1:2, nrow = 1), widths = c(1.75, 1))
+
+## ---------- painel esquerdo: perfil com 4 celulas ----------
+par(mar = c(0.5, 0.5, 1.5, 0.5))
+plot.new(); plot.window(xlim = c(-0.2, 8.6), ylim = c(-1.0, 7.6))
+f <- function(x) 6.4 - 0.5 * x                 # superficie do terreno (perfil)
+xs <- seq(0, 8, length.out = 100)
+
+# solo e rocha
+polygon(c(xs, rev(xs)), c(f(xs), rev(f(xs) - 2.6)), col = "#e8d9b8", border = NA)
+polygon(c(xs, 8, 0), c(f(xs) - 2.6, -1.0, -1.0), col = "#c9c2b6", border = NA)
+lines(xs, f(xs), lwd = 2.2, col = "#5a4a2f")
+lines(xs, f(xs) - 2.6, lwd = 1.6, col = "#6b6257")
+text(1.0, 2.0, "rocha / saprolito", cex = 0.85, col = "#4d463c")
+text(7.9, f(7.9) + 0.35, "superfície", cex = 0.85, col = "#5a4a2f", adj = 1)
+
+# celulas
+lim   <- seq(0, 8, by = 2)                     # bordas das 4 celulas
+Zcr   <- c(0.9, 1.2, 1.8, 1.1)                 # profundidade critica de cada celula
+fsmin <- c(1.40, 0.92, 0.85, 1.10)
+inst  <- fsmin < 1
+for (i in 1:4) {
+  xi <- seq(lim[i] + 0.06, lim[i + 1] - 0.06, length.out = 40)
+  # superficie de ruptura potencial (paralela ao terreno, a Zcr de profundidade vertical)
+  if (inst[i]) {
+    polygon(c(xi, rev(xi)), c(f(xi), rev(f(xi) - Zcr[i])),
+            col = adjustcolor("#e31a1c", 0.30), border = NA)
+    lines(xi, f(xi) - Zcr[i], lwd = 2.5, lty = 2, col = "#e31a1c")
+    seta <- lim[i] + 1.55
+    arrows(seta, f(seta), seta, f(seta) - Zcr[i], code = 3, length = 0.06)
+    text(seta + 0.12, f(seta) - Zcr[i] / 2,
+         bquote(Z[cr] == .(format(Zcr[i], decimal.mark = ",")) ~ m),
+         cex = 0.85, adj = 0)
+    # seta de movimento
+    xc <- lim[i] + 0.75
+    arrows(xc, f(xc) - 0.28, xc + 0.75, f(xc + 0.75) - 0.28,
+           length = 0.09, lwd = 2.2, col = "#b30000")
+  } else {
+    lines(xi, f(xi) - Zcr[i], lwd = 2, lty = 3, col = "#8a8a86")
+  }
+  # divisorias e rotulos
+  if (i > 1) segments(lim[i], f(lim[i]) + 0.25, lim[i], f(lim[i]) - 2.6,
+                      lty = 3, col = "#777777")
+  xc <- (lim[i] + lim[i + 1]) / 2
+  text(xc, f(xc) + 0.62, paste("célula", i), cex = 0.95, font = 2)
+  text(xc, f(xc) - 3.05,
+       paste0("FS = ", format(fsmin[i], decimal.mark = ","),
+              ifelse(inst[i], "\nINSTÁVEL", "\nestável")),
+       cex = 0.85, col = ifelse(inst[i], "#b30000", "#4d7c4d"))
+}
+title(main = "FS mínimo e profundidade crítica, célula a célula (instante t da chuva)",
+      cex.main = 0.95)
+legend("bottomleft",
+       legend = c("superfície de ruptura (célula instável)",
+                  "prof. crítica (célula estável: não rompe)",
+                  "massa mobilizável"),
+       lty = c(2, 3, NA), lwd = c(2.5, 2, NA), pch = c(NA, NA, 15),
+       col = c("#e31a1c", "#8a8a86", adjustcolor("#e31a1c", 0.30)),
+       bty = "n", cex = 0.8, pt.cex = 1.6)
+
+## ---------- painel direito: contabilidade do volume ----------
+par(mar = c(0.5, 0.5, 1.5, 0.5))
+plot.new(); plot.window(xlim = c(0, 10), ylim = c(0, 10))
+title(main = "Contabilizando o volume mobilizável", cex.main = 0.95)
+text(5, 9.1, "área do pixel (ex.: 10 m × 10 m):", cex = 0.9)
+text(5, 8.45, expression(A[px] == 100 ~ m^2), cex = 1.0)
+
+# blocos das celulas instaveis
+rect(1.2, 5.9, 4.6, 7.1, col = adjustcolor("#e31a1c", 0.25), border = "#e31a1c")
+text(2.9, 6.75, "célula 2", cex = 0.85, font = 2)
+text(2.9, 6.25, expression(V[2] == A[px] %*% "1,2" ~ m), cex = 0.85)
+rect(5.4, 5.9, 8.8, 7.1, col = adjustcolor("#e31a1c", 0.25), border = "#e31a1c")
+text(7.1, 6.75, "célula 3", cex = 0.85, font = 2)
+text(7.1, 6.25, expression(V[3] == A[px] %*% "1,8" ~ m), cex = 0.85)
+
+text(5, 4.9, "células 1 e 4: FS > 1 → não contam", cex = 0.85, col = "#4d7c4d")
+segments(1.2, 4.3, 8.8, 4.3)
+text(5, 3.55, expression(V[TRIGRS] == sum(A[px] %*% Z[cr, i], "FS<1", "")), cex = 1.05)
+text(5, 2.55, expression(paste("= 100 ", m^2, " × (1,2 + 1,8) m")), cex = 0.95)
+text(5, 1.75, expression(bold("= 300 " ~ m^3)), cex = 1.15)
+text(5, 0.7, "candidato ao papel do Vdy2 (GIDES)", cex = 0.9, col = "#b30000", font = 3)
+```
+
+A leitura da figura é a receita completa da proposta metodológica:
+
+1. **Rodar o TRIGRS** com a chuva de interesse (o evento observado, ou a chuva de projeto de
+   um dado tempo de retorno — a mesma $P_d$ que o GIDES usa no Vdy2);
+2. No instante analisado, **selecionar as células com FS < 1** (grade `TRfs_min`);
+3. **Extrair a profundidade crítica** $Z_{cr}$ dessas células (grade `TRz_at_fs_min`);
+4. O volume mobilizável de **cada pixel** é a área do pixel vezes sua profundidade crítica —
+   e o total é a soma:
+
+$$
+V_{TRIGRS}(t) \;=\; \sum_{i \,:\, FS_i(t) < 1} A_{px} \cdot Z_{cr,i}(t)
+$$
+
+em que $A_{px}$ é a área da célula (resolução², ex.: grade de 10 m → 100 m² por pixel).
+
+::: {.callout-note}
+## Dois cuidados na comparação com o Vdy2
+1. **Empolamento/porosidade:** o $V_{TRIGRS}$ é volume de solo *in situ*; o Vdy2 do manual
+   GIDES refere-se ao sedimento transportado com vazios (o fator $1/(1-\lambda)$, com
+   $\lambda \approx 0{,}4$). Para comparar na mesma base, aplica-se a mesma correção.
+2. **Mobilizado ≠ transportado:** o TRIGRS estima o que *rompe* nas encostas; quanto desse
+   material efetivamente chega ao ponto de referência é a etapa de propagação — na
+   comparação com Vdy1/Vdy2 (que é o *menor* dos dois no GIDES), essa diferença é parte da
+   discussão da pesquisa.
+:::
+
+É exatamente esse cálculo que faremos, na prática, no capítulo de
+[Resultados no R](06-resultados-r.qmd) — o bloco final de código computa
+`n_células instáveis × área × Z_cr médio` para o exemplo tutorial.
+
 ## Premissas e limitações (ler antes de confiar no mapa!)
 
 O manual do TRIGRS é enfático: o programa é uma ferramenta para quem conhece o fenômeno, e
