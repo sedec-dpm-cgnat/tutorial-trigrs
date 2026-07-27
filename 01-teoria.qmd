@@ -1,0 +1,329 @@
+# Visão teórica: como o TRIGRS "pensa" {#sec-teoria}
+
+Antes de instalar e rodar qualquer coisa, vale entender **o que** o TRIGRS calcula e **por quê**.
+Este capítulo é uma versão didática e simplificada da teoria — quem quiser o rigor completo
+deve ler o **manual do programa** (Baum, Savage & Godt, 2008 — USGS OFR 2008-1159) e o artigo
+de referência **Baum, Godt & Savage (2010)**, listados nas [Referências](referencias.qmd).
+
+## O problema físico em uma frase
+
+> **Chuva infiltra → a água preenche os poros do solo → a pressão da água nos poros sobe →
+> o atrito entre os grãos diminui → em algum momento a encosta escorrega.**
+
+Deslizamentos **rasos** (tipicamente 1 a 3 m de profundidade) deflagrados por chuva são o
+mecanismo dominante em desastres como o da Região Serrana do RJ em janeiro/2011. A superfície
+de ruptura costuma se formar no contato entre o solo (colúvio/residual) e um material menos
+permeável abaixo — e é exatamente esse cenário que o TRIGRS representa.
+
+O TRIGRS responde, para **cada célula** de uma grade raster e para **cada instante** de uma
+chuva: *"esta célula está estável agora?"* — combinando dois ingredientes:
+
+1. um modelo de **infiltração transiente** (como a pressão da água evolui no tempo e na
+   profundidade), e
+2. um modelo de **estabilidade de talude infinito** (a pressão calculada reduz o fator de
+   segurança?).
+
+Vamos a cada um deles.
+
+## Ingrediente 1 — o talude infinito
+
+A geometria dos deslizamentos rasos (comprimento muito maior que a espessura) permite uma
+simplificação poderosa: tratar cada célula como um **plano inclinado infinito**, com ruptura
+paralela à superfície. A @fig-talude mostra o esquema:
+
+```{r}
+#| label: fig-talude
+#| fig-cap: "Esquema do modelo de talude infinito usado pelo TRIGRS. A coluna de solo de profundidade Z, inclinada de um ângulo δ, é solicitada pelo peso (W) e resiste pelo atrito e coesão na base. O nível d'água (linha tracejada azul) controla a poro-pressão ψ na superfície potencial de ruptura."
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+par(mar = c(0.5, 0.5, 0.5, 0.5))
+plot.new(); plot.window(xlim = c(0, 10), ylim = c(0, 6.6), asp = 1)
+
+# geometria do talude: superficie de (0,5.8) a (10,1.8)
+A <- c(0, 5.8); B <- c(10, 1.8)
+d <- B - A; L <- sqrt(sum(d^2)); u <- d / L        # unitario ao longo da superficie
+n <- c(d[2], -d[1]) / L                             # normal apontando para dentro do solo
+P <- function(t) A + t * d                          # ponto na superficie (t em 0..1)
+
+esp  <- 1.5   # espessura do solo (ate a base/rocha)
+na_  <- 0.85  # profundidade do nivel d'agua
+
+base1 <- A + esp * n; base2 <- B + esp * n
+wt1   <- A + na_ * n; wt2   <- B + na_ * n
+
+# corpo do solo e rocha
+polygon(c(A[1], B[1], base2[1], base1[1]), c(A[2], B[2], base2[2], base1[2]),
+        col = "#e8d9b8", border = NA)
+polygon(c(base1[1], base2[1], 10, 0), c(base1[2], base2[2], 0, 0),
+        col = "#c9c2b6", border = NA)
+lines(c(A[1], B[1]), c(A[2], B[2]), lwd = 2, col = "#5a4a2f")
+lines(c(base1[1], base2[1]), c(base1[2], base2[2]), lwd = 2, col = "#6b6257")
+lines(c(wt1[1], wt2[1]), c(wt1[2], wt2[2]), lwd = 2, lty = 2, col = "#1f78b4")
+
+# chuva
+for (x0 in seq(1, 9, by = 1.1)) {
+  y0 <- A[2] + (x0 / 10) * (B[2] - A[2]) + 1.25
+  arrows(x0, y0 + 0.55, x0, y0 + 0.1, length = 0.06, col = "#1f78b4", lwd = 1.6)
+}
+text(2.3, 6.45, "chuva", col = "#1f78b4", cex = 1.0, adj = 0)
+
+# coluna de solo
+t1 <- 0.42; t2 <- 0.54
+c1 <- P(t1); c2 <- P(t2); c3 <- c2 + esp * n; c4 <- c1 + esp * n
+polygon(c(c1[1], c2[1], c3[1], c4[1]), c(c1[2], c2[2], c3[2], c4[2]),
+        col = adjustcolor("#d95f02", 0.25), border = "#d95f02", lwd = 2)
+
+# vetores: peso W (vertical), reacao normal N e cisalhamento S na base
+cc <- (c1 + c2) / 2 + (esp / 2) * n     # centro da coluna
+cb <- (c1 + c2) / 2 + esp * n           # centro da base
+arrows(cc[1], cc[2], cc[1], cc[2] - 1.5, length = 0.1, lwd = 2.5)
+text(cc[1] + 0.22, cc[2] - 1.45, "W", cex = 1.1, font = 2)
+arrows(cb[1], cb[2], cb[1] - 1.1 * n[1], cb[2] - 1.1 * n[2], length = 0.1,
+       lwd = 2.5, col = "#33a02c")
+text(cb[1] - 1.30 * n[1] - 0.1, cb[2] - 1.30 * n[2], "N", cex = 1.1, font = 2, col = "#33a02c")
+arrows(cb[1], cb[2], cb[1] - 1.2 * u[1], cb[2] - 1.2 * u[2], length = 0.1,
+       lwd = 2.5, col = "#e31a1c")
+text(cb[1] - 1.45 * u[1], cb[2] - 1.45 * u[2] + 0.22, "S", cex = 1.1, font = 2, col = "#e31a1c")
+
+# cota Z (profundidade da coluna)
+m1 <- P(0.60); m2 <- m1 + esp * n
+arrows(m1[1] + 0.35 * n[1], m1[2] + 0.35 * n[2], m2[1], m2[2],
+       length = 0.07, code = 3, col = "#555555")
+text((m1[1] + m2[1]) / 2 + 0.35, (m1[2] + m2[2]) / 2, "Z", cex = 1.1, font = 3)
+
+# angulo delta
+horiz <- 2.2
+lines(c(B[1] - horiz, B[1]), c(B[2], B[2]), lty = 3)
+ang <- atan2(-d[2], -d[1])
+th <- seq(pi, ang, length.out = 30)
+lines(B[1] + 1.6 * cos(th), B[2] + 1.6 * sin(th))
+text(B[1] - 1.95, B[2] + 0.34, expression(delta), cex = 1.3)
+
+# rotulos das linhas (rotacionados, acompanhando a inclinacao)
+ang_deg <- -atan2(4, 10) * 180 / pi
+ps <- P(0.16) - 0.22 * n
+text(ps[1], ps[2], "superfície do terreno", srt = ang_deg, adj = 0, cex = 0.9, col = "#5a4a2f")
+pw <- P(0.10) + (na_ - 0.20) * n
+text(pw[1], pw[2], "nível d'água", srt = ang_deg, adj = 0, cex = 0.9, col = "#1f78b4")
+pb <- P(0.13) + (esp + 0.30) * n
+text(pb[1], pb[2], "base do solo (contato menos permeável)", srt = ang_deg, adj = 0,
+     cex = 0.9, col = "#3f3a33")
+text(8.6, 0.42, "rocha / saprolito", cex = 0.95, col = "#4d463c")
+```
+
+O equilíbrio dessa coluna resulta na fórmula do **Fator de Segurança** que o TRIGRS avalia em
+cada profundidade $Z$ e instante $t$ (Baum et al., 2010, eq. 4):
+
+$$
+FS(Z,t) \;=\; \underbrace{\frac{\tan\varphi'}{\tan\delta}}_{\text{atrito}} \;+\;
+\underbrace{\frac{c'}{\gamma_s\, Z \sin\delta \cos\delta}}_{\text{coesão}} \;-\;
+\underbrace{\frac{\psi(Z,t)\,\gamma_w \tan\varphi'}{\gamma_s\, Z \sin\delta \cos\delta}}_{\text{efeito da água}}
+$$
+
+| Termo | Significado | De onde vem |
+|---|---|---|
+| $\delta$ | inclinação da encosta | grade de declividade (`slope.asc`) |
+| $\varphi'$ | ângulo de atrito efetivo do solo | ensaios/literatura (por zona) |
+| $c'$ | coesão efetiva | ensaios/literatura (por zona) |
+| $\gamma_s$, $\gamma_w$ | peso específico do solo e da água | ensaios/constante |
+| $Z$ | profundidade avaliada | até `zmax.asc` |
+| $\psi(Z,t)$ | **carga de pressão da água** | é o que o modelo de infiltração calcula! |
+
+Leia a equação como uma disputa: **atrito + coesão** (estabilizam) contra o **empuxo da água**
+(desestabiliza). Os dois primeiros termos são fixos no tempo; o terceiro cresce durante a chuva
+porque $\psi$ cresce. Quando $FS$ cai abaixo de **1**, a célula é prevista como instável.
+Note também o papel de $Z$: quanto mais profundo, menor o peso relativo da coesão — por isso
+existe uma profundidade "crítica" onde o $FS$ é mínimo (o TRIGRS a reporta na grade
+`TRz_at_fs_min`).
+
+## Ingrediente 2 — a infiltração transiente
+
+Falta a peça central: como $\psi(Z,t)$ evolui durante a chuva? O TRIGRS usa soluções
+analíticas da equação de fluxo vertical em meio poroso (a equação de Richards linearizada,
+seguindo Iverson, 2000, estendida por Baum et al., 2008; 2010): a chuva que infiltra gera uma
+"onda de pressão" que se **difunde** para baixo, com velocidade controlada pela
+**difusividade hidráulica** $D_0$ do solo.
+
+```{r}
+#| label: fig-difusao
+#| fig-cap: "Conceito da resposta transiente: perfis de carga de pressão ψ(Z) em instantes sucessivos de uma chuva. A condição inicial (t₀) tem pressão negativa (sucção) acima do nível d'água; com a infiltração, a 'frente de pressão' avança em profundidade (t₁, t₂, t₃) e reduz a sucção — podendo gerar pressão positiva. Curvas conceituais baseadas na solução de difusão linearizada."
+#| echo: false
+#| fig-width: 7.5
+#| fig-height: 5
+erfc <- function(x) 2 * pnorm(-x * sqrt(2))
+Z  <- seq(0, 3, length.out = 200)      # profundidade (m)
+dw <- 2.0                              # nivel d'agua inicial (m)
+psi0 <- pmin(Z - dw, 0) + pmax(Z - dw, 0)   # hidrostatico: negativo acima, positivo abaixo
+D0 <- 5e-6 * 3600                      # difusividade (m2/h)
+tempos <- c(0, 6, 24, 48)              # horas
+cores  <- c("#999999", "#a6cee3", "#1f78b4", "#08306b")
+plot(NULL, xlim = c(-2.2, 1.2), ylim = c(3, 0), xlab = expression(psi ~ "(m de coluna d'água)"),
+     ylab = "profundidade Z (m)", las = 1)
+abline(v = 0, lty = 3)
+for (i in seq_along(tempos)) {
+  t <- tempos[i]
+  if (t == 0) psi <- psi0 else {
+    beta <- 1.4
+    psi <- psi0 + beta * (sqrt(4 * D0 * t / pi) * exp(-Z^2 / (4 * D0 * t)) -
+                            Z * erfc(Z / (2 * sqrt(D0 * t))))
+    psi <- pmin(psi, Z)               # limite fisico: nao excede hidrostatica a partir da superficie
+  }
+  lines(psi, Z, lwd = 2.5, col = cores[i])
+}
+abline(h = dw, lty = 2, col = "#1f78b4")
+text(-2.15, dw - 0.08, "nível d'água inicial", adj = 0, cex = 0.85, col = "#1f78b4")
+legend("topright", legend = c(expression(t[0] ~ "(antes da chuva)"),
+                              expression(t[1] == 6 ~ h),
+                              expression(t[2] == 24 ~ h),
+                              expression(t[3] == 48 ~ h)),
+       col = cores, lwd = 2.5, bty = "n", cex = 0.9)
+text(-1.75, 0.85, "sucção\n(estabiliza)", cex = 0.9, col = "#666666")
+text(0.55, 2.60, "pressão positiva\n(desestabiliza)", cex = 0.9, col = "#666666")
+```
+
+Pontos que valem guardar (todos detalhados no manual e em Baum et al., 2010):
+
+- **Zona não saturada:** acima do nível d'água o solo tem **sucção** (pressão negativa), que
+  *ajuda* a estabilidade. O TRIGRS pode modelar explicitamente essa zona (modelo de Gardner,
+  parâmetro $\alpha$) ou assumir solo saturado desde o início (mais conservador).
+- **Difusividade $D_0$** controla o *atraso* da resposta: solos mais permeáveis respondem em
+  horas; menos permeáveis, em dias. É por isso que o TRIGRS consegue prever o **momento**
+  da instabilidade, não só o local.
+- **Fronteira inferior:** a base impermeável em `zmax` faz a pressão "se acumular" — modelo
+  de profundidade finita, uma das extensões do TRIGRS sobre o modelo original de Iverson.
+- **Limite de infiltração:** se a chuva excede a capacidade de infiltração ($K_{sat}$), o
+  excesso vira **escoamento superficial**, roteado célula a célula pelo esquema D8 calculado
+  no TopoIndex.
+
+A combinação dos dois ingredientes dá a assinatura típica da resposta de uma célula:
+
+```{r}
+#| label: fig-fs-tempo
+#| fig-cap: "Resposta conceitual de uma célula durante um evento: o hietograma (acima) alimenta a infiltração; a poro-pressão na profundidade crítica sobe com atraso e o FS cai. A célula 'rompe' quando FS < 1 — o TRIGRS fornece o instante e o local."
+#| echo: false
+#| fig-width: 7.5
+#| fig-height: 5.2
+par(mfrow = c(2, 1))
+par(mar = c(0.6, 4.5, 1.5, 1))
+tt <- seq(0, 60, by = 0.25)
+chuva <- ifelse(tt < 48, 2, ifelse(tt < 58, 28, 0))
+plot(tt, chuva, type = "h", col = "#a6cee3", lwd = 2, xaxt = "n", las = 1,
+     ylab = "chuva (mm/h)", xlab = "")
+lines(tt, chuva, col = "#1f78b4")
+par(mar = c(4, 4.5, 0.6, 1))
+resp <- function(t, t0, tau) ifelse(t > t0, 1 - exp(-(t - t0) / tau), 0)
+fs <- 1.55 - 0.12 * resp(tt, 0, 30) - 0.85 * resp(tt, 49.5, 6)
+plot(tt, fs, type = "l", lwd = 3, col = "#d95f02", las = 1, ylim = c(0.6, 1.7),
+     xlab = "tempo (h)", ylab = "FS na prof. crítica")
+abline(h = 1, lty = 2, lwd = 1.5)
+tf <- tt[which(fs < 1)[1]]
+points(tf, 1, pch = 19, cex = 1.3)
+text(tf - 1, 1.13, sprintf("ruptura prevista (t ≈ %.0f h)", tf), adj = 1, cex = 0.9)
+text(2, 0.72, "FS < 1: instável", adj = 0, cex = 0.9, col = "#b30000")
+```
+
+## Premissas e limitações (ler antes de confiar no mapa!)
+
+O manual do TRIGRS é enfático: o programa é uma ferramenta para quem conhece o fenômeno, e
+interpretar resultados exige julgamento geológico-geotécnico. As principais simplificações:
+
+- fluxo **1-D vertical** e solo isotrópico/homogêneo em cada célula (heterogeneidade só
+  entre células/zonas);
+- modelo de **talude infinito**: vale para rupturas rasas e planares — não para
+  deslizamentos profundos ou rotacionais;
+- **não modela a propagação** (runout) da massa mobilizada — o TRIGRS diz *onde inicia* e
+  *quanto material* fica instável; o que acontece encosta abaixo é assunto da metodologia de
+  fluxo de detritos (Partes 3 e 4 deste minicurso);
+- resultados são tão bons quanto os **dados de entrada** (MDE, profundidade do solo,
+  parâmetros geotécnicos, chuva) — daí a importância da calibração com inventário de
+  cicatrizes.
+
+## O fluxograma geral da metodologia {#sec-fluxograma}
+
+O diagrama abaixo organiza **todas as etapas** do trabalho — da coleta de dados à estimativa
+de volumes sob mudança climática. Ele expande o roteiro inicial da pesquisa e serve de mapa
+para o minicurso inteiro:
+
+```{mermaid}
+%%| fig-cap: "Fluxograma geral da metodologia da pesquisa. Em azul, as etapas cobertas pela Parte 1 do minicurso; as demais partes seguem a numeração indicada."
+flowchart TB
+  subgraph ETAPA1["1 · Coleta e preparação de dados (GIS)"]
+    direction TB
+    A1["MDE<br/>(declividade, direção de fluxo)"]
+    A2["Mapas geológico,<br/>geomorfológico e de solos"]
+    A3["Uso e cobertura<br/>do solo"]
+    A4["Chuva<br/>(evento e IDF)"]
+    A5["Inventário de<br/>cicatrizes (2011)"]
+  end
+
+  subgraph ETAPA2["2 · Análise geoespacial"]
+    B1["Zonas de propriedades<br/>(zones.asc)"]
+    B2["Profundidade do solo<br/>(zmax.asc)"]
+    B3["Grades congruentes<br/>(GridMatch)"]
+  end
+
+  subgraph ETAPA3["3 · Modelagem TRIGRS"]
+    C1["TopoIndex<br/>(roteamento D8)"]
+    C2["TRIGRS<br/>FS(Z,t) por célula"]
+  end
+
+  subgraph ETAPA4["4 · Validação e calibração"]
+    D1["Comparação FS < 1<br/>× cicatrizes"]
+    D2["Ajuste de parâmetros<br/>(K_sat, NA inicial, c', φ')"]
+  end
+
+  subgraph ETAPA5["5 · Produtos"]
+    E1["Mapa de suscetibilidade<br/>calibrado"]
+    E2["Volume mobilizável<br/>Σ área × Z_ruptura"]
+    E3["Volumes GIDES/JICA<br/>(Vdy1, Vdy2)"]
+    E4["Cenários de mudança<br/>climática (chuva Pd)"]
+  end
+
+  ETAPA1 --> ETAPA2 --> C1 --> C2 --> D1 --> D2
+  D2 -- "iterar" --> C2
+  D2 --> E1
+  E1 --> E2 --> E3
+  A4 --> E4 --> C2
+  E4 --> E3
+
+  style ETAPA3 fill:#dbeafe,stroke:#1f78b4
+```
+
+E, dentro da etapa de modelagem, o **fluxo operacional** dos programas que você vai usar nos
+próximos capítulos:
+
+```{mermaid}
+%%| fig-cap: "Fluxo operacional: dos rasters do GIS aos mapas de resultado. É exatamente esta sequência que executaremos no exemplo tutorial."
+flowchart LR
+  G["GIS<br/>(QGIS/ArcGIS)<br/>grades .asc"] --> M["GridMatch<br/><i>grades congruentes?</i>"]
+  M --> T["TopoIndex<br/>tpx_in.txt<br/><i>índices + pesos D8</i>"]
+  T --> R["TRIGRS<br/>tr_in.txt<br/><i>infiltração + FS</i>"]
+  R --> S["Resultados<br/>TRfs_min, TRz_at_fs_min,<br/>TRp_at_fs_min, runoff..."]
+  S --> V["Visualização e análise<br/>(R/terra ou QGIS)"]
+
+  style R fill:#dbeafe,stroke:#1f78b4
+```
+
+## Onde cada coisa está no minicurso
+
+| Etapa do fluxograma | Onde é tratada |
+|---|---|
+| Instalar e compilar as ferramentas | [Instalação](02-instalacao.qmd) e [Compilação](03-compilacao.qmd) |
+| Entender grades e arquivos de entrada | [O exemplo tutorial](04-exemplo.qmd) |
+| Rodar TopoIndex + TRIGRS | [Primeira rodada](05-rodando.qmd) |
+| Visualizar FS e quantificar volumes | [Resultados no R](06-resultados-r.qmd) |
+| Bacia real, calibração, volumes, clima | Partes 2–4 (em construção) |
+
+::: {.callout-tip}
+## Para aprofundar
+- **Baum, R.L., Godt, J.W. & Savage, W.Z. (2010)** — *Estimating the timing and location of
+  shallow rainfall-induced landslides using a model for transient, unsaturated infiltration*,
+  J. Geophys. Res., 115, F03013 — a formulação completa (infiltração não saturada, zona
+  saturada de profundidade finita e acoplamento com o FS).
+- **Manual do TRIGRS 2.0/2.1** (Baum, Savage & Godt, 2008 — USGS OFR 2008-1159; e
+  `USER_GUIDE.md` da versão 2.1) — descrição de todos os parâmetros dos arquivos de
+  inicialização e das opções de modelagem.
+- **Iverson, R.M. (2000)** — *Landslide triggering by rain infiltration* — o modelo de
+  difusão que está no coração do TRIGRS.
+:::

@@ -8,9 +8,10 @@ Windows à aplicação em bacia real, com visualização dos resultados no R.
 
 ## Conteúdo
 
-- **Parte 1 (disponível):** instalação do gfortran, compilação do código-fonte oficial,
-  anatomia do exemplo tutorial, primeira rodada (TopoIndex + TRIGRS) e visualização dos
-  resultados no R (`terra`).
+- **Parte 1 (disponível):** visão teórica didática (talude infinito + infiltração
+  transiente) com fluxograma geral da metodologia, instalação do gfortran, compilação do
+  código-fonte oficial, anatomia do exemplo tutorial, primeira rodada (TopoIndex + TRIGRS)
+  e visualização dos resultados no R (`terra`).
 - **Parte 2 (em construção):** bacia do Hospital São Lucas, Nova Friburgo/RJ — preparação de
   grades no QGIS e calibração com o inventário do megadesastre de janeiro/2011.
 - **Parte 3 (em construção):** acoplamento TRIGRS → volumes de fluxo de detritos (Vdy1/Vdy2,
@@ -20,9 +21,9 @@ Windows à aplicação em bacia real, com visualização dos resultados no R.
 ## Contexto
 
 Material desenvolvido no âmbito da pesquisa de mestrado de **Érico de Castro Borges**
-(Programa de Mestrado Profissional em Defesa e Segurança Civil), sob orientação do
-**Prof. Marcos Barreto de Mendonça, PhD** e co-orientação de
-**Cássio Guilherme Rampinelli, PhD** (DPM/SEDEC/MIDR). O repositório funciona
+(Programa de Mestrado Profissional em Defesa e Segurança Civil/UFF), com co-orientação de
+**Cássio Guilherme Rampinelli, PhD** (DPM/SEDEC/MIDR) e orientação do
+**Prof. Marcos Barreto de Mendonça, PhD** (UFRJ). O repositório funciona
 como caderno de laboratório da pesquisa: cada etapa vencida vira um capítulo, e o histórico
 de commits registra o caminho completo.
 

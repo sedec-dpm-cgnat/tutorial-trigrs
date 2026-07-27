@@ -4,10 +4,10 @@ Checklist de socorro — os tropeços clássicos (vários deles a gente já trop
 
 | Sintoma | Causa provável | Solução |
 |---|---|---|
-| O `.exe` "não faz nada" e fecha sem mensagem | Binário Cygwin sem `cygwin1.dll` (erro silencioso `0xC0000135`) | Compilar do fonte com `-static` ([ver capítulo de compilação](02-compilacao.qmd)) |
+| O `.exe` "não faz nada" e fecha sem mensagem | Binário Cygwin sem `cygwin1.dll` (erro silencioso `0xC0000135`) | Compilar do fonte com `-static` ([ver capítulo de compilação](03-compilacao.qmd)) |
 | `Grid mismatch` no TopoIndex ou TRIGRS | Grades com nº/posição de células nodata diferentes (recortes de fontes distintas) | Recortar tudo com a **mesma máscara** e conferir com `gridmatch.exe` |
 | Resultados não aparecem | Pasta de saída indicada no `tr_in.txt` não existe | Criar a pasta antes de rodar |
 | FS = 10 em toda parte | Comportamento normal: FS é truncado em 10 nas células estáveis/planas | Analisar as células com FS < 1,2 |
-| Valores absurdos de FS ou poro-pressão | Unidades erradas — chuva em mm/h em vez de **m/s** é o clássico | Rever a [seção de unidades](03-exemplo.qmd#sec-unidades) |
+| Valores absurdos de FS ou poro-pressão | Unidades erradas — chuva em mm/h em vez de **m/s** é o clássico | Rever a [seção de unidades](04-exemplo.qmd#sec-unidades) |
 | Erro de leitura de grade | Arquivo `.asc` com separador decimal vírgula (regional do Windows/Excel) | Garantir ponto decimal nos `.asc` |
 | TopoIndex trava ou dá resultado estranho | Esquema D8 errado (`ESRI = 1` vs `TopoIndex = 2`) no `tpx_in.txt` | Usar 1 para grades de direção geradas no ArcGIS/QGIS (esquema ESRI) |

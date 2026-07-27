@@ -14,7 +14,7 @@
     "href": "index.html#equipe",
     "title": "Minicurso TRIGRS",
     "section": "Equipe",
-    "text": "Equipe\n\n\n\nMestrando\nÉrico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF)\n\n\nOrientador\nProf. Marcos Barreto de Mendonça, PhD\n\n\nCo-orientador\nCássio Guilherme Rampinelli, PhD (DPM/SEDEC/MIDR)",
+    "text": "Equipe\n\n\n\nMestrando\nÉrico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF)\n\n\nCo-orientador\nCássio Guilherme Rampinelli, PhD (DPM/SEDEC/MIDR)\n\n\nOrientador\nProf. Marcos Barreto de Mendonça, PhD",
     "crumbs": [
       "Apresentação"
     ]
@@ -34,7 +34,7 @@
     "href": "index.html#parte-1-o-essencial-disponível",
     "title": "Minicurso TRIGRS",
     "section": "Parte 1 — O essencial (disponível)",
-    "text": "Parte 1 — O essencial (disponível)\n\n\n\nCapítulo\nConteúdo\n\n\n\n\nInstalação\nInstalar o compilador gfortran no Windows\n\n\nCompilação\nBaixar o código-fonte oficial e compilar o TRIGRS 2.1\n\n\nO exemplo tutorial\nAnatomia dos arquivos de entrada (grades, unidades, inicialização)\n\n\nPrimeira rodada\nRodar TopoIndex e TRIGRS no exemplo oficial do USGS\n\n\nResultados no R\nVisualizar e interpretar FS, profundidade de ruptura e volumes",
+    "text": "Parte 1 — O essencial (disponível)\n\n\n\nCapítulo\nConteúdo\n\n\n\n\nVisão teórica\nComo o TRIGRS “pensa”: talude infinito, infiltração transiente e o fluxograma geral da metodologia\n\n\nInstalação\nInstalar o compilador gfortran no Windows\n\n\nCompilação\nBaixar o código-fonte oficial e compilar o TRIGRS 2.1\n\n\nO exemplo tutorial\nAnatomia dos arquivos de entrada (grades, unidades, inicialização)\n\n\nPrimeira rodada\nRodar TopoIndex e TRIGRS no exemplo oficial do USGS\n\n\nResultados no R\nVisualizar e interpretar FS, profundidade de ruptura e volumes",
     "crumbs": [
       "Apresentação"
     ]
@@ -50,203 +50,273 @@
     ]
   },
   {
-    "objectID": "01-instalacao.html",
-    "href": "01-instalacao.html",
-    "title": "1  Instalação do gfortran",
+    "objectID": "01-teoria.html",
+    "href": "01-teoria.html",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
     "section": "",
-    "text": "1.1 Baixar e instalar",
+    "text": "1.1 O problema físico em uma frase\nDeslizamentos rasos (tipicamente 1 a 3 m de profundidade) deflagrados por chuva são o mecanismo dominante em desastres como o da Região Serrana do RJ em janeiro/2011. A superfície de ruptura costuma se formar no contato entre o solo (colúvio/residual) e um material menos permeável abaixo — e é exatamente esse cenário que o TRIGRS representa.\nO TRIGRS responde, para cada célula de uma grade raster e para cada instante de uma chuva: “esta célula está estável agora?” — combinando dois ingredientes:\nVamos a cada um deles.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Instalação do gfortran</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
     ]
   },
   {
-    "objectID": "01-instalacao.html#baixar-e-instalar",
-    "href": "01-instalacao.html#baixar-e-instalar",
-    "title": "1  Instalação do gfortran",
+    "objectID": "01-teoria.html#o-problema-físico-em-uma-frase",
+    "href": "01-teoria.html#o-problema-físico-em-uma-frase",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "",
+    "text": "Chuva infiltra → a água preenche os poros do solo → a pressão da água nos poros sobe → o atrito entre os grãos diminui → em algum momento a encosta escorrega.\n\n\n\n\num modelo de infiltração transiente (como a pressão da água evolui no tempo e na profundidade), e\num modelo de estabilidade de talude infinito (a pressão calculada reduz o fator de segurança?).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "01-teoria.html#ingrediente-1-o-talude-infinito",
+    "href": "01-teoria.html#ingrediente-1-o-talude-infinito",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "1.2 Ingrediente 1 — o talude infinito",
+    "text": "1.2 Ingrediente 1 — o talude infinito\nA geometria dos deslizamentos rasos (comprimento muito maior que a espessura) permite uma simplificação poderosa: tratar cada célula como um plano inclinado infinito, com ruptura paralela à superfície. A Figura 1.1 mostra o esquema:\n\n\n\n\n\n\n\n\nFigura 1.1: Esquema do modelo de talude infinito usado pelo TRIGRS. A coluna de solo de profundidade Z, inclinada de um ângulo δ, é solicitada pelo peso (W) e resiste pelo atrito e coesão na base. O nível d’água (linha tracejada azul) controla a poro-pressão ψ na superfície potencial de ruptura.\n\n\n\n\n\nO equilíbrio dessa coluna resulta na fórmula do Fator de Segurança que o TRIGRS avalia em cada profundidade \\(Z\\) e instante \\(t\\) (Baum et al., 2010, eq. 4):\n\\[\nFS(Z,t) \\;=\\; \\underbrace{\\frac{\\tan\\varphi'}{\\tan\\delta}}_{\\text{atrito}} \\;+\\;\n\\underbrace{\\frac{c'}{\\gamma_s\\, Z \\sin\\delta \\cos\\delta}}_{\\text{coesão}} \\;-\\;\n\\underbrace{\\frac{\\psi(Z,t)\\,\\gamma_w \\tan\\varphi'}{\\gamma_s\\, Z \\sin\\delta \\cos\\delta}}_{\\text{efeito da água}}\n\\]\n\n\n\n\n\n\n\n\nTermo\nSignificado\nDe onde vem\n\n\n\n\n\\(\\delta\\)\ninclinação da encosta\ngrade de declividade (slope.asc)\n\n\n\\(\\varphi'\\)\nângulo de atrito efetivo do solo\nensaios/literatura (por zona)\n\n\n\\(c'\\)\ncoesão efetiva\nensaios/literatura (por zona)\n\n\n\\(\\gamma_s\\), \\(\\gamma_w\\)\npeso específico do solo e da água\nensaios/constante\n\n\n\\(Z\\)\nprofundidade avaliada\naté zmax.asc\n\n\n\\(\\psi(Z,t)\\)\ncarga de pressão da água\né o que o modelo de infiltração calcula!\n\n\n\nLeia a equação como uma disputa: atrito + coesão (estabilizam) contra o empuxo da água (desestabiliza). Os dois primeiros termos são fixos no tempo; o terceiro cresce durante a chuva porque \\(\\psi\\) cresce. Quando \\(FS\\) cai abaixo de 1, a célula é prevista como instável. Note também o papel de \\(Z\\): quanto mais profundo, menor o peso relativo da coesão — por isso existe uma profundidade “crítica” onde o \\(FS\\) é mínimo (o TRIGRS a reporta na grade TRz_at_fs_min).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "01-teoria.html#ingrediente-2-a-infiltração-transiente",
+    "href": "01-teoria.html#ingrediente-2-a-infiltração-transiente",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "1.3 Ingrediente 2 — a infiltração transiente",
+    "text": "1.3 Ingrediente 2 — a infiltração transiente\nFalta a peça central: como \\(\\psi(Z,t)\\) evolui durante a chuva? O TRIGRS usa soluções analíticas da equação de fluxo vertical em meio poroso (a equação de Richards linearizada, seguindo Iverson, 2000, estendida por Baum et al., 2008; 2010): a chuva que infiltra gera uma “onda de pressão” que se difunde para baixo, com velocidade controlada pela difusividade hidráulica \\(D_0\\) do solo.\n\n\n\n\n\n\n\n\nFigura 1.2: Conceito da resposta transiente: perfis de carga de pressão ψ(Z) em instantes sucessivos de uma chuva. A condição inicial (t₀) tem pressão negativa (sucção) acima do nível d’água; com a infiltração, a ‘frente de pressão’ avança em profundidade (t₁, t₂, t₃) e reduz a sucção — podendo gerar pressão positiva. Curvas conceituais baseadas na solução de difusão linearizada.\n\n\n\n\n\nPontos que valem guardar (todos detalhados no manual e em Baum et al., 2010):\n\nZona não saturada: acima do nível d’água o solo tem sucção (pressão negativa), que ajuda a estabilidade. O TRIGRS pode modelar explicitamente essa zona (modelo de Gardner, parâmetro \\(\\alpha\\)) ou assumir solo saturado desde o início (mais conservador).\nDifusividade \\(D_0\\) controla o atraso da resposta: solos mais permeáveis respondem em horas; menos permeáveis, em dias. É por isso que o TRIGRS consegue prever o momento da instabilidade, não só o local.\nFronteira inferior: a base impermeável em zmax faz a pressão “se acumular” — modelo de profundidade finita, uma das extensões do TRIGRS sobre o modelo original de Iverson.\nLimite de infiltração: se a chuva excede a capacidade de infiltração (\\(K_{sat}\\)), o excesso vira escoamento superficial, roteado célula a célula pelo esquema D8 calculado no TopoIndex.\n\nA combinação dos dois ingredientes dá a assinatura típica da resposta de uma célula:\n\n\n\n\n\n\n\n\nFigura 1.3: Resposta conceitual de uma célula durante um evento: o hietograma (acima) alimenta a infiltração; a poro-pressão na profundidade crítica sobe com atraso e o FS cai. A célula ‘rompe’ quando FS &lt; 1 — o TRIGRS fornece o instante e o local.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "01-teoria.html#premissas-e-limitações-ler-antes-de-confiar-no-mapa",
+    "href": "01-teoria.html#premissas-e-limitações-ler-antes-de-confiar-no-mapa",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "1.4 Premissas e limitações (ler antes de confiar no mapa!)",
+    "text": "1.4 Premissas e limitações (ler antes de confiar no mapa!)\nO manual do TRIGRS é enfático: o programa é uma ferramenta para quem conhece o fenômeno, e interpretar resultados exige julgamento geológico-geotécnico. As principais simplificações:\n\nfluxo 1-D vertical e solo isotrópico/homogêneo em cada célula (heterogeneidade só entre células/zonas);\nmodelo de talude infinito: vale para rupturas rasas e planares — não para deslizamentos profundos ou rotacionais;\nnão modela a propagação (runout) da massa mobilizada — o TRIGRS diz onde inicia e quanto material fica instável; o que acontece encosta abaixo é assunto da metodologia de fluxo de detritos (Partes 3 e 4 deste minicurso);\nresultados são tão bons quanto os dados de entrada (MDE, profundidade do solo, parâmetros geotécnicos, chuva) — daí a importância da calibração com inventário de cicatrizes.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "01-teoria.html#sec-fluxograma",
+    "href": "01-teoria.html#sec-fluxograma",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "1.5 O fluxograma geral da metodologia",
+    "text": "1.5 O fluxograma geral da metodologia\nO diagrama abaixo organiza todas as etapas do trabalho — da coleta de dados à estimativa de volumes sob mudança climática. Ele expande o roteiro inicial da pesquisa e serve de mapa para o minicurso inteiro:\n\n\n\n\n\nflowchart TB\n  subgraph ETAPA1[\"1 · Coleta e preparação de dados (GIS)\"]\n    direction TB\n    A1[\"MDE&lt;br/&gt;(declividade, direção de fluxo)\"]\n    A2[\"Mapas geológico,&lt;br/&gt;geomorfológico e de solos\"]\n    A3[\"Uso e cobertura&lt;br/&gt;do solo\"]\n    A4[\"Chuva&lt;br/&gt;(evento e IDF)\"]\n    A5[\"Inventário de&lt;br/&gt;cicatrizes (2011)\"]\n  end\n\n  subgraph ETAPA2[\"2 · Análise geoespacial\"]\n    B1[\"Zonas de propriedades&lt;br/&gt;(zones.asc)\"]\n    B2[\"Profundidade do solo&lt;br/&gt;(zmax.asc)\"]\n    B3[\"Grades congruentes&lt;br/&gt;(GridMatch)\"]\n  end\n\n  subgraph ETAPA3[\"3 · Modelagem TRIGRS\"]\n    C1[\"TopoIndex&lt;br/&gt;(roteamento D8)\"]\n    C2[\"TRIGRS&lt;br/&gt;FS(Z,t) por célula\"]\n  end\n\n  subgraph ETAPA4[\"4 · Validação e calibração\"]\n    D1[\"Comparação FS &lt; 1&lt;br/&gt;× cicatrizes\"]\n    D2[\"Ajuste de parâmetros&lt;br/&gt;(K_sat, NA inicial, c', φ')\"]\n  end\n\n  subgraph ETAPA5[\"5 · Produtos\"]\n    E1[\"Mapa de suscetibilidade&lt;br/&gt;calibrado\"]\n    E2[\"Volume mobilizável&lt;br/&gt;Σ área × Z_ruptura\"]\n    E3[\"Volumes GIDES/JICA&lt;br/&gt;(Vdy1, Vdy2)\"]\n    E4[\"Cenários de mudança&lt;br/&gt;climática (chuva Pd)\"]\n  end\n\n  ETAPA1 --&gt; ETAPA2 --&gt; C1 --&gt; C2 --&gt; D1 --&gt; D2\n  D2 -- \"iterar\" --&gt; C2\n  D2 --&gt; E1\n  E1 --&gt; E2 --&gt; E3\n  A4 --&gt; E4 --&gt; C2\n  E4 --&gt; E3\n\n  style ETAPA3 fill:#dbeafe,stroke:#1f78b4\n\n\n Fluxograma geral da metodologia da pesquisa. Em azul, as etapas cobertas pela Parte 1 do minicurso; as demais partes seguem a numeração indicada. \n\n\n\nE, dentro da etapa de modelagem, o fluxo operacional dos programas que você vai usar nos próximos capítulos:\n\n\n\n\n\nflowchart LR\n  G[\"GIS&lt;br/&gt;(QGIS/ArcGIS)&lt;br/&gt;grades .asc\"] --&gt; M[\"GridMatch&lt;br/&gt;&lt;i&gt;grades congruentes?&lt;/i&gt;\"]\n  M --&gt; T[\"TopoIndex&lt;br/&gt;tpx_in.txt&lt;br/&gt;&lt;i&gt;índices + pesos D8&lt;/i&gt;\"]\n  T --&gt; R[\"TRIGRS&lt;br/&gt;tr_in.txt&lt;br/&gt;&lt;i&gt;infiltração + FS&lt;/i&gt;\"]\n  R --&gt; S[\"Resultados&lt;br/&gt;TRfs_min, TRz_at_fs_min,&lt;br/&gt;TRp_at_fs_min, runoff...\"]\n  S --&gt; V[\"Visualização e análise&lt;br/&gt;(R/terra ou QGIS)\"]\n\n  style R fill:#dbeafe,stroke:#1f78b4\n\n\n Fluxo operacional: dos rasters do GIS aos mapas de resultado. É exatamente esta sequência que executaremos no exemplo tutorial.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "01-teoria.html#onde-cada-coisa-está-no-minicurso",
+    "href": "01-teoria.html#onde-cada-coisa-está-no-minicurso",
+    "title": "1  Visão teórica: como o TRIGRS “pensa”",
+    "section": "1.6 Onde cada coisa está no minicurso",
+    "text": "1.6 Onde cada coisa está no minicurso\n\n\n\nEtapa do fluxograma\nOnde é tratada\n\n\n\n\nInstalar e compilar as ferramentas\nInstalação e Compilação\n\n\nEntender grades e arquivos de entrada\nO exemplo tutorial\n\n\nRodar TopoIndex + TRIGRS\nPrimeira rodada\n\n\nVisualizar FS e quantificar volumes\nResultados no R\n\n\nBacia real, calibração, volumes, clima\nPartes 2–4 (em construção)\n\n\n\n\n\n\n\n\n\nPara aprofundar\n\n\n\n\nBaum, R.L., Godt, J.W. & Savage, W.Z. (2010) — Estimating the timing and location of shallow rainfall-induced landslides using a model for transient, unsaturated infiltration, J. Geophys. Res., 115, F03013 — a formulação completa (infiltração não saturada, zona saturada de profundidade finita e acoplamento com o FS).\nManual do TRIGRS 2.0/2.1 (Baum, Savage & Godt, 2008 — USGS OFR 2008-1159; e USER_GUIDE.md da versão 2.1) — descrição de todos os parâmetros dos arquivos de inicialização e das opções de modelagem.\nIverson, R.M. (2000) — Landslide triggering by rain infiltration — o modelo de difusão que está no coração do TRIGRS.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visão teórica: como o TRIGRS \"pensa\"</span>"
+    ]
+  },
+  {
+    "objectID": "02-instalacao.html",
+    "href": "02-instalacao.html",
+    "title": "2  Instalação do gfortran",
+    "section": "",
+    "text": "2.1 Baixar e instalar",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Instalação do gfortran</span>"
+    ]
+  },
+  {
+    "objectID": "02-instalacao.html#baixar-e-instalar",
+    "href": "02-instalacao.html#baixar-e-instalar",
+    "title": "2  Instalação do gfortran",
     "section": "",
     "text": "Baixe o instalador de 64 bits em https://www.equation.com/servlet/equation.cmd?fa=fortran (ex.: gcc-14.2.0-64.exe).\nExecute o instalador e aceite o local padrão sugerido (ex.: C:\\Users\\SEU_USUARIO\\gcc). O instalador adiciona o compilador ao PATH do Windows automaticamente.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Instalação do gfortran</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Instalação do gfortran</span>"
     ]
   },
   {
-    "objectID": "01-instalacao.html#conferir-a-instalação",
-    "href": "01-instalacao.html#conferir-a-instalação",
-    "title": "1  Instalação do gfortran",
-    "section": "1.2 Conferir a instalação",
-    "text": "1.2 Conferir a instalação\nFeche qualquer PowerShell aberto, abra um novo e digite:\ngfortran --version\nA resposta esperada é algo como:\nGNU Fortran (GCC) 14.2.0\n\n\n\n\n\n\nSe o comando não for reconhecido\n\n\n\nO PATH só é atualizado em janelas novas do PowerShell. Se mesmo em uma janela nova não funcionar, verifique se a pasta bin da instalação (ex.: C:\\Users\\SEU_USUARIO\\gcc\\bin) está na variável de ambiente PATH (Configurações → Sistema → Variáveis de ambiente).",
+    "objectID": "02-instalacao.html#conferir-a-instalação",
+    "href": "02-instalacao.html#conferir-a-instalação",
+    "title": "2  Instalação do gfortran",
+    "section": "2.2 Conferir a instalação",
+    "text": "2.2 Conferir a instalação\nFeche qualquer PowerShell aberto, abra um novo e digite:\ngfortran --version\nA resposta esperada é algo como:\nGNU Fortran (GCC) 14.2.0\n\n\n\n\n\n\nSe o comando não for reconhecido\n\n\n\nO PATH só é atualizado em janelas novas do PowerShell. Se mesmo em uma janela nova não funcionar, verifique se a pasta bin da instalação (ex.: C:\\Users\\SEU_USUARIO\\gcc\\bin) está na variável de ambiente PATH (Configurações → Sistema → Variáveis de ambiente).",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Instalação do gfortran</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Instalação do gfortran</span>"
     ]
   },
   {
-    "objectID": "01-instalacao.html#por-que-não-usar-os-executáveis-prontos-do-usgs",
-    "href": "01-instalacao.html#por-que-não-usar-os-executáveis-prontos-do-usgs",
-    "title": "1  Instalação do gfortran",
-    "section": "1.3 Por que não usar os executáveis prontos do USGS?",
-    "text": "1.3 Por que não usar os executáveis prontos do USGS?\nO USGS distribui binários de Windows (TRIGRS_2.1_Win64.zip), mas eles foram compilados sob Cygwin e dependem da biblioteca cygwin1.dll. Em uma máquina sem Cygwin o programa não abre e não mostra erro nenhum — o Windows retorna silenciosamente o código 0xC0000135 (DLL não encontrada). Foi exatamente esse o problema que travou nossas primeiras tentativas. Compilando nós mesmos com a opção -static (próximo capítulo), o executável fica autossuficiente e roda em qualquer Windows 64 bits.",
+    "objectID": "02-instalacao.html#por-que-não-usar-os-executáveis-prontos-do-usgs",
+    "href": "02-instalacao.html#por-que-não-usar-os-executáveis-prontos-do-usgs",
+    "title": "2  Instalação do gfortran",
+    "section": "2.3 Por que não usar os executáveis prontos do USGS?",
+    "text": "2.3 Por que não usar os executáveis prontos do USGS?\nO USGS distribui binários de Windows (TRIGRS_2.1_Win64.zip), mas eles foram compilados sob Cygwin e dependem da biblioteca cygwin1.dll. Em uma máquina sem Cygwin o programa não abre e não mostra erro nenhum — o Windows retorna silenciosamente o código 0xC0000135 (DLL não encontrada). Foi exatamente esse o problema que travou nossas primeiras tentativas. Compilando nós mesmos com a opção -static (próximo capítulo), o executável fica autossuficiente e roda em qualquer Windows 64 bits.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Instalação do gfortran</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Instalação do gfortran</span>"
     ]
   },
   {
-    "objectID": "02-compilacao.html",
-    "href": "02-compilacao.html",
-    "title": "2  Baixar e compilar o TRIGRS",
+    "objectID": "03-compilacao.html",
+    "href": "03-compilacao.html",
+    "title": "3  Baixar e compilar o TRIGRS",
     "section": "",
-    "text": "2.1 Baixar o código-fonte\nBaixe a release oficial 2.1.0 no GitLab do USGS: https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0\nExtraia o .zip para uma pasta de trabalho, por exemplo C:\\TRIGRS\\landslides-trigrs-2.1.0\\. A pasta src\\ contém quatro programas:",
+    "text": "3.1 Baixar o código-fonte\nBaixe a release oficial 2.1.0 no GitLab do USGS: https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0\nExtraia o .zip para uma pasta de trabalho, por exemplo C:\\TRIGRS\\landslides-trigrs-2.1.0\\. A pasta src\\ contém quatro programas:",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
     ]
   },
   {
-    "objectID": "02-compilacao.html#baixar-o-código-fonte",
-    "href": "02-compilacao.html#baixar-o-código-fonte",
-    "title": "2  Baixar e compilar o TRIGRS",
+    "objectID": "03-compilacao.html#baixar-o-código-fonte",
+    "href": "03-compilacao.html#baixar-o-código-fonte",
+    "title": "3  Baixar e compilar o TRIGRS",
     "section": "",
     "text": "Programa\nFunção\n\n\n\n\nTRIGRS\nModelo principal: infiltração transiente + fator de segurança\n\n\nTopoIndex\nPré-processador topográfico: roteamento do runoff e dimensionamento das matrizes\n\n\nGridMatch\nVerifica se as grades de entrada são congruentes entre si\n\n\nUnitConvert\nConversão de unidades das grades",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
     ]
   },
   {
-    "objectID": "02-compilacao.html#compilar",
-    "href": "02-compilacao.html#compilar",
-    "title": "2  Baixar e compilar o TRIGRS",
-    "section": "2.2 Compilar",
-    "text": "2.2 Compilar\nAbra o PowerShell na pasta src\\ do código-fonte extraído e execute os quatro blocos abaixo. A ordem dos arquivos importa (módulos primeiro) — copie e cole exatamente:\n# TopoIndex\ngfortran -O2 -w -static -o topoindex.exe TopoIndex\\ssizgrd.f95 TopoIndex\\tpindx.f90 `\n  TopoIndex\\nxtcel.f90 TopoIndex\\isvgrd.f TopoIndex\\mpfldr.f TopoIndex\\rdflodir.f `\n  TopoIndex\\sindex.f TopoIndex\\slofac.f TopoIndex\\srdgrd1.f\n# TRIGRS (versão serial — resolve bacias pequenas e médias em segundos)\ngfortran -O2 -w -static -o trigrs.exe TRIGRS\\grids.f95 TRIGRS\\input_file_defs.f95 `\n  TRIGRS\\input_vars.f95 TRIGRS\\model_vars.f95 TRIGRS\\dsimps.f95 TRIGRS\\iverson.f95 `\n  TRIGRS\\pstpi.f95 TRIGRS\\satfin.f95 TRIGRS\\savage.f95 TRIGRS\\steady.f95 TRIGRS\\trini.f95 `\n  TRIGRS\\unsinf.f95 TRIGRS\\ivestp.f95 TRIGRS\\pstpf.f95 TRIGRS\\rnoff.f95 TRIGRS\\satinf.f95 `\n  TRIGRS\\smallt.f95 TRIGRS\\svgstp.f95 TRIGRS\\unsfin.f95 TRIGRS\\unsth.f95 TRIGRS\\ssizgrd.f95 `\n  TRIGRS\\svlist.f95 TRIGRS\\trigrs.f90 TRIGRS\\flux.f90 TRIGRS\\prpijz.f90 TRIGRS\\svxmdv.f90 `\n  TRIGRS\\svijz.f90 TRIGRS\\dzero_brac.f90 TRIGRS\\calerf.f TRIGRS\\dbsct.f TRIGRS\\derfc.f `\n  TRIGRS\\irdgrd.f TRIGRS\\irdswm.f TRIGRS\\isvgrd.f TRIGRS\\roots.f TRIGRS\\srdgrd.f `\n  TRIGRS\\srdswm.f TRIGRS\\ssvgrd.f\n# GridMatch\ngfortran -O2 -w -static -o gridmatch.exe GridMatch\\ssizgrd.f95 GridMatch\\gridmatch.f90 `\n  GridMatch\\srdgrd.f GridMatch\\ssvgrd.f\n# UnitConvert (este precisa da flag -fdec por causa de um formato Fortran antigo no código)\ngfortran -O2 -w -static -fdec -o unitconvert.exe UnitConvert\\unitconvert.f90 `\n  UnitConvert\\srdgrd.f UnitConvert\\ssvgrd.f\nAo final, a pasta src\\ terá topoindex.exe, trigrs.exe, gridmatch.exe e unitconvert.exe. Guarde-os em uma pasta bin\\ — eles serão copiados para a pasta de cada projeto/rodada.\n\n\n\n\n\n\nSobre a versão paralela\n\n\n\nO Makefile que acompanha o código usa mpif90 (MPI) e também compila uma versão paralela (trigrs_p), útil para áreas muito grandes. Para este minicurso ela não é necessária — a versão serial acima é suficiente.",
+    "objectID": "03-compilacao.html#compilar",
+    "href": "03-compilacao.html#compilar",
+    "title": "3  Baixar e compilar o TRIGRS",
+    "section": "3.2 Compilar",
+    "text": "3.2 Compilar\nAbra o PowerShell na pasta src\\ do código-fonte extraído e execute os quatro blocos abaixo. A ordem dos arquivos importa (módulos primeiro) — copie e cole exatamente:\n# TopoIndex\ngfortran -O2 -w -static -o topoindex.exe TopoIndex\\ssizgrd.f95 TopoIndex\\tpindx.f90 `\n  TopoIndex\\nxtcel.f90 TopoIndex\\isvgrd.f TopoIndex\\mpfldr.f TopoIndex\\rdflodir.f `\n  TopoIndex\\sindex.f TopoIndex\\slofac.f TopoIndex\\srdgrd1.f\n# TRIGRS (versão serial — resolve bacias pequenas e médias em segundos)\ngfortran -O2 -w -static -o trigrs.exe TRIGRS\\grids.f95 TRIGRS\\input_file_defs.f95 `\n  TRIGRS\\input_vars.f95 TRIGRS\\model_vars.f95 TRIGRS\\dsimps.f95 TRIGRS\\iverson.f95 `\n  TRIGRS\\pstpi.f95 TRIGRS\\satfin.f95 TRIGRS\\savage.f95 TRIGRS\\steady.f95 TRIGRS\\trini.f95 `\n  TRIGRS\\unsinf.f95 TRIGRS\\ivestp.f95 TRIGRS\\pstpf.f95 TRIGRS\\rnoff.f95 TRIGRS\\satinf.f95 `\n  TRIGRS\\smallt.f95 TRIGRS\\svgstp.f95 TRIGRS\\unsfin.f95 TRIGRS\\unsth.f95 TRIGRS\\ssizgrd.f95 `\n  TRIGRS\\svlist.f95 TRIGRS\\trigrs.f90 TRIGRS\\flux.f90 TRIGRS\\prpijz.f90 TRIGRS\\svxmdv.f90 `\n  TRIGRS\\svijz.f90 TRIGRS\\dzero_brac.f90 TRIGRS\\calerf.f TRIGRS\\dbsct.f TRIGRS\\derfc.f `\n  TRIGRS\\irdgrd.f TRIGRS\\irdswm.f TRIGRS\\isvgrd.f TRIGRS\\roots.f TRIGRS\\srdgrd.f `\n  TRIGRS\\srdswm.f TRIGRS\\ssvgrd.f\n# GridMatch\ngfortran -O2 -w -static -o gridmatch.exe GridMatch\\ssizgrd.f95 GridMatch\\gridmatch.f90 `\n  GridMatch\\srdgrd.f GridMatch\\ssvgrd.f\n# UnitConvert (este precisa da flag -fdec por causa de um formato Fortran antigo no código)\ngfortran -O2 -w -static -fdec -o unitconvert.exe UnitConvert\\unitconvert.f90 `\n  UnitConvert\\srdgrd.f UnitConvert\\ssvgrd.f\nAo final, a pasta src\\ terá topoindex.exe, trigrs.exe, gridmatch.exe e unitconvert.exe. Guarde-os em uma pasta bin\\ — eles serão copiados para a pasta de cada projeto/rodada.\n\n\n\n\n\n\nSobre a versão paralela\n\n\n\nO Makefile que acompanha o código usa mpif90 (MPI) e também compila uma versão paralela (trigrs_p), útil para áreas muito grandes. Para este minicurso ela não é necessária — a versão serial acima é suficiente.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
     ]
   },
   {
-    "objectID": "02-compilacao.html#significado-das-opções-de-compilação",
-    "href": "02-compilacao.html#significado-das-opções-de-compilação",
-    "title": "2  Baixar e compilar o TRIGRS",
-    "section": "2.3 Significado das opções de compilação",
-    "text": "2.3 Significado das opções de compilação\n\n\n\n\n\n\n\nOpção\nEfeito\n\n\n\n\n-O2\nOtimização (código mais rápido)\n\n\n-w\nSuprime avisos de estilo do código antigo (inofensivos)\n\n\n-static\nEmbute as bibliotecas no executável — é o que evita o problema da DLL\n\n\n-fdec\nAceita extensões DEC antigas (necessário só no UnitConvert)",
+    "objectID": "03-compilacao.html#significado-das-opções-de-compilação",
+    "href": "03-compilacao.html#significado-das-opções-de-compilação",
+    "title": "3  Baixar e compilar o TRIGRS",
+    "section": "3.3 Significado das opções de compilação",
+    "text": "3.3 Significado das opções de compilação\n\n\n\n\n\n\n\nOpção\nEfeito\n\n\n\n\n-O2\nOtimização (código mais rápido)\n\n\n-w\nSuprime avisos de estilo do código antigo (inofensivos)\n\n\n-static\nEmbute as bibliotecas no executável — é o que evita o problema da DLL\n\n\n-fdec\nAceita extensões DEC antigas (necessário só no UnitConvert)",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Baixar e compilar o TRIGRS</span>"
     ]
   },
   {
-    "objectID": "03-exemplo.html",
-    "href": "03-exemplo.html",
-    "title": "3  O exemplo tutorial",
+    "objectID": "04-exemplo.html",
+    "href": "04-exemplo.html",
+    "title": "4  O exemplo tutorial",
     "section": "",
-    "text": "3.1 Estrutura de pastas",
+    "text": "4.1 Estrutura de pastas",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>O exemplo tutorial</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>O exemplo tutorial</span>"
     ]
   },
   {
-    "objectID": "03-exemplo.html#estrutura-de-pastas",
-    "href": "03-exemplo.html#estrutura-de-pastas",
-    "title": "3  O exemplo tutorial",
+    "objectID": "04-exemplo.html#estrutura-de-pastas",
+    "href": "04-exemplo.html#estrutura-de-pastas",
+    "title": "4  O exemplo tutorial",
     "section": "",
     "text": "exemplo_01\\\n├── tpx_in.txt      &lt;- inicialização do TopoIndex\n├── tr_in.txt       &lt;- inicialização do TRIGRS (JÁ CORRIGIDO)\n├── data\\           &lt;- grades de entrada (formato ESRI ASCII)\n│   ├── dem.asc         MDE (elevação, m)\n│   ├── directions.asc  direção de fluxo D8\n│   ├── slope.asc       declividade (graus)\n│   ├── zones.asc       zonas de propriedades (inteiros 1, 2, ...)\n│   ├── zmax.asc        profundidade máxima do solo (m)\n│   ├── depthwt.asc     profundidade inicial do lençol freático (m)\n│   ├── rizero.asc      infiltração antecedente de longo prazo (m/s)\n│   └── ri1.asc, ri2.asc  intensidade de chuva dos períodos 1 e 2 (m/s)\n└── Resultados\\     &lt;- saídas do TRIGRS (criar antes de rodar!)",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>O exemplo tutorial</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>O exemplo tutorial</span>"
     ]
   },
   {
-    "objectID": "03-exemplo.html#os-arquivos-de-inicialização",
-    "href": "03-exemplo.html#os-arquivos-de-inicialização",
-    "title": "3  O exemplo tutorial",
-    "section": "3.2 Os arquivos de inicialização",
-    "text": "3.2 Os arquivos de inicialização\nCada programa lê um arquivo de texto com parâmetros e caminhos, na pasta onde é executado:\n\ntpx_in.txt (TopoIndex): aponta o MDE e a grade de direções de fluxo; define o esquema de numeração D8 (ESRI = 1, TopoIndex = 2) e quais listas/grades auxiliares salvar.\ntr_in.txt (TRIGRS): o coração da rodada. Define, entre outros:\n\nnúmero de zonas e parâmetros geotécnicos/hidráulicos de cada zona (coesão em Pa, ângulo de atrito φ em graus, peso específico em N/m³, difusividade em m²/s, Ksat em m/s, θsat, θres, α de Gardner);\nperíodos de chuva (nper), instantes de troca (capt) e intensidades (cri ou grades ri*.asc);\nprofundidade da simulação, condição inicial do lençol e opções do modelo (saturado/não saturado, profundidade finita/infinita);\ntempos de saída e quais grades gravar.",
+    "objectID": "04-exemplo.html#os-arquivos-de-inicialização",
+    "href": "04-exemplo.html#os-arquivos-de-inicialização",
+    "title": "4  O exemplo tutorial",
+    "section": "4.2 Os arquivos de inicialização",
+    "text": "4.2 Os arquivos de inicialização\nCada programa lê um arquivo de texto com parâmetros e caminhos, na pasta onde é executado:\n\ntpx_in.txt (TopoIndex): aponta o MDE e a grade de direções de fluxo; define o esquema de numeração D8 (ESRI = 1, TopoIndex = 2) e quais listas/grades auxiliares salvar.\ntr_in.txt (TRIGRS): o coração da rodada. Define, entre outros:\n\nnúmero de zonas e parâmetros geotécnicos/hidráulicos de cada zona (coesão em Pa, ângulo de atrito φ em graus, peso específico em N/m³, difusividade em m²/s, Ksat em m/s, θsat, θres, α de Gardner);\nperíodos de chuva (nper), instantes de troca (capt) e intensidades (cri ou grades ri*.asc);\nprofundidade da simulação, condição inicial do lençol e opções do modelo (saturado/não saturado, profundidade finita/infinita);\ntempos de saída e quais grades gravar.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>O exemplo tutorial</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>O exemplo tutorial</span>"
     ]
   },
   {
-    "objectID": "03-exemplo.html#sec-unidades",
-    "href": "03-exemplo.html#sec-unidades",
-    "title": "3  O exemplo tutorial",
-    "section": "3.3 Unidades — a pegadinha nº 1",
-    "text": "3.3 Unidades — a pegadinha nº 1\nO TRIGRS trabalha em SI: metros, segundos, Pascal. A chuva entra em m/s:\n\\[ 50\\ \\text{mm/h} = \\frac{50}{1000 \\times 3600} = 1{,}39 \\times 10^{-5}\\ \\text{m/s} \\]\nNo exemplo, os períodos de chuva usam 3{,}0\\times10^{-7} m/s (~1,1 mm/h) por 48 h e 9{,}0\\times10^{-5} m/s (~324 mm/h) por 12 h — um período de chuva fraca antecedente seguido de uma tempestade intensa.\n\n\n\n\n\n\nCorreções que fizemos no exemplo original do USGS\n\n\n\nSe você baixar o exemplo direto da distribuição oficial, três ajustes são necessários (nesta pasta do repositório eles já estão feitos):\n\nNo tr_in.txt, os caminhos apontavam para Data/tutorial/, pasta que não existe na distribuição — ajustados para data/;\nA grade TIdscelGrid_tutorial é gravada pelo TopoIndex com extensão .txt (não .asc) — o nome no tr_in.txt foi ajustado;\nA pasta de saída (Resultados/) precisa existir antes de rodar — o TRIGRS não a cria e falha silenciosamente na gravação.",
+    "objectID": "04-exemplo.html#sec-unidades",
+    "href": "04-exemplo.html#sec-unidades",
+    "title": "4  O exemplo tutorial",
+    "section": "4.3 Unidades — a pegadinha nº 1",
+    "text": "4.3 Unidades — a pegadinha nº 1\nO TRIGRS trabalha em SI: metros, segundos, Pascal. A chuva entra em m/s:\n\\[ 50\\ \\text{mm/h} = \\frac{50}{1000 \\times 3600} = 1{,}39 \\times 10^{-5}\\ \\text{m/s} \\]\nNo exemplo, os períodos de chuva usam 3{,}0\\times10^{-7} m/s (~1,1 mm/h) por 48 h e 9{,}0\\times10^{-5} m/s (~324 mm/h) por 12 h — um período de chuva fraca antecedente seguido de uma tempestade intensa.\n\n\n\n\n\n\nCorreções que fizemos no exemplo original do USGS\n\n\n\nSe você baixar o exemplo direto da distribuição oficial, três ajustes são necessários (nesta pasta do repositório eles já estão feitos):\n\nNo tr_in.txt, os caminhos apontavam para Data/tutorial/, pasta que não existe na distribuição — ajustados para data/;\nA grade TIdscelGrid_tutorial é gravada pelo TopoIndex com extensão .txt (não .asc) — o nome no tr_in.txt foi ajustado;\nA pasta de saída (Resultados/) precisa existir antes de rodar — o TRIGRS não a cria e falha silenciosamente na gravação.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>O exemplo tutorial</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>O exemplo tutorial</span>"
     ]
   },
   {
-    "objectID": "04-rodando.html",
-    "href": "04-rodando.html",
-    "title": "4  Primeira rodada",
+    "objectID": "05-rodando.html",
+    "href": "05-rodando.html",
+    "title": "5  Primeira rodada",
     "section": "",
-    "text": "4.1 Preparação",
+    "text": "5.1 Preparação",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Primeira rodada</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Primeira rodada</span>"
     ]
   },
   {
-    "objectID": "04-rodando.html#preparação",
-    "href": "04-rodando.html#preparação",
-    "title": "4  Primeira rodada",
+    "objectID": "05-rodando.html#preparação",
+    "href": "05-rodando.html#preparação",
+    "title": "5  Primeira rodada",
     "section": "",
     "text": "Clone (ou baixe) este repositório.\nCopie para dentro da pasta exemplo_01\\ os executáveis topoindex.exe e trigrs.exe compilados no capítulo anterior.\nConfira que a pasta exemplo_01\\Resultados\\ existe.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Primeira rodada</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Primeira rodada</span>"
     ]
   },
   {
-    "objectID": "04-rodando.html#rodar",
-    "href": "04-rodando.html#rodar",
-    "title": "4  Primeira rodada",
-    "section": "4.2 Rodar",
-    "text": "4.2 Rodar\nAbra o PowerShell na pasta exemplo_01\\ e execute os dois programas, nesta ordem:\n.\\topoindex.exe    # lê tpx_in.txt -&gt; gera data\\TI*_tutorial.*\n.\\trigrs.exe       # lê tr_in.txt  -&gt; gera Resultados\\TR*.asc\nO TopoIndex roda primeiro: ele define a ordem de cálculo do escoamento superficial (D8), os pesos de distribuição do runoff e o tamanho das matrizes que o TRIGRS vai alocar. A saída esperada termina com:\n No grid mismatch found!\n Correcting cell index numbers\n Computing weighting factors\n Saving results to disk\nO TRIGRS então faz a infiltração transiente e a estabilidade. A saída esperada termina com:\n Saving results\n TRIGRS finished!",
+    "objectID": "05-rodando.html#rodar",
+    "href": "05-rodando.html#rodar",
+    "title": "5  Primeira rodada",
+    "section": "5.2 Rodar",
+    "text": "5.2 Rodar\nAbra o PowerShell na pasta exemplo_01\\ e execute os dois programas, nesta ordem:\n.\\topoindex.exe    # lê tpx_in.txt -&gt; gera data\\TI*_tutorial.*\n.\\trigrs.exe       # lê tr_in.txt  -&gt; gera Resultados\\TR*.asc\nO TopoIndex roda primeiro: ele define a ordem de cálculo do escoamento superficial (D8), os pesos de distribuição do runoff e o tamanho das matrizes que o TRIGRS vai alocar. A saída esperada termina com:\n No grid mismatch found!\n Correcting cell index numbers\n Computing weighting factors\n Saving results to disk\nO TRIGRS então faz a infiltração transiente e a estabilidade. A saída esperada termina com:\n Saving results\n TRIGRS finished!",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Primeira rodada</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Primeira rodada</span>"
     ]
   },
   {
-    "objectID": "04-rodando.html#o-que-foi-gerado",
-    "href": "04-rodando.html#o-que-foi-gerado",
-    "title": "4  Primeira rodada",
-    "section": "4.3 O que foi gerado",
-    "text": "4.3 O que foi gerado\nEm exemplo_01\\Resultados\\:\n\n\n\n\n\n\n\nArquivo\nConteúdo\n\n\n\n\nTRfs_min_tutorial_1.asc, _2.asc\nFS mínimo por célula nos tempos de saída (48 h e 60 h)\n\n\nTRz_at_fs_min_*.asc\nProfundidade (m) da superfície crítica (onde ocorre o FS mínimo)\n\n\nTRp_at_fs_min_*.asc\nPoro-pressão (m de coluna d’água) na profundidade crítica\n\n\nTRwater_depth_*.asc\nProfundidade simulada do lençol freático\n\n\nTRrunoffPer*.asc, TRinfilratPer*.asc\nRunoff e taxa de infiltração por período de chuva\n\n\nTRlist_z_p_fs_tutorial.txt\nListagem detalhada Z–P–FS por célula (perfis verticais)\n\n\nTrigrsLog.txt\nLog da rodada — sempre conferir avisos e balanço de massa\n\n\n\nE em exemplo_01\\data\\, os arquivos TI* do TopoIndex (índices de células, listas de receptores de runoff e pesos).\n\n\n\n\n\n\nDica\n\n\n\nOs rasters .asc abrem direto no QGIS (arrastar e soltar) — ou no R, como faremos no próximo capítulo.",
+    "objectID": "05-rodando.html#o-que-foi-gerado",
+    "href": "05-rodando.html#o-que-foi-gerado",
+    "title": "5  Primeira rodada",
+    "section": "5.3 O que foi gerado",
+    "text": "5.3 O que foi gerado\nEm exemplo_01\\Resultados\\:\n\n\n\n\n\n\n\nArquivo\nConteúdo\n\n\n\n\nTRfs_min_tutorial_1.asc, _2.asc\nFS mínimo por célula nos tempos de saída (48 h e 60 h)\n\n\nTRz_at_fs_min_*.asc\nProfundidade (m) da superfície crítica (onde ocorre o FS mínimo)\n\n\nTRp_at_fs_min_*.asc\nPoro-pressão (m de coluna d’água) na profundidade crítica\n\n\nTRwater_depth_*.asc\nProfundidade simulada do lençol freático\n\n\nTRrunoffPer*.asc, TRinfilratPer*.asc\nRunoff e taxa de infiltração por período de chuva\n\n\nTRlist_z_p_fs_tutorial.txt\nListagem detalhada Z–P–FS por célula (perfis verticais)\n\n\nTrigrsLog.txt\nLog da rodada — sempre conferir avisos e balanço de massa\n\n\n\nE em exemplo_01\\data\\, os arquivos TI* do TopoIndex (índices de células, listas de receptores de runoff e pesos).\n\n\n\n\n\n\nDica\n\n\n\nOs rasters .asc abrem direto no QGIS (arrastar e soltar) — ou no R, como faremos no próximo capítulo.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Primeira rodada</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Primeira rodada</span>"
     ]
   },
   {
-    "objectID": "05-resultados-r.html",
-    "href": "05-resultados-r.html",
-    "title": "5  Visualizando os resultados no R",
+    "objectID": "06-resultados-r.html",
+    "href": "06-resultados-r.html",
+    "title": "6  Visualizando os resultados no R",
     "section": "",
-    "text": "5.1 Entrada: topografia e zonas\ndem   &lt;- rast(\"exemplo_01/data/dem.asc\")\nslope &lt;- rast(\"exemplo_01/data/slope.asc\")\nzones &lt;- rast(\"exemplo_01/data/zones.asc\")\n\npar(mfrow = c(1, 3))\nplot(dem,   main = \"MDE (m)\",             col = terrain.colors(25))\nplot(slope, main = \"Declividade (graus)\", col = hcl.colors(25, \"YlOrRd\", rev = TRUE))\nplot(as.factor(zones), main = \"Zonas de propriedades\")",
+    "text": "6.1 Entrada: topografia e zonas\ndem   &lt;- rast(\"exemplo_01/data/dem.asc\")\nslope &lt;- rast(\"exemplo_01/data/slope.asc\")\nzones &lt;- rast(\"exemplo_01/data/zones.asc\")\n\npar(mfrow = c(1, 3))\nplot(dem,   main = \"MDE (m)\",             col = terrain.colors(25))\nplot(slope, main = \"Declividade (graus)\", col = hcl.colors(25, \"YlOrRd\", rev = TRUE))\nplot(as.factor(zones), main = \"Zonas de propriedades\")",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
     ]
   },
   {
-    "objectID": "05-resultados-r.html#fator-de-segurança-ao-longo-da-chuva",
-    "href": "05-resultados-r.html#fator-de-segurança-ao-longo-da-chuva",
-    "title": "5  Visualizando os resultados no R",
-    "section": "5.2 Fator de segurança ao longo da chuva",
-    "text": "5.2 Fator de segurança ao longo da chuva\n\nfs48 &lt;- rast(\"exemplo_01/Resultados/TRfs_min_tutorial_1.asc\")  # t = 48 h\nfs60 &lt;- rast(\"exemplo_01/Resultados/TRfs_min_tutorial_2.asc\")  # t = 60 h\n\n# FS é truncado em 10 pelo TRIGRS (células estáveis); limitamos a escala p/ leitura\nbrks &lt;- c(0, 0.8, 1.0, 1.2, 1.5, 2, 3, 10)\ncols &lt;- hcl.colors(length(brks) - 1, \"RdYlGn\")\n\npar(mfrow = c(1, 2))\nplot(fs48, main = \"FS mínimo — 48 h\", breaks = brks, col = cols)\nplot(fs60, main = \"FS mínimo — 60 h (fim da chuva)\", breaks = brks, col = cols)\n\n\n\n\n\n\n\n\nCélulas com FS &lt; 1 (vermelho) são previstas como instáveis. Compare os dois tempos: nas primeiras 48 h (chuva fraca) praticamente tudo está estável; nas 12 h finais, com a tempestade, a infiltração eleva a poro-pressão e o FS despenca nas células mais íngremes.",
+    "objectID": "06-resultados-r.html#fator-de-segurança-ao-longo-da-chuva",
+    "href": "06-resultados-r.html#fator-de-segurança-ao-longo-da-chuva",
+    "title": "6  Visualizando os resultados no R",
+    "section": "6.2 Fator de segurança ao longo da chuva",
+    "text": "6.2 Fator de segurança ao longo da chuva\n\nfs48 &lt;- rast(\"exemplo_01/Resultados/TRfs_min_tutorial_1.asc\")  # t = 48 h\nfs60 &lt;- rast(\"exemplo_01/Resultados/TRfs_min_tutorial_2.asc\")  # t = 60 h\n\n# FS é truncado em 10 pelo TRIGRS (células estáveis); limitamos a escala p/ leitura\nbrks &lt;- c(0, 0.8, 1.0, 1.2, 1.5, 2, 3, 10)\ncols &lt;- hcl.colors(length(brks) - 1, \"RdYlGn\")\n\npar(mfrow = c(1, 2))\nplot(fs48, main = \"FS mínimo — 48 h\", breaks = brks, col = cols)\nplot(fs60, main = \"FS mínimo — 60 h (fim da chuva)\", breaks = brks, col = cols)\n\n\n\n\n\n\n\n\nCélulas com FS &lt; 1 (vermelho) são previstas como instáveis. Compare os dois tempos: nas primeiras 48 h (chuva fraca) praticamente tudo está estável; nas 12 h finais, com a tempestade, a infiltração eleva a poro-pressão e o FS despenca nas células mais íngremes.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
     ]
   },
   {
-    "objectID": "05-resultados-r.html#onde-e-a-que-profundidade-romperia",
-    "href": "05-resultados-r.html#onde-e-a-que-profundidade-romperia",
-    "title": "5  Visualizando os resultados no R",
-    "section": "5.3 Onde e a que profundidade romperia?",
-    "text": "5.3 Onde e a que profundidade romperia?\n\nzfs &lt;- rast(\"exemplo_01/Resultados/TRz_at_fs_min_tutorial_2.asc\")\npfs &lt;- rast(\"exemplo_01/Resultados/TRp_at_fs_min_tutorial_2.asc\")\n\npar(mfrow = c(1, 2))\nplot(zfs, main = \"Profundidade do FS mínimo (m)\",\n     col = hcl.colors(25, \"Blues\", rev = TRUE))\nplot(pfs, main = \"Poro-pressão na prof. crítica (m)\",\n     col = hcl.colors(25, \"PuBuGn\", rev = TRUE))",
+    "objectID": "06-resultados-r.html#onde-e-a-que-profundidade-romperia",
+    "href": "06-resultados-r.html#onde-e-a-que-profundidade-romperia",
+    "title": "6  Visualizando os resultados no R",
+    "section": "6.3 Onde e a que profundidade romperia?",
+    "text": "6.3 Onde e a que profundidade romperia?\n\nzfs &lt;- rast(\"exemplo_01/Resultados/TRz_at_fs_min_tutorial_2.asc\")\npfs &lt;- rast(\"exemplo_01/Resultados/TRp_at_fs_min_tutorial_2.asc\")\n\npar(mfrow = c(1, 2))\nplot(zfs, main = \"Profundidade do FS mínimo (m)\",\n     col = hcl.colors(25, \"Blues\", rev = TRUE))\nplot(pfs, main = \"Poro-pressão na prof. crítica (m)\",\n     col = hcl.colors(25, \"PuBuGn\", rev = TRUE))",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
     ]
   },
   {
-    "objectID": "05-resultados-r.html#quantificando-da-instabilidade-ao-volume",
-    "href": "05-resultados-r.html#quantificando-da-instabilidade-ao-volume",
-    "title": "5  Visualizando os resultados no R",
-    "section": "5.4 Quantificando: da instabilidade ao volume",
-    "text": "5.4 Quantificando: da instabilidade ao volume\n\ninst &lt;- fs60 &lt; 1\nn_inst &lt;- global(inst, \"sum\", na.rm = TRUE)[1, 1]\narea_celula &lt;- prod(res(fs60))                       # m² por célula\nz_medio &lt;- global(mask(zfs, inst, maskvalues = 0), \"mean\", na.rm = TRUE)[1, 1]\n\ndata.frame(\n  celulas_instaveis     = n_inst,\n  area_instavel_m2      = n_inst * area_celula,\n  prof_media_ruptura_m  = round(z_medio, 2),\n  volume_mobilizavel_m3 = round(n_inst * area_celula * z_medio, 1)\n)\n\n  celulas_instaveis area_instavel_m2 prof_media_ruptura_m volume_mobilizavel_m3\n1                16             1600                 1.74                  2790\n\n\nEsse último número — área instável × profundidade de ruptura — é a ponte entre o TRIGRS e a estimativa de volume de fluxo de detritos. Na metodologia GIDES/JICA, o volume de sedimentos do plano é o menor entre o volume potencial gerável na bacia (Vdy1, com a parcela Vdy12 vinda de rupturas de encostas) e o volume transportável pela chuva de projeto (Vdy2, função da precipitação máxima diária Pd). A proposta da pesquisa é usar o TRIGRS para estimar fisicamente essa parcela — e, como a chuva entra explicitamente no modelo, avaliar cenários de mudança climática. Este será o tema das próximas partes do minicurso.",
+    "objectID": "06-resultados-r.html#quantificando-da-instabilidade-ao-volume",
+    "href": "06-resultados-r.html#quantificando-da-instabilidade-ao-volume",
+    "title": "6  Visualizando os resultados no R",
+    "section": "6.4 Quantificando: da instabilidade ao volume",
+    "text": "6.4 Quantificando: da instabilidade ao volume\n\ninst &lt;- fs60 &lt; 1\nn_inst &lt;- global(inst, \"sum\", na.rm = TRUE)[1, 1]\narea_celula &lt;- prod(res(fs60))                       # m² por célula\nz_medio &lt;- global(mask(zfs, inst, maskvalues = 0), \"mean\", na.rm = TRUE)[1, 1]\n\ndata.frame(\n  celulas_instaveis     = n_inst,\n  area_instavel_m2      = n_inst * area_celula,\n  prof_media_ruptura_m  = round(z_medio, 2),\n  volume_mobilizavel_m3 = round(n_inst * area_celula * z_medio, 1)\n)\n\n  celulas_instaveis area_instavel_m2 prof_media_ruptura_m volume_mobilizavel_m3\n1                16             1600                 1.74                  2790\n\n\nEsse último número — área instável × profundidade de ruptura — é a ponte entre o TRIGRS e a estimativa de volume de fluxo de detritos. Na metodologia GIDES/JICA, o volume de sedimentos do plano é o menor entre o volume potencial gerável na bacia (Vdy1, com a parcela Vdy12 vinda de rupturas de encostas) e o volume transportável pela chuva de projeto (Vdy2, função da precipitação máxima diária Pd). A proposta da pesquisa é usar o TRIGRS para estimar fisicamente essa parcela — e, como a chuva entra explicitamente no modelo, avaliar cenários de mudança climática. Este será o tema das próximas partes do minicurso.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizando os resultados no R</span>"
     ]
   },
   {
@@ -331,7 +401,7 @@
     "href": "referencias.html#trigrs-documentação-oficial",
     "title": "Referências",
     "section": "",
-    "text": "Baum, R.L., Savage, W.Z. & Godt, J.W. (2008). TRIGRS — A Fortran program for transient rainfall infiltration and grid-based regional slope-stability analysis, version 2.0. U.S. Geological Survey Open-File Report 2008-1159, 75 p.\nBaum, R.L., Godt, J.W. & Savage, W.Z. (2010). Estimating the timing and location of shallow rainfall-induced landslides using a model for transient, unsaturated infiltration. Journal of Geophysical Research, 115, F03013. doi:10.1029/2009JF001321\nAlvioli, M. & Baum, R.L. (2016). Parallelization of the TRIGRS model for rainfall-induced landslides using the message passing interface. Environmental Modelling & Software, 81, 122–135.\nCódigo-fonte oficial: https://code.usgs.gov/usgs/landslides-trigrs",
+    "text": "Baum, R.L., Savage, W.Z. & Godt, J.W. (2008). TRIGRS — A Fortran program for transient rainfall infiltration and grid-based regional slope-stability analysis, version 2.0. U.S. Geological Survey Open-File Report 2008-1159, 75 p.\nBaum, R.L., Godt, J.W. & Savage, W.Z. (2010). Estimating the timing and location of shallow rainfall-induced landslides using a model for transient, unsaturated infiltration. Journal of Geophysical Research, 115, F03013. doi:10.1029/2009JF001321\nAlvioli, M. & Baum, R.L. (2016). Parallelization of the TRIGRS model for rainfall-induced landslides using the message passing interface. Environmental Modelling & Software, 81, 122–135.\nIverson, R.M. (2000). Landslide triggering by rain infiltration. Water Resources Research, 36(7), 1897–1910.\nCódigo-fonte oficial: https://code.usgs.gov/usgs/landslides-trigrs",
     "crumbs": [
       "Apêndices",
       "Referências"

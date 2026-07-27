@@ -11,6 +11,8 @@
 - Alvioli, M. & Baum, R.L. (2016). Parallelization of the TRIGRS model for rainfall-induced
   landslides using the message passing interface. *Environmental Modelling & Software*, 81,
   122–135.
+- Iverson, R.M. (2000). Landslide triggering by rain infiltration. *Water Resources
+  Research*, 36(7), 1897–1910.
 - Código-fonte oficial: <https://code.usgs.gov/usgs/landslides-trigrs>
 
 ## Aplicações do TRIGRS

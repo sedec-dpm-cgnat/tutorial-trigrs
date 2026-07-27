@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Instalação do gfortran – Minicurso TRIGRS</title>
+<title>5&nbsp; Primeira rodada – Minicurso TRIGRS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-compilacao.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./06-resultados-r.html" rel="next">
+<link href="./04-exemplo.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-instalacao.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-rodando.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -154,32 +154,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-instalacao.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span></a>
+  <a href="./01-teoria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visão teórica: como o TRIGRS “pensa”</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-compilacao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span></a>
+  <a href="./02-instalacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-exemplo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span></a>
+  <a href="./03-compilacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-rodando.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span></a>
+  <a href="./04-exemplo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-resultados-r.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span></a>
+  <a href="./05-rodando.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-resultados-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -221,18 +227,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#baixar-e-instalar" id="toc-baixar-e-instalar" class="nav-link active" data-scroll-target="#baixar-e-instalar"><span class="header-section-number">1.1</span> Baixar e instalar</a></li>
-  <li><a href="#conferir-a-instalação" id="toc-conferir-a-instalação" class="nav-link" data-scroll-target="#conferir-a-instalação"><span class="header-section-number">1.2</span> Conferir a instalação</a></li>
-  <li><a href="#por-que-não-usar-os-executáveis-prontos-do-usgs" id="toc-por-que-não-usar-os-executáveis-prontos-do-usgs" class="nav-link" data-scroll-target="#por-que-não-usar-os-executáveis-prontos-do-usgs"><span class="header-section-number">1.3</span> Por que não usar os executáveis prontos do USGS?</a></li>
+  <li><a href="#preparação" id="toc-preparação" class="nav-link active" data-scroll-target="#preparação"><span class="header-section-number">5.1</span> Preparação</a></li>
+  <li><a href="#rodar" id="toc-rodar" class="nav-link" data-scroll-target="#rodar"><span class="header-section-number">5.2</span> Rodar</a></li>
+  <li><a href="#o-que-foi-gerado" id="toc-o-que-foi-gerado" class="nav-link" data-scroll-target="#o-que-foi-gerado"><span class="header-section-number">5.3</span> O que foi gerado</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/01-instalacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/05-rodando.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></h1>
 </div>
 
 
@@ -249,37 +255,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>O TRIGRS é escrito em <strong>Fortran</strong> e distribuído como <strong>código-fonte</strong> — o primeiro passo é instalar um compilador. Usaremos o <strong>gfortran</strong> (gratuito, parte do GCC).</p>
-<section id="baixar-e-instalar" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="baixar-e-instalar"><span class="header-section-number">1.1</span> Baixar e instalar</h2>
+<section id="preparação" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="preparação"><span class="header-section-number">5.1</span> Preparação</h2>
 <ol type="1">
-<li>Baixe o instalador de <strong>64 bits</strong> em <a href="https://www.equation.com/servlet/equation.cmd?fa=fortran" class="uri">https://www.equation.com/servlet/equation.cmd?fa=fortran</a> (ex.: <code>gcc-14.2.0-64.exe</code>).</li>
-<li>Execute o instalador e aceite o local padrão sugerido (ex.: <code>C:\Users\SEU_USUARIO\gcc</code>). O instalador adiciona o compilador ao PATH do Windows automaticamente.</li>
+<li>Clone (ou baixe) este repositório.</li>
+<li>Copie para dentro da pasta <code>exemplo_01\</code> os executáveis <code>topoindex.exe</code> e <code>trigrs.exe</code> compilados no capítulo anterior.</li>
+<li>Confira que a pasta <code>exemplo_01\Resultados\</code> existe.</li>
 </ol>
 </section>
-<section id="conferir-a-instalação" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="conferir-a-instalação"><span class="header-section-number">1.2</span> Conferir a instalação</h2>
-<p>Feche qualquer PowerShell aberto, abra <strong>um novo</strong> e digite:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">--</span>version</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A resposta esperada é algo como:</p>
-<pre><code>GNU Fortran (GCC) 14.2.0</code></pre>
-<div class="callout callout-style-default callout-warning callout-titled">
+<section id="rodar" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="rodar"><span class="header-section-number">5.2</span> Rodar</h2>
+<p>Abra o PowerShell <strong>na pasta <code>exemplo_01\</code></strong> e execute os dois programas, nesta ordem:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\topoindex<span class="op">.</span><span class="fu">exe</span>    <span class="co"># lê tpx_in.txt -&gt; gera data\TI*_tutorial.*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\trigrs<span class="op">.</span><span class="fu">exe</span>       <span class="co"># lê tr_in.txt  -&gt; gera Resultados\TR*.asc</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>O <strong>TopoIndex</strong> roda primeiro: ele define a ordem de cálculo do escoamento superficial (D8), os pesos de distribuição do runoff e o tamanho das matrizes que o TRIGRS vai alocar. A saída esperada termina com:</p>
+<pre><code> No grid mismatch found!
+ Correcting cell index numbers
+ Computing weighting factors
+ Saving results to disk</code></pre>
+<p>O <strong>TRIGRS</strong> então faz a infiltração transiente e a estabilidade. A saída esperada termina com:</p>
+<pre><code> Saving results
+ TRIGRS finished!</code></pre>
+</section>
+<section id="o-que-foi-gerado" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="o-que-foi-gerado"><span class="header-section-number">5.3</span> O que foi gerado</h2>
+<p>Em <code>exemplo_01\Resultados\</code>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Arquivo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>TRfs_min_tutorial_1.asc</code>, <code>_2.asc</code></td>
+<td><strong>FS mínimo</strong> por célula nos tempos de saída (48 h e 60 h)</td>
+</tr>
+<tr class="even">
+<td><code>TRz_at_fs_min_*.asc</code></td>
+<td>Profundidade (m) da superfície crítica (onde ocorre o FS mínimo)</td>
+</tr>
+<tr class="odd">
+<td><code>TRp_at_fs_min_*.asc</code></td>
+<td>Poro-pressão (m de coluna d’água) na profundidade crítica</td>
+</tr>
+<tr class="even">
+<td><code>TRwater_depth_*.asc</code></td>
+<td>Profundidade simulada do lençol freático</td>
+</tr>
+<tr class="odd">
+<td><code>TRrunoffPer*.asc</code>, <code>TRinfilratPer*.asc</code></td>
+<td>Runoff e taxa de infiltração por período de chuva</td>
+</tr>
+<tr class="even">
+<td><code>TRlist_z_p_fs_tutorial.txt</code></td>
+<td>Listagem detalhada Z–P–FS por célula (perfis verticais)</td>
+</tr>
+<tr class="odd">
+<td><code>TrigrsLog.txt</code></td>
+<td>Log da rodada — <strong>sempre conferir</strong> avisos e balanço de massa</td>
+</tr>
+</tbody>
+</table>
+<p>E em <code>exemplo_01\data\</code>, os arquivos <code>TI*</code> do TopoIndex (índices de células, listas de receptores de runoff e pesos).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Se o comando não for reconhecido
+Dica
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O PATH só é atualizado em janelas novas do PowerShell. Se mesmo em uma janela nova não funcionar, verifique se a pasta <code>bin</code> da instalação (ex.: <code>C:\Users\SEU_USUARIO\gcc\bin</code>) está na variável de ambiente PATH (Configurações → Sistema → Variáveis de ambiente).</p>
+<p>Os rasters <code>.asc</code> abrem direto no <strong>QGIS</strong> (arrastar e soltar) — ou no R, como faremos no próximo capítulo.</p>
 </div>
 </div>
-</section>
-<section id="por-que-não-usar-os-executáveis-prontos-do-usgs" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="por-que-não-usar-os-executáveis-prontos-do-usgs"><span class="header-section-number">1.3</span> Por que não usar os executáveis prontos do USGS?</h2>
-<p>O USGS distribui binários de Windows (<code>TRIGRS_2.1_Win64.zip</code>), mas eles foram compilados sob <strong>Cygwin</strong> e dependem da biblioteca <code>cygwin1.dll</code>. Em uma máquina sem Cygwin o programa <strong>não abre e não mostra erro nenhum</strong> — o Windows retorna silenciosamente o código <code>0xC0000135</code> (DLL não encontrada). Foi exatamente esse o problema que travou nossas primeiras tentativas. Compilando nós mesmos com a opção <code>-static</code> (próximo capítulo), o executável fica autossuficiente e roda em qualquer Windows 64 bits.</p>
 
 
 </section>
@@ -707,13 +763,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Apresentação">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Apresentação</span>
+      <a href="./04-exemplo.html" class="pagination-link" aria-label="O exemplo tutorial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-compilacao.html" class="pagination-link" aria-label="Baixar e compilar o TRIGRS">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./06-resultados-r.html" class="pagination-link" aria-label="Visualizando os resultados no R">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -725,7 +781,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/01-instalacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/05-rodando.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Feito com <a href="https://quarto.org">Quarto</a></p>
 </div>

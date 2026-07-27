@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Érico de Castro Borges (mestrando — Programa de Mestrado Profissional em Defesa e Segurança Civil/UFF)">
-<meta name="author" content="Cássio Guilherme Rampinelli, PhD (co-orientador)">
-<meta name="author" content="Prof.&nbsp;Marcos Barreto de Mendonça, PhD (orientador)">
 
-<title>Minicurso TRIGRS</title>
+<title>3&nbsp; Baixar e compilar o TRIGRS – Minicurso TRIGRS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -33,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-teoria.html" rel="next">
+<link href="./04-exemplo.html" rel="next">
+<link href="./02-instalacao.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -83,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Apresentação</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-compilacao.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -116,7 +148,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Apresentação</span></a>
   </div>
 </li>
@@ -134,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-compilacao.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-compilacao.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span></a>
   </div>
 </li>
@@ -195,44 +227,25 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#apresentação" id="toc-apresentação" class="nav-link active" data-scroll-target="#apresentação">Apresentação</a>
-  <ul class="collapse">
-  <li><a href="#equipe" id="toc-equipe" class="nav-link" data-scroll-target="#equipe">Equipe</a></li>
-  <li><a href="#como-este-minicurso-funciona" id="toc-como-este-minicurso-funciona" class="nav-link" data-scroll-target="#como-este-minicurso-funciona">Como este minicurso funciona</a></li>
-  <li><a href="#parte-1-o-essencial-disponível" id="toc-parte-1-o-essencial-disponível" class="nav-link" data-scroll-target="#parte-1-o-essencial-disponível">Parte 1 — O essencial (disponível)</a></li>
-  <li><a href="#próximas-partes-em-construção" id="toc-próximas-partes-em-construção" class="nav-link" data-scroll-target="#próximas-partes-em-construção">Próximas partes (em construção)</a></li>
-  </ul></li>
+  <li><a href="#baixar-o-código-fonte" id="toc-baixar-o-código-fonte" class="nav-link active" data-scroll-target="#baixar-o-código-fonte"><span class="header-section-number">3.1</span> Baixar o código-fonte</a></li>
+  <li><a href="#compilar" id="toc-compilar" class="nav-link" data-scroll-target="#compilar"><span class="header-section-number">3.2</span> Compilar</a></li>
+  <li><a href="#significado-das-opções-de-compilação" id="toc-significado-das-opções-de-compilação" class="nav-link" data-scroll-target="#significado-das-opções-de-compilação"><span class="header-section-number">3.3</span> Significado das opções de compilação</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/03-compilacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Minicurso TRIGRS</h1>
-<p class="subtitle lead">Mapeamento de estabilidade de encostas deflagradas por chuva — do zero à aplicação</p>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Autores</div>
-    <div class="quarto-title-meta-contents">
-             <p>Érico de Castro Borges (mestrando — Programa de Mestrado Profissional em Defesa e Segurança Civil/UFF) </p>
-             <p>Cássio Guilherme Rampinelli, PhD (co-orientador) </p>
-             <p>Prof.&nbsp;Marcos Barreto de Mendonça, PhD (orientador) </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Data de Publicação</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">27/07/2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -242,113 +255,113 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="apresentação" class="level1 unnumbered">
-<h1 class="unnumbered">Apresentação</h1>
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout-ncol="3">
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img src="logos/DPM-Circular.png" class="img-fluid" alt="Logo do Departamento de Prevenção e Mitigação de Desastres"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img src="logos/logo_marca_sedec.png" class="img-fluid" alt="Selo Proteção e Defesa Civil Brasil"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img src="logos/UFF.png" class="img-fluid" alt="Brasão da Universidade Federal Fluminense"></p>
-</div>
-</div>
-</div>
-<p>Este minicurso documenta, <strong>passo a passo e com todo o histórico versionado no GitHub</strong>, a aplicação do modelo <strong>TRIGRS</strong> (<em>Transient Rainfall Infiltration and Grid-based Regional Slope-Stability Analysis</em>, USGS) para mapeamento de estabilidade de encostas deflagradas por chuva — da instalação do compilador à aplicação em uma bacia real.</p>
-<p>O material nasce da pesquisa de mestrado de <strong>Érico de Castro Borges</strong>, desenvolvida no <strong>Programa de Mestrado Profissional em Defesa e Segurança Civil</strong>, cujo objetivo é acoplar os resultados do TRIGRS à estimativa de <strong>volumes de fluxo de detritos</strong> da metodologia <strong>GIDES/JICA</strong> (volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas (Nova Friburgo/RJ, megadesastre de janeiro/2011) e incorporação de cenários de <strong>mudança climática</strong> na chuva de projeto.</p>
-<section id="equipe" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="equipe">Equipe</h2>
+<section id="baixar-o-código-fonte" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="baixar-o-código-fonte"><span class="header-section-number">3.1</span> Baixar o código-fonte</h2>
+<p>Baixe a release oficial <strong>2.1.0</strong> no GitLab do USGS: <a href="https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0" class="uri">https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0</a></p>
+<p>Extraia o <code>.zip</code> para uma pasta de trabalho, por exemplo <code>C:\TRIGRS\landslides-trigrs-2.1.0\</code>. A pasta <code>src\</code> contém quatro programas:</p>
 <table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><strong>Mestrando</strong></td>
-<td>Érico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF)</td>
-</tr>
-<tr class="even">
-<td><strong>Co-orientador</strong></td>
-<td><a href="https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4104421U3">Cássio Guilherme Rampinelli, PhD</a> (DPM/SEDEC/MIDR)</td>
-</tr>
-<tr class="odd">
-<td><strong>Orientador</strong></td>
-<td><a href="http://lattes.cnpq.br/9219077334380862">Prof.&nbsp;Marcos Barreto de Mendonça, PhD</a></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="como-este-minicurso-funciona" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="como-este-minicurso-funciona">Como este minicurso funciona</h2>
-<ul>
-<li>Cada etapa vencida vira um <strong>capítulo</strong> neste site (um arquivo <code>.qmd</code> no repositório).</li>
-<li>O histórico completo — acertos, erros e correções — fica registrado nos <em>commits</em> do repositório: <a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs" class="uri">https://github.com/sedec-dpm-cgnat/tutorial-trigrs</a>.</li>
-<li>Qualquer pessoa pode reproduzir os passos: os dados do exemplo e os arquivos de configuração corrigidos estão na pasta <a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/tree/main/exemplo_01"><code>exemplo_01/</code></a>.</li>
-</ul>
-</section>
-<section id="parte-1-o-essencial-disponível" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="parte-1-o-essencial-disponível">Parte 1 — O essencial (disponível)</h2>
-<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Capítulo</th>
-<th>Conteúdo</th>
+<th>Programa</th>
+<th>Função</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="./01-teoria.html">Visão teórica</a></td>
-<td>Como o TRIGRS “pensa”: talude infinito, infiltração transiente e o fluxograma geral da metodologia</td>
+<td><code>TRIGRS</code></td>
+<td>Modelo principal: infiltração transiente + fator de segurança</td>
 </tr>
 <tr class="even">
-<td><a href="./02-instalacao.html">Instalação</a></td>
-<td>Instalar o compilador gfortran no Windows</td>
+<td><code>TopoIndex</code></td>
+<td>Pré-processador topográfico: roteamento do runoff e dimensionamento das matrizes</td>
 </tr>
 <tr class="odd">
-<td><a href="./03-compilacao.html">Compilação</a></td>
-<td>Baixar o código-fonte oficial e compilar o TRIGRS 2.1</td>
+<td><code>GridMatch</code></td>
+<td>Verifica se as grades de entrada são congruentes entre si</td>
 </tr>
 <tr class="even">
-<td><a href="./04-exemplo.html">O exemplo tutorial</a></td>
-<td>Anatomia dos arquivos de entrada (grades, unidades, inicialização)</td>
-</tr>
-<tr class="odd">
-<td><a href="./05-rodando.html">Primeira rodada</a></td>
-<td>Rodar TopoIndex e TRIGRS no exemplo oficial do USGS</td>
-</tr>
-<tr class="even">
-<td><a href="./06-resultados-r.html">Resultados no R</a></td>
-<td>Visualizar e interpretar FS, profundidade de ruptura e volumes</td>
+<td><code>UnitConvert</code></td>
+<td>Conversão de unidades das grades</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="próximas-partes-em-construção" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="próximas-partes-em-construção">Próximas partes (em construção)</h2>
-<ul>
-<li><strong>Parte 2 — Bacia real:</strong> preparação das grades no QGIS para a bacia do Hospital São Lucas (Nova Friburgo/RJ), calibração com o inventário de cicatrizes de 2011.</li>
-<li><strong>Parte 3 — Volumes de fluxo de detritos:</strong> acoplamento TRIGRS → Vdy2 (metodologia GIDES/JICA).</li>
-<li><strong>Parte 4 — Mudança climática:</strong> chuvas de projeto sob cenários CMIP6 e efeito nos volumes.</li>
-</ul>
+<section id="compilar" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="compilar"><span class="header-section-number">3.2</span> Compilar</h2>
+<p>Abra o PowerShell <strong>na pasta <code>src\</code></strong> do código-fonte extraído e execute os quatro blocos abaixo. A ordem dos arquivos <strong>importa</strong> (módulos primeiro) — copie e cole exatamente:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TopoIndex</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o topoindex<span class="op">.</span><span class="fu">exe</span> TopoIndex\ssizgrd<span class="op">.</span><span class="fu">f95</span> TopoIndex\tpindx<span class="op">.</span><span class="fu">f90</span> `</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  TopoIndex\nxtcel<span class="op">.</span><span class="fu">f90</span> TopoIndex\isvgrd<span class="op">.</span><span class="fu">f</span> TopoIndex\mpfldr<span class="op">.</span><span class="fu">f</span> TopoIndex\rdflodir<span class="op">.</span><span class="fu">f</span> `</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  TopoIndex\sindex<span class="op">.</span><span class="fu">f</span> TopoIndex\slofac<span class="op">.</span><span class="fu">f</span> TopoIndex\srdgrd1<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TRIGRS (versão serial — resolve bacias pequenas e médias em segundos)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o trigrs<span class="op">.</span><span class="fu">exe</span> TRIGRS\grids<span class="op">.</span><span class="fu">f95</span> TRIGRS\input_file_defs<span class="op">.</span><span class="fu">f95</span> `</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  TRIGRS\input_vars<span class="op">.</span><span class="fu">f95</span> TRIGRS\model_vars<span class="op">.</span><span class="fu">f95</span> TRIGRS\dsimps<span class="op">.</span><span class="fu">f95</span> TRIGRS\iverson<span class="op">.</span><span class="fu">f95</span> `</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  TRIGRS\pstpi<span class="op">.</span><span class="fu">f95</span> TRIGRS\satfin<span class="op">.</span><span class="fu">f95</span> TRIGRS\savage<span class="op">.</span><span class="fu">f95</span> TRIGRS\steady<span class="op">.</span><span class="fu">f95</span> TRIGRS\trini<span class="op">.</span><span class="fu">f95</span> `</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  TRIGRS\unsinf<span class="op">.</span><span class="fu">f95</span> TRIGRS\ivestp<span class="op">.</span><span class="fu">f95</span> TRIGRS\pstpf<span class="op">.</span><span class="fu">f95</span> TRIGRS\rnoff<span class="op">.</span><span class="fu">f95</span> TRIGRS\satinf<span class="op">.</span><span class="fu">f95</span> `</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  TRIGRS\smallt<span class="op">.</span><span class="fu">f95</span> TRIGRS\svgstp<span class="op">.</span><span class="fu">f95</span> TRIGRS\unsfin<span class="op">.</span><span class="fu">f95</span> TRIGRS\unsth<span class="op">.</span><span class="fu">f95</span> TRIGRS\ssizgrd<span class="op">.</span><span class="fu">f95</span> `</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  TRIGRS\svlist<span class="op">.</span><span class="fu">f95</span> TRIGRS\trigrs<span class="op">.</span><span class="fu">f90</span> TRIGRS\flux<span class="op">.</span><span class="fu">f90</span> TRIGRS\prpijz<span class="op">.</span><span class="fu">f90</span> TRIGRS\svxmdv<span class="op">.</span><span class="fu">f90</span> `</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  TRIGRS\svijz<span class="op">.</span><span class="fu">f90</span> TRIGRS\dzero_brac<span class="op">.</span><span class="fu">f90</span> TRIGRS\calerf<span class="op">.</span><span class="fu">f</span> TRIGRS\dbsct<span class="op">.</span><span class="fu">f</span> TRIGRS\derfc<span class="op">.</span><span class="fu">f</span> `</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  TRIGRS\irdgrd<span class="op">.</span><span class="fu">f</span> TRIGRS\irdswm<span class="op">.</span><span class="fu">f</span> TRIGRS\isvgrd<span class="op">.</span><span class="fu">f</span> TRIGRS\roots<span class="op">.</span><span class="fu">f</span> TRIGRS\srdgrd<span class="op">.</span><span class="fu">f</span> `</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  TRIGRS\srdswm<span class="op">.</span><span class="fu">f</span> TRIGRS\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GridMatch</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o gridmatch<span class="op">.</span><span class="fu">exe</span> GridMatch\ssizgrd<span class="op">.</span><span class="fu">f95</span> GridMatch\gridmatch<span class="op">.</span><span class="fu">f90</span> `</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  GridMatch\srdgrd<span class="op">.</span><span class="fu">f</span> GridMatch\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UnitConvert (este precisa da flag -fdec por causa de um formato Fortran antigo no código)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>fdec <span class="op">-</span>o unitconvert<span class="op">.</span><span class="fu">exe</span> UnitConvert\unitconvert<span class="op">.</span><span class="fu">f90</span> `</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  UnitConvert\srdgrd<span class="op">.</span><span class="fu">f</span> UnitConvert\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ao final, a pasta <code>src\</code> terá <code>topoindex.exe</code>, <code>trigrs.exe</code>, <code>gridmatch.exe</code> e <code>unitconvert.exe</code>. Guarde-os em uma pasta <code>bin\</code> — eles serão copiados para a pasta de cada projeto/rodada.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Sobre o TRIGRS
+Sobre a versão paralela
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O TRIGRS é um programa de domínio público do <em>U.S. Geological Survey</em> que resolve a infiltração transiente da chuva (soluções analíticas 1-D, saturado/não saturado) e calcula o <strong>Fator de Segurança</strong> de talude infinito célula a célula de uma grade raster, ao longo do tempo de uma chuva. Referências completas no <a href="./referencias.html">apêndice</a>.</p>
+<p>O <code>Makefile</code> que acompanha o código usa <code>mpif90</code> (MPI) e também compila uma versão paralela (<code>trigrs_p</code>), útil para áreas muito grandes. Para este minicurso ela <strong>não é necessária</strong> — a versão serial acima é suficiente.</p>
 </div>
 </div>
-
-
 </section>
+<section id="significado-das-opções-de-compilação" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="significado-das-opções-de-compilação"><span class="header-section-number">3.3</span> Significado das opções de compilação</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Opção</th>
+<th>Efeito</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-O2</code></td>
+<td>Otimização (código mais rápido)</td>
+</tr>
+<tr class="even">
+<td><code>-w</code></td>
+<td>Suprime avisos de estilo do código antigo (inofensivos)</td>
+</tr>
+<tr class="odd">
+<td><code>-static</code></td>
+<td>Embute as bibliotecas no executável — <strong>é o que evita o problema da DLL</strong></td>
+</tr>
+<tr class="even">
+<td><code>-fdec</code></td>
+<td>Aceita extensões DEC antigas (necessário só no UnitConvert)</td>
+</tr>
+</tbody>
+</table>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -774,10 +787,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./02-instalacao.html" class="pagination-link" aria-label="Instalação do gfortran">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-teoria.html" class="pagination-link" aria-label="Visão teórica: como o TRIGRS &quot;pensa&quot;">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visão teórica: como o TRIGRS “pensa”</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-exemplo.html" class="pagination-link" aria-label="O exemplo tutorial">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -789,7 +805,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/03-compilacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Feito com <a href="https://quarto.org">Quarto</a></p>
 </div>

@@ -25,8 +25,8 @@ os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da met
 | | |
 |---|---|
 | **Mestrando** | Érico de Castro Borges — Programa de Mestrado Profissional em Defesa e Segurança Civil (UFF) |
-| **Orientador** | [Prof. Marcos Barreto de Mendonça, PhD](https://buscatextual.cnpq.br/buscatextual/visualizacv.do;jsessionid=507BC3D109DF78AA7B412561234DBAF3.buscatextual_0) |
 | **Co-orientador** | [Cássio Guilherme Rampinelli, PhD](https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4104421U3) (DPM/SEDEC/MIDR) |
+| **Orientador** | [Prof. Marcos Barreto de Mendonça, PhD](http://lattes.cnpq.br/9219077334380862) |
 
 ## Como este minicurso funciona {.unnumbered}
 
@@ -40,11 +40,12 @@ os resultados do TRIGRS à estimativa de **volumes de fluxo de detritos** da met
 
 | Capítulo | Conteúdo |
 |---|---|
-| [Instalação](01-instalacao.qmd) | Instalar o compilador gfortran no Windows |
-| [Compilação](02-compilacao.qmd) | Baixar o código-fonte oficial e compilar o TRIGRS 2.1 |
-| [O exemplo tutorial](03-exemplo.qmd) | Anatomia dos arquivos de entrada (grades, unidades, inicialização) |
-| [Primeira rodada](04-rodando.qmd) | Rodar TopoIndex e TRIGRS no exemplo oficial do USGS |
-| [Resultados no R](05-resultados-r.qmd) | Visualizar e interpretar FS, profundidade de ruptura e volumes |
+| [Visão teórica](01-teoria.qmd) | Como o TRIGRS "pensa": talude infinito, infiltração transiente e o fluxograma geral da metodologia |
+| [Instalação](02-instalacao.qmd) | Instalar o compilador gfortran no Windows |
+| [Compilação](03-compilacao.qmd) | Baixar o código-fonte oficial e compilar o TRIGRS 2.1 |
+| [O exemplo tutorial](04-exemplo.qmd) | Anatomia dos arquivos de entrada (grades, unidades, inicialização) |
+| [Primeira rodada](05-rodando.qmd) | Rodar TopoIndex e TRIGRS no exemplo oficial do USGS |
+| [Resultados no R](06-resultados-r.qmd) | Visualizar e interpretar FS, profundidade de ruptura e volumes |
 
 ## Próximas partes (em construção) {.unnumbered}
 

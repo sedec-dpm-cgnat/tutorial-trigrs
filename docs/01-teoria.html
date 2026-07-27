@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Baixar e compilar o TRIGRS – Minicurso TRIGRS</title>
+<title>1&nbsp; Visão teórica: como o TRIGRS “pensa” – Minicurso TRIGRS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./03-exemplo.html" rel="next">
-<link href="./01-instalacao.html" rel="prev">
+<link href="./02-instalacao.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -102,7 +68,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Procurar"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -115,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-compilacao.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-teoria.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visão teórica: como o TRIGRS “pensa”</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -154,32 +152,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-instalacao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span></a>
+  <a href="./01-teoria.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visão teórica: como o TRIGRS “pensa”</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-compilacao.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span></a>
+  <a href="./02-instalacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-exemplo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span></a>
+  <a href="./03-compilacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-rodando.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span></a>
+  <a href="./04-exemplo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-resultados-r.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span></a>
+  <a href="./05-rodando.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Primeira rodada</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-resultados-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualizando os resultados no R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -221,18 +225,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#baixar-o-código-fonte" id="toc-baixar-o-código-fonte" class="nav-link active" data-scroll-target="#baixar-o-código-fonte"><span class="header-section-number">2.1</span> Baixar o código-fonte</a></li>
-  <li><a href="#compilar" id="toc-compilar" class="nav-link" data-scroll-target="#compilar"><span class="header-section-number">2.2</span> Compilar</a></li>
-  <li><a href="#significado-das-opções-de-compilação" id="toc-significado-das-opções-de-compilação" class="nav-link" data-scroll-target="#significado-das-opções-de-compilação"><span class="header-section-number">2.3</span> Significado das opções de compilação</a></li>
+  <li><a href="#o-problema-físico-em-uma-frase" id="toc-o-problema-físico-em-uma-frase" class="nav-link active" data-scroll-target="#o-problema-físico-em-uma-frase"><span class="header-section-number">1.1</span> O problema físico em uma frase</a></li>
+  <li><a href="#ingrediente-1-o-talude-infinito" id="toc-ingrediente-1-o-talude-infinito" class="nav-link" data-scroll-target="#ingrediente-1-o-talude-infinito"><span class="header-section-number">1.2</span> Ingrediente 1 — o talude infinito</a></li>
+  <li><a href="#ingrediente-2-a-infiltração-transiente" id="toc-ingrediente-2-a-infiltração-transiente" class="nav-link" data-scroll-target="#ingrediente-2-a-infiltração-transiente"><span class="header-section-number">1.3</span> Ingrediente 2 — a infiltração transiente</a></li>
+  <li><a href="#premissas-e-limitações-ler-antes-de-confiar-no-mapa" id="toc-premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="nav-link" data-scroll-target="#premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.4</span> Premissas e limitações (ler antes de confiar no mapa!)</a></li>
+  <li><a href="#sec-fluxograma" id="toc-sec-fluxograma" class="nav-link" data-scroll-target="#sec-fluxograma"><span class="header-section-number">1.5</span> O fluxograma geral da metodologia</a></li>
+  <li><a href="#onde-cada-coisa-está-no-minicurso" id="toc-onde-cada-coisa-está-no-minicurso" class="nav-link" data-scroll-target="#onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.6</span> Onde cada coisa está no minicurso</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/02-compilacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/01-teoria.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baixar e compilar o TRIGRS</span></h1>
+<h1 class="title"><span id="sec-teoria" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visão teórica: como o TRIGRS “pensa”</span></span></h1>
 </div>
 
 
@@ -249,111 +256,266 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="baixar-o-código-fonte" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="baixar-o-código-fonte"><span class="header-section-number">2.1</span> Baixar o código-fonte</h2>
-<p>Baixe a release oficial <strong>2.1.0</strong> no GitLab do USGS: <a href="https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0" class="uri">https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0</a></p>
-<p>Extraia o <code>.zip</code> para uma pasta de trabalho, por exemplo <code>C:\TRIGRS\landslides-trigrs-2.1.0\</code>. A pasta <code>src\</code> contém quatro programas:</p>
+<p>Antes de instalar e rodar qualquer coisa, vale entender <strong>o que</strong> o TRIGRS calcula e <strong>por quê</strong>. Este capítulo é uma versão didática e simplificada da teoria — quem quiser o rigor completo deve ler o <strong>manual do programa</strong> (Baum, Savage &amp; Godt, 2008 — USGS OFR 2008-1159) e o artigo de referência <strong>Baum, Godt &amp; Savage (2010)</strong>, listados nas <a href="./referencias.html">Referências</a>.</p>
+<section id="o-problema-físico-em-uma-frase" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="o-problema-físico-em-uma-frase"><span class="header-section-number">1.1</span> O problema físico em uma frase</h2>
+<blockquote class="blockquote">
+<p><strong>Chuva infiltra → a água preenche os poros do solo → a pressão da água nos poros sobe → o atrito entre os grãos diminui → em algum momento a encosta escorrega.</strong></p>
+</blockquote>
+<p>Deslizamentos <strong>rasos</strong> (tipicamente 1 a 3 m de profundidade) deflagrados por chuva são o mecanismo dominante em desastres como o da Região Serrana do RJ em janeiro/2011. A superfície de ruptura costuma se formar no contato entre o solo (colúvio/residual) e um material menos permeável abaixo — e é exatamente esse cenário que o TRIGRS representa.</p>
+<p>O TRIGRS responde, para <strong>cada célula</strong> de uma grade raster e para <strong>cada instante</strong> de uma chuva: <em>“esta célula está estável agora?”</em> — combinando dois ingredientes:</p>
+<ol type="1">
+<li>um modelo de <strong>infiltração transiente</strong> (como a pressão da água evolui no tempo e na profundidade), e</li>
+<li>um modelo de <strong>estabilidade de talude infinito</strong> (a pressão calculada reduz o fator de segurança?).</li>
+</ol>
+<p>Vamos a cada um deles.</p>
+</section>
+<section id="ingrediente-1-o-talude-infinito" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="ingrediente-1-o-talude-infinito"><span class="header-section-number">1.2</span> Ingrediente 1 — o talude infinito</h2>
+<p>A geometria dos deslizamentos rasos (comprimento muito maior que a espessura) permite uma simplificação poderosa: tratar cada célula como um <strong>plano inclinado infinito</strong>, com ruptura paralela à superfície. A <a href="#fig-talude" class="quarto-xref">Figura&nbsp;<span>1.1</span></a> mostra o esquema:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-talude" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-talude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-teoria_files/figure-html/fig-talude-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-talude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.1: Esquema do modelo de talude infinito usado pelo TRIGRS. A coluna de solo de profundidade Z, inclinada de um ângulo δ, é solicitada pelo peso (W) e resiste pelo atrito e coesão na base. O nível d’água (linha tracejada azul) controla a poro-pressão ψ na superfície potencial de ruptura.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O equilíbrio dessa coluna resulta na fórmula do <strong>Fator de Segurança</strong> que o TRIGRS avalia em cada profundidade <span class="math inline">\(Z\)</span> e instante <span class="math inline">\(t\)</span> (Baum et al., 2010, eq. 4):</p>
+<p><span class="math display">\[
+FS(Z,t) \;=\; \underbrace{\frac{\tan\varphi'}{\tan\delta}}_{\text{atrito}} \;+\;
+\underbrace{\frac{c'}{\gamma_s\, Z \sin\delta \cos\delta}}_{\text{coesão}} \;-\;
+\underbrace{\frac{\psi(Z,t)\,\gamma_w \tan\varphi'}{\gamma_s\, Z \sin\delta \cos\delta}}_{\text{efeito da água}}
+\]</span></p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Programa</th>
-<th>Função</th>
+<th>Termo</th>
+<th>Significado</th>
+<th>De onde vem</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>TRIGRS</code></td>
-<td>Modelo principal: infiltração transiente + fator de segurança</td>
+<td><span class="math inline">\(\delta\)</span></td>
+<td>inclinação da encosta</td>
+<td>grade de declividade (<code>slope.asc</code>)</td>
 </tr>
 <tr class="even">
-<td><code>TopoIndex</code></td>
-<td>Pré-processador topográfico: roteamento do runoff e dimensionamento das matrizes</td>
+<td><span class="math inline">\(\varphi'\)</span></td>
+<td>ângulo de atrito efetivo do solo</td>
+<td>ensaios/literatura (por zona)</td>
 </tr>
 <tr class="odd">
-<td><code>GridMatch</code></td>
-<td>Verifica se as grades de entrada são congruentes entre si</td>
+<td><span class="math inline">\(c'\)</span></td>
+<td>coesão efetiva</td>
+<td>ensaios/literatura (por zona)</td>
 </tr>
 <tr class="even">
-<td><code>UnitConvert</code></td>
-<td>Conversão de unidades das grades</td>
+<td><span class="math inline">\(\gamma_s\)</span>, <span class="math inline">\(\gamma_w\)</span></td>
+<td>peso específico do solo e da água</td>
+<td>ensaios/constante</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Z\)</span></td>
+<td>profundidade avaliada</td>
+<td>até <code>zmax.asc</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\psi(Z,t)\)</span></td>
+<td><strong>carga de pressão da água</strong></td>
+<td>é o que o modelo de infiltração calcula!</td>
 </tr>
 </tbody>
 </table>
+<p>Leia a equação como uma disputa: <strong>atrito + coesão</strong> (estabilizam) contra o <strong>empuxo da água</strong> (desestabiliza). Os dois primeiros termos são fixos no tempo; o terceiro cresce durante a chuva porque <span class="math inline">\(\psi\)</span> cresce. Quando <span class="math inline">\(FS\)</span> cai abaixo de <strong>1</strong>, a célula é prevista como instável. Note também o papel de <span class="math inline">\(Z\)</span>: quanto mais profundo, menor o peso relativo da coesão — por isso existe uma profundidade “crítica” onde o <span class="math inline">\(FS\)</span> é mínimo (o TRIGRS a reporta na grade <code>TRz_at_fs_min</code>).</p>
 </section>
-<section id="compilar" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="compilar"><span class="header-section-number">2.2</span> Compilar</h2>
-<p>Abra o PowerShell <strong>na pasta <code>src\</code></strong> do código-fonte extraído e execute os quatro blocos abaixo. A ordem dos arquivos <strong>importa</strong> (módulos primeiro) — copie e cole exatamente:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TopoIndex</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o topoindex<span class="op">.</span><span class="fu">exe</span> TopoIndex\ssizgrd<span class="op">.</span><span class="fu">f95</span> TopoIndex\tpindx<span class="op">.</span><span class="fu">f90</span> `</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  TopoIndex\nxtcel<span class="op">.</span><span class="fu">f90</span> TopoIndex\isvgrd<span class="op">.</span><span class="fu">f</span> TopoIndex\mpfldr<span class="op">.</span><span class="fu">f</span> TopoIndex\rdflodir<span class="op">.</span><span class="fu">f</span> `</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  TopoIndex\sindex<span class="op">.</span><span class="fu">f</span> TopoIndex\slofac<span class="op">.</span><span class="fu">f</span> TopoIndex\srdgrd1<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TRIGRS (versão serial — resolve bacias pequenas e médias em segundos)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o trigrs<span class="op">.</span><span class="fu">exe</span> TRIGRS\grids<span class="op">.</span><span class="fu">f95</span> TRIGRS\input_file_defs<span class="op">.</span><span class="fu">f95</span> `</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  TRIGRS\input_vars<span class="op">.</span><span class="fu">f95</span> TRIGRS\model_vars<span class="op">.</span><span class="fu">f95</span> TRIGRS\dsimps<span class="op">.</span><span class="fu">f95</span> TRIGRS\iverson<span class="op">.</span><span class="fu">f95</span> `</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  TRIGRS\pstpi<span class="op">.</span><span class="fu">f95</span> TRIGRS\satfin<span class="op">.</span><span class="fu">f95</span> TRIGRS\savage<span class="op">.</span><span class="fu">f95</span> TRIGRS\steady<span class="op">.</span><span class="fu">f95</span> TRIGRS\trini<span class="op">.</span><span class="fu">f95</span> `</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  TRIGRS\unsinf<span class="op">.</span><span class="fu">f95</span> TRIGRS\ivestp<span class="op">.</span><span class="fu">f95</span> TRIGRS\pstpf<span class="op">.</span><span class="fu">f95</span> TRIGRS\rnoff<span class="op">.</span><span class="fu">f95</span> TRIGRS\satinf<span class="op">.</span><span class="fu">f95</span> `</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  TRIGRS\smallt<span class="op">.</span><span class="fu">f95</span> TRIGRS\svgstp<span class="op">.</span><span class="fu">f95</span> TRIGRS\unsfin<span class="op">.</span><span class="fu">f95</span> TRIGRS\unsth<span class="op">.</span><span class="fu">f95</span> TRIGRS\ssizgrd<span class="op">.</span><span class="fu">f95</span> `</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  TRIGRS\svlist<span class="op">.</span><span class="fu">f95</span> TRIGRS\trigrs<span class="op">.</span><span class="fu">f90</span> TRIGRS\flux<span class="op">.</span><span class="fu">f90</span> TRIGRS\prpijz<span class="op">.</span><span class="fu">f90</span> TRIGRS\svxmdv<span class="op">.</span><span class="fu">f90</span> `</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  TRIGRS\svijz<span class="op">.</span><span class="fu">f90</span> TRIGRS\dzero_brac<span class="op">.</span><span class="fu">f90</span> TRIGRS\calerf<span class="op">.</span><span class="fu">f</span> TRIGRS\dbsct<span class="op">.</span><span class="fu">f</span> TRIGRS\derfc<span class="op">.</span><span class="fu">f</span> `</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  TRIGRS\irdgrd<span class="op">.</span><span class="fu">f</span> TRIGRS\irdswm<span class="op">.</span><span class="fu">f</span> TRIGRS\isvgrd<span class="op">.</span><span class="fu">f</span> TRIGRS\roots<span class="op">.</span><span class="fu">f</span> TRIGRS\srdgrd<span class="op">.</span><span class="fu">f</span> `</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  TRIGRS\srdswm<span class="op">.</span><span class="fu">f</span> TRIGRS\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GridMatch</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>o gridmatch<span class="op">.</span><span class="fu">exe</span> GridMatch\ssizgrd<span class="op">.</span><span class="fu">f95</span> GridMatch\gridmatch<span class="op">.</span><span class="fu">f90</span> `</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  GridMatch\srdgrd<span class="op">.</span><span class="fu">f</span> GridMatch\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UnitConvert (este precisa da flag -fdec por causa de um formato Fortran antigo no código)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">-</span>O2 <span class="op">-</span>w <span class="op">-</span>static <span class="op">-</span>fdec <span class="op">-</span>o unitconvert<span class="op">.</span><span class="fu">exe</span> UnitConvert\unitconvert<span class="op">.</span><span class="fu">f90</span> `</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  UnitConvert\srdgrd<span class="op">.</span><span class="fu">f</span> UnitConvert\ssvgrd<span class="op">.</span><span class="fu">f</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Ao final, a pasta <code>src\</code> terá <code>topoindex.exe</code>, <code>trigrs.exe</code>, <code>gridmatch.exe</code> e <code>unitconvert.exe</code>. Guarde-os em uma pasta <code>bin\</code> — eles serão copiados para a pasta de cada projeto/rodada.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="ingrediente-2-a-infiltração-transiente" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="ingrediente-2-a-infiltração-transiente"><span class="header-section-number">1.3</span> Ingrediente 2 — a infiltração transiente</h2>
+<p>Falta a peça central: como <span class="math inline">\(\psi(Z,t)\)</span> evolui durante a chuva? O TRIGRS usa soluções analíticas da equação de fluxo vertical em meio poroso (a equação de Richards linearizada, seguindo Iverson, 2000, estendida por Baum et al., 2008; 2010): a chuva que infiltra gera uma “onda de pressão” que se <strong>difunde</strong> para baixo, com velocidade controlada pela <strong>difusividade hidráulica</strong> <span class="math inline">\(D_0\)</span> do solo.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-difusao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-difusao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-teoria_files/figure-html/fig-difusao-1.png" class="img-fluid figure-img" width="720">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-difusao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.2: Conceito da resposta transiente: perfis de carga de pressão ψ(Z) em instantes sucessivos de uma chuva. A condição inicial (t₀) tem pressão negativa (sucção) acima do nível d’água; com a infiltração, a ‘frente de pressão’ avança em profundidade (t₁, t₂, t₃) e reduz a sucção — podendo gerar pressão positiva. Curvas conceituais baseadas na solução de difusão linearizada.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Pontos que valem guardar (todos detalhados no manual e em Baum et al., 2010):</p>
+<ul>
+<li><strong>Zona não saturada:</strong> acima do nível d’água o solo tem <strong>sucção</strong> (pressão negativa), que <em>ajuda</em> a estabilidade. O TRIGRS pode modelar explicitamente essa zona (modelo de Gardner, parâmetro <span class="math inline">\(\alpha\)</span>) ou assumir solo saturado desde o início (mais conservador).</li>
+<li><strong>Difusividade <span class="math inline">\(D_0\)</span></strong> controla o <em>atraso</em> da resposta: solos mais permeáveis respondem em horas; menos permeáveis, em dias. É por isso que o TRIGRS consegue prever o <strong>momento</strong> da instabilidade, não só o local.</li>
+<li><strong>Fronteira inferior:</strong> a base impermeável em <code>zmax</code> faz a pressão “se acumular” — modelo de profundidade finita, uma das extensões do TRIGRS sobre o modelo original de Iverson.</li>
+<li><strong>Limite de infiltração:</strong> se a chuva excede a capacidade de infiltração (<span class="math inline">\(K_{sat}\)</span>), o excesso vira <strong>escoamento superficial</strong>, roteado célula a célula pelo esquema D8 calculado no TopoIndex.</li>
+</ul>
+<p>A combinação dos dois ingredientes dá a assinatura típica da resposta de uma célula:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-fs-tempo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fs-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-teoria_files/figure-html/fig-fs-tempo-1.png" class="img-fluid figure-img" width="720">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fs-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.3: Resposta conceitual de uma célula durante um evento: o hietograma (acima) alimenta a infiltração; a poro-pressão na profundidade crítica sobe com atraso e o FS cai. A célula ‘rompe’ quando FS &lt; 1 — o TRIGRS fornece o instante e o local.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.4</span> Premissas e limitações (ler antes de confiar no mapa!)</h2>
+<p>O manual do TRIGRS é enfático: o programa é uma ferramenta para quem conhece o fenômeno, e interpretar resultados exige julgamento geológico-geotécnico. As principais simplificações:</p>
+<ul>
+<li>fluxo <strong>1-D vertical</strong> e solo isotrópico/homogêneo em cada célula (heterogeneidade só entre células/zonas);</li>
+<li>modelo de <strong>talude infinito</strong>: vale para rupturas rasas e planares — não para deslizamentos profundos ou rotacionais;</li>
+<li><strong>não modela a propagação</strong> (runout) da massa mobilizada — o TRIGRS diz <em>onde inicia</em> e <em>quanto material</em> fica instável; o que acontece encosta abaixo é assunto da metodologia de fluxo de detritos (Partes 3 e 4 deste minicurso);</li>
+<li>resultados são tão bons quanto os <strong>dados de entrada</strong> (MDE, profundidade do solo, parâmetros geotécnicos, chuva) — daí a importância da calibração com inventário de cicatrizes.</li>
+</ul>
+</section>
+<section id="sec-fluxograma" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-fluxograma"><span class="header-section-number">1.5</span> O fluxograma geral da metodologia</h2>
+<p>O diagrama abaixo organiza <strong>todas as etapas</strong> do trabalho — da coleta de dados à estimativa de volumes sob mudança climática. Ele expande o roteiro inicial da pesquisa e serve de mapa para o minicurso inteiro:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  subgraph ETAPA1["1 · Coleta e preparação de dados (GIS)"]
+    direction TB
+    A1["MDE&lt;br/&gt;(declividade, direção de fluxo)"]
+    A2["Mapas geológico,&lt;br/&gt;geomorfológico e de solos"]
+    A3["Uso e cobertura&lt;br/&gt;do solo"]
+    A4["Chuva&lt;br/&gt;(evento e IDF)"]
+    A5["Inventário de&lt;br/&gt;cicatrizes (2011)"]
+  end
+
+  subgraph ETAPA2["2 · Análise geoespacial"]
+    B1["Zonas de propriedades&lt;br/&gt;(zones.asc)"]
+    B2["Profundidade do solo&lt;br/&gt;(zmax.asc)"]
+    B3["Grades congruentes&lt;br/&gt;(GridMatch)"]
+  end
+
+  subgraph ETAPA3["3 · Modelagem TRIGRS"]
+    C1["TopoIndex&lt;br/&gt;(roteamento D8)"]
+    C2["TRIGRS&lt;br/&gt;FS(Z,t) por célula"]
+  end
+
+  subgraph ETAPA4["4 · Validação e calibração"]
+    D1["Comparação FS &lt; 1&lt;br/&gt;× cicatrizes"]
+    D2["Ajuste de parâmetros&lt;br/&gt;(K_sat, NA inicial, c', φ')"]
+  end
+
+  subgraph ETAPA5["5 · Produtos"]
+    E1["Mapa de suscetibilidade&lt;br/&gt;calibrado"]
+    E2["Volume mobilizável&lt;br/&gt;Σ área × Z_ruptura"]
+    E3["Volumes GIDES/JICA&lt;br/&gt;(Vdy1, Vdy2)"]
+    E4["Cenários de mudança&lt;br/&gt;climática (chuva Pd)"]
+  end
+
+  ETAPA1 --&gt; ETAPA2 --&gt; C1 --&gt; C2 --&gt; D1 --&gt; D2
+  D2 -- "iterar" --&gt; C2
+  D2 --&gt; E1
+  E1 --&gt; E2 --&gt; E3
+  A4 --&gt; E4 --&gt; C2
+  E4 --&gt; E3
+
+  style ETAPA3 fill:#dbeafe,stroke:#1f78b4
+</pre>
+</div>
+<p></p><figcaption> Fluxograma geral da metodologia da pesquisa. Em azul, as etapas cobertas pela Parte 1 do minicurso; as demais partes seguem a numeração indicada.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>E, dentro da etapa de modelagem, o <strong>fluxo operacional</strong> dos programas que você vai usar nos próximos capítulos:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  G["GIS&lt;br/&gt;(QGIS/ArcGIS)&lt;br/&gt;grades .asc"] --&gt; M["GridMatch&lt;br/&gt;&lt;i&gt;grades congruentes?&lt;/i&gt;"]
+  M --&gt; T["TopoIndex&lt;br/&gt;tpx_in.txt&lt;br/&gt;&lt;i&gt;índices + pesos D8&lt;/i&gt;"]
+  T --&gt; R["TRIGRS&lt;br/&gt;tr_in.txt&lt;br/&gt;&lt;i&gt;infiltração + FS&lt;/i&gt;"]
+  R --&gt; S["Resultados&lt;br/&gt;TRfs_min, TRz_at_fs_min,&lt;br/&gt;TRp_at_fs_min, runoff..."]
+  S --&gt; V["Visualização e análise&lt;br/&gt;(R/terra ou QGIS)"]
+
+  style R fill:#dbeafe,stroke:#1f78b4
+</pre>
+</div>
+<p></p><figcaption> Fluxo operacional: dos rasters do GIS aos mapas de resultado. É exatamente esta sequência que executaremos no exemplo tutorial.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="onde-cada-coisa-está-no-minicurso" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.6</span> Onde cada coisa está no minicurso</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Etapa do fluxograma</th>
+<th>Onde é tratada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Instalar e compilar as ferramentas</td>
+<td><a href="./02-instalacao.html">Instalação</a> e <a href="./03-compilacao.html">Compilação</a></td>
+</tr>
+<tr class="even">
+<td>Entender grades e arquivos de entrada</td>
+<td><a href="./04-exemplo.html">O exemplo tutorial</a></td>
+</tr>
+<tr class="odd">
+<td>Rodar TopoIndex + TRIGRS</td>
+<td><a href="./05-rodando.html">Primeira rodada</a></td>
+</tr>
+<tr class="even">
+<td>Visualizar FS e quantificar volumes</td>
+<td><a href="./06-resultados-r.html">Resultados no R</a></td>
+</tr>
+<tr class="odd">
+<td>Bacia real, calibração, volumes, clima</td>
+<td>Partes 2–4 (em construção)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Sobre a versão paralela
+Para aprofundar
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O <code>Makefile</code> que acompanha o código usa <code>mpif90</code> (MPI) e também compila uma versão paralela (<code>trigrs_p</code>), útil para áreas muito grandes. Para este minicurso ela <strong>não é necessária</strong> — a versão serial acima é suficiente.</p>
+<ul>
+<li><strong>Baum, R.L., Godt, J.W. &amp; Savage, W.Z. (2010)</strong> — <em>Estimating the timing and location of shallow rainfall-induced landslides using a model for transient, unsaturated infiltration</em>, J. Geophys. Res., 115, F03013 — a formulação completa (infiltração não saturada, zona saturada de profundidade finita e acoplamento com o FS).</li>
+<li><strong>Manual do TRIGRS 2.0/2.1</strong> (Baum, Savage &amp; Godt, 2008 — USGS OFR 2008-1159; e <code>USER_GUIDE.md</code> da versão 2.1) — descrição de todos os parâmetros dos arquivos de inicialização e das opções de modelagem.</li>
+<li><strong>Iverson, R.M. (2000)</strong> — <em>Landslide triggering by rain infiltration</em> — o modelo de difusão que está no coração do TRIGRS.</li>
+</ul>
 </div>
 </div>
-</section>
-<section id="significado-das-opções-de-compilação" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="significado-das-opções-de-compilação"><span class="header-section-number">2.3</span> Significado das opções de compilação</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Opção</th>
-<th>Efeito</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>-O2</code></td>
-<td>Otimização (código mais rápido)</td>
-</tr>
-<tr class="even">
-<td><code>-w</code></td>
-<td>Suprime avisos de estilo do código antigo (inofensivos)</td>
-</tr>
-<tr class="odd">
-<td><code>-static</code></td>
-<td>Embute as bibliotecas no executável — <strong>é o que evita o problema da DLL</strong></td>
-</tr>
-<tr class="even">
-<td><code>-fdec</code></td>
-<td>Aceita extensões DEC antigas (necessário só no UnitConvert)</td>
-</tr>
-</tbody>
-</table>
 
 
 </section>
@@ -781,13 +943,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./01-instalacao.html" class="pagination-link" aria-label="Instalação do gfortran">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="Apresentação">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Apresentação</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-exemplo.html" class="pagination-link" aria-label="O exemplo tutorial">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">O exemplo tutorial</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-instalacao.html" class="pagination-link" aria-label="Instalação do gfortran">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Instalação do gfortran</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -799,7 +961,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/02-compilacao.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/01-teoria.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Feito com <a href="https://quarto.org">Quarto</a></p>
 </div>
