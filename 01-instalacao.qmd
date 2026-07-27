@@ -1,0 +1,42 @@
+# Instalação do gfortran
+
+O TRIGRS é escrito em **Fortran** e distribuído como **código-fonte** — o primeiro passo é
+instalar um compilador. Usaremos o **gfortran** (gratuito, parte do GCC).
+
+## Baixar e instalar
+
+1. Baixe o instalador de **64 bits** em
+   <https://www.equation.com/servlet/equation.cmd?fa=fortran> (ex.: `gcc-14.2.0-64.exe`).
+2. Execute o instalador e aceite o local padrão sugerido
+   (ex.: `C:\Users\SEU_USUARIO\gcc`). O instalador adiciona o compilador ao PATH do Windows
+   automaticamente.
+
+## Conferir a instalação
+
+Feche qualquer PowerShell aberto, abra **um novo** e digite:
+
+```powershell
+gfortran --version
+```
+
+A resposta esperada é algo como:
+
+```
+GNU Fortran (GCC) 14.2.0
+```
+
+::: {.callout-warning}
+## Se o comando não for reconhecido
+O PATH só é atualizado em janelas novas do PowerShell. Se mesmo em uma janela nova não
+funcionar, verifique se a pasta `bin` da instalação (ex.: `C:\Users\SEU_USUARIO\gcc\bin`)
+está na variável de ambiente PATH (Configurações → Sistema → Variáveis de ambiente).
+:::
+
+## Por que não usar os executáveis prontos do USGS?
+
+O USGS distribui binários de Windows (`TRIGRS_2.1_Win64.zip`), mas eles foram compilados sob
+**Cygwin** e dependem da biblioteca `cygwin1.dll`. Em uma máquina sem Cygwin o programa
+**não abre e não mostra erro nenhum** — o Windows retorna silenciosamente o código
+`0xC0000135` (DLL não encontrada). Foi exatamente esse o problema que travou nossas primeiras
+tentativas. Compilando nós mesmos com a opção `-static` (próximo capítulo), o executável fica
+autossuficiente e roda em qualquer Windows 64 bits.

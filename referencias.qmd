@@ -1,0 +1,38 @@
+# Referências {.unnumbered}
+
+## TRIGRS — documentação oficial
+
+- Baum, R.L., Savage, W.Z. & Godt, J.W. (2008). *TRIGRS — A Fortran program for transient
+  rainfall infiltration and grid-based regional slope-stability analysis, version 2.0*.
+  U.S. Geological Survey Open-File Report 2008-1159, 75 p.
+- Baum, R.L., Godt, J.W. & Savage, W.Z. (2010). Estimating the timing and location of shallow
+  rainfall-induced landslides using a model for transient, unsaturated infiltration.
+  *Journal of Geophysical Research*, 115, F03013. doi:10.1029/2009JF001321
+- Alvioli, M. & Baum, R.L. (2016). Parallelization of the TRIGRS model for rainfall-induced
+  landslides using the message passing interface. *Environmental Modelling & Software*, 81,
+  122–135.
+- Código-fonte oficial: <https://code.usgs.gov/usgs/landslides-trigrs>
+
+## Aplicações do TRIGRS
+
+- Schwarz, H. & Michel, G.P. (2017). Avaliação de estabilidade de encostas com uso do modelo
+  TRIGRS no município de Ibirama-SC. *XXII Simpósio Brasileiro de Recursos Hídricos*, ABRH.
+- Konig, T., Kux, H. & Corsi, A. (2022). Landslide risk management using the mathematical
+  model TRIGRS. *Geociências (UNESP)*, 41(1), 243–254.
+- Bordoni, M., Meisina, C., Valentino, R., Bittelli, M. & Chersich, S. (2015). Site-specific
+  to local-scale shallow landslides triggering zones assessment using TRIGRS.
+  *Natural Hazards and Earth System Sciences*, 15, 1025–1050.
+- Ciurleo, M., Ferlisi, S., Foresta, V., Mandaglio, M.C. & Moraci, N. (2022). Landslide
+  susceptibility analysis by applying TRIGRS to a reliable geotechnical slope model.
+  *Geosciences*, 12, 18.
+
+## Fluxos de detritos — metodologia GIDES/JICA
+
+- JICA / Ministério da Integração Nacional (2018). *Manual Técnico para Concepção de
+  Intervenções para Fluxo de Detritos* — Projeto GIDES, Volume 4.
+  Disponível em: <https://www.jica.go.jp/portuguese/overseas/brazil/publications/__icsFiles/afieldfile/2025/03/21/volume4.pdf>
+
+## Megadesastre da Região Serrana do RJ (2011)
+
+- (a completar conforme a revisão bibliográfica da Parte 2 — inventários de cicatrizes,
+  estudos de chuva do evento e mapeamentos DRM-RJ/CPRM.)

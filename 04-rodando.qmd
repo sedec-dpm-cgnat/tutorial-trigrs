@@ -1,0 +1,57 @@
+# Primeira rodada
+
+## Preparação
+
+1. Clone (ou baixe) este repositório.
+2. Copie para dentro da pasta `exemplo_01\` os executáveis `topoindex.exe` e `trigrs.exe`
+   compilados no capítulo anterior.
+3. Confira que a pasta `exemplo_01\Resultados\` existe.
+
+## Rodar
+
+Abra o PowerShell **na pasta `exemplo_01\`** e execute os dois programas, nesta ordem:
+
+```powershell
+.\topoindex.exe    # lê tpx_in.txt -> gera data\TI*_tutorial.*
+.\trigrs.exe       # lê tr_in.txt  -> gera Resultados\TR*.asc
+```
+
+O **TopoIndex** roda primeiro: ele define a ordem de cálculo do escoamento superficial (D8),
+os pesos de distribuição do runoff e o tamanho das matrizes que o TRIGRS vai alocar. A saída
+esperada termina com:
+
+```
+ No grid mismatch found!
+ Correcting cell index numbers
+ Computing weighting factors
+ Saving results to disk
+```
+
+O **TRIGRS** então faz a infiltração transiente e a estabilidade. A saída esperada termina com:
+
+```
+ Saving results
+ TRIGRS finished!
+```
+
+## O que foi gerado
+
+Em `exemplo_01\Resultados\`:
+
+| Arquivo | Conteúdo |
+|---|---|
+| `TRfs_min_tutorial_1.asc`, `_2.asc` | **FS mínimo** por célula nos tempos de saída (48 h e 60 h) |
+| `TRz_at_fs_min_*.asc` | Profundidade (m) da superfície crítica (onde ocorre o FS mínimo) |
+| `TRp_at_fs_min_*.asc` | Poro-pressão (m de coluna d'água) na profundidade crítica |
+| `TRwater_depth_*.asc` | Profundidade simulada do lençol freático |
+| `TRrunoffPer*.asc`, `TRinfilratPer*.asc` | Runoff e taxa de infiltração por período de chuva |
+| `TRlist_z_p_fs_tutorial.txt` | Listagem detalhada Z–P–FS por célula (perfis verticais) |
+| `TrigrsLog.txt` | Log da rodada — **sempre conferir** avisos e balanço de massa |
+
+E em `exemplo_01\data\`, os arquivos `TI*` do TopoIndex (índices de células, listas de
+receptores de runoff e pesos).
+
+::: {.callout-tip}
+Os rasters `.asc` abrem direto no **QGIS** (arrastar e soltar) — ou no R, como faremos no
+próximo capítulo.
+:::

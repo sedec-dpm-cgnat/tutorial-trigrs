@@ -1,35 +1,39 @@
-# Tutorial TRIGRS — Parte 1: instalação, compilação e primeira rodada (Windows)
+# Minicurso TRIGRS
 
-Tutorial em português (R Markdown, publicado no RPubs) mostrando como instalar o compilador
-gfortran, compilar o código-fonte oficial do **TRIGRS 2.1** (USGS) no Windows e rodar o exemplo
-tutorial, com visualização dos resultados no R (`terra`).
+Minicurso em formato **livro Quarto** sobre mapeamento de estabilidade de encostas
+deflagradas por chuva com o modelo **TRIGRS 2.1** (USGS) — da instalação do compilador no
+Windows à aplicação em bacia real, com visualização dos resultados no R.
 
-- **Tutorial renderizado (RPubs):** _link a adicionar após a publicação_
-- **Fonte:** [`tutorial_trigrs.Rmd`](tutorial_trigrs.Rmd)
-- **Dados:** [`exemplo_01/`](exemplo_01/) — exemplo tutorial oficial do USGS com os arquivos de
-  inicialização já corrigidos (`tr_in.txt`) e resultados prontos (`Resultados/`), para que o
-  `.Rmd` possa ser reproduzido sem rodar o modelo.
+**📖 Site do minicurso:** <https://sedec-dpm-cgnat.github.io/tutorial-trigrs/>
 
-## Como reproduzir
+## Conteúdo
 
-1. Clone o repositório.
-2. Abra `tutorial_trigrs.Rmd` no RStudio e faça *Knit* (requer o pacote `terra`), **ou** siga o
-   tutorial para compilar o TRIGRS e refazer a rodada você mesmo.
-
-Os executáveis não são versionados (`.gitignore`) — o tutorial ensina a compilá-los a partir do
-código-fonte oficial: <https://code.usgs.gov/usgs/landslides-trigrs>.
+- **Parte 1 (disponível):** instalação do gfortran, compilação do código-fonte oficial,
+  anatomia do exemplo tutorial, primeira rodada (TopoIndex + TRIGRS) e visualização dos
+  resultados no R (`terra`).
+- **Parte 2 (em construção):** bacia do Hospital São Lucas, Nova Friburgo/RJ — preparação de
+  grades no QGIS e calibração com o inventário do megadesastre de janeiro/2011.
+- **Parte 3 (em construção):** acoplamento TRIGRS → volumes de fluxo de detritos (Vdy1/Vdy2,
+  metodologia GIDES/JICA).
+- **Parte 4 (em construção):** cenários de mudança climática na chuva de projeto.
 
 ## Contexto
 
-Material de apoio à pesquisa de mestrado de Érico de Castro Borges (orientação: Cássio G.
-Rampinelli) sobre acoplamento entre mapeamento físico de estabilidade de encostas (TRIGRS) e
-estimativa de volumes de fluxo de detritos pela metodologia GIDES/JICA, com estudo de caso na
-região serrana do Rio de Janeiro e incorporação de cenários de mudança climática.
+Material desenvolvido no âmbito da pesquisa de mestrado de **Érico de Castro Borges**,
+co-orientada por **Cássio Guilherme Rampinelli** (DPM/SEDEC/MIDR). O repositório funciona
+como caderno de laboratório da pesquisa: cada etapa vencida vira um capítulo, e o histórico
+de commits registra o caminho completo.
 
-Partes 2 e 3 (bacia real em Nova Friburgo/RJ e cenários climáticos) serão adicionadas neste
-repositório.
+## Como reproduzir / contribuir
+
+- Os dados do exemplo estão em [`exemplo_01/`](exemplo_01/) (com os arquivos de inicialização
+  já corrigidos e os resultados prontos).
+- Para renderizar o livro localmente: `quarto render` (requer Quarto e R com o pacote `terra`).
+- O fluxo de contribuição (novos capítulos, commit, push → publicação automática no GitHub
+  Pages) está documentado no apêndice
+  [Como adicionar capítulos](https://sedec-dpm-cgnat.github.io/tutorial-trigrs/91-como-contribuir.html).
 
 ## Licença e créditos
 
-O TRIGRS é um software de domínio público do U.S. Geological Survey (Baum, Savage & Godt).
+O TRIGRS é software de domínio público do U.S. Geological Survey (Baum, Savage & Godt).
 Os dados em `exemplo_01/data` acompanham a distribuição oficial do TRIGRS 2.1.0.

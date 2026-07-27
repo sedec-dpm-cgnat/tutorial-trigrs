@@ -1,0 +1,47 @@
+project:
+  type: book
+  output-dir: docs
+
+lang: pt-BR
+
+book:
+  title: "Minicurso TRIGRS"
+  subtitle: "Mapeamento de estabilidade de encostas deflagradas por chuva — do zero à aplicação"
+  author:
+    - "Cássio Guilherme Rampinelli (DPM/SEDEC/MIDR — co-orientador)"
+    - "Érico de Castro Borges (mestrando)"
+  date: today
+  date-format: "DD/MM/YYYY"
+  repo-url: https://github.com/sedec-dpm-cgnat/tutorial-trigrs
+  repo-actions: [edit, issue]
+  sidebar:
+    logo: logos/DPM-Circular.png
+    search: true
+  page-footer:
+    left: "DPM · Secretaria Nacional de Proteção e Defesa Civil · MIDR"
+    right: "Feito com [Quarto](https://quarto.org)"
+  chapters:
+    - index.qmd
+    - 01-instalacao.qmd
+    - 02-compilacao.qmd
+    - 03-exemplo.qmd
+    - 04-rodando.qmd
+    - 05-resultados-r.qmd
+  appendices:
+    - 90-erros-comuns.qmd
+    - 91-como-contribuir.qmd
+    - referencias.qmd
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+    fig-align: center
+
+execute:
+  warning: false
+  message: false

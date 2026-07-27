@@ -1,14 +1,14 @@
-# Executáveis e artefatos de compilação (o tutorial ensina a compilar)
+# Executáveis e artefatos de compilação (o minicurso ensina a compilar)
 *.exe
 *.o
 *.mod
 
-# Artefatos de knit/render
-*.html
-tutorial_trigrs_files/
-rsconnect/
+# Quarto (a pasta docs/ é versionada — é o site publicado no GitHub Pages)
+/.quarto/
+/_freeze/
 
 # R
 .Rproj.user/
 .Rhistory
 .RData
+rsconnect/

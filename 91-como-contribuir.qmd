@@ -1,0 +1,75 @@
+# Como adicionar capítulos {.appendix}
+
+Este apêndice é o guia de trabalho para os autores (especialmente para o Érico) irem
+**adicionando capítulos** conforme a pesquisa avança — deixando todo o histórico no Git.
+
+## O que você precisa ter instalado
+
+- [Git](https://git-scm.com/downloads) (e uma conta com acesso ao repositório);
+- [Quarto](https://quarto.org/docs/get-started/) (o RStudio recente já vem com Quarto);
+- [R](https://cran.r-project.org/) com o pacote `terra` (para os capítulos com mapas):
+  `install.packages("terra")`.
+
+## Fluxo de trabalho
+
+```bash
+# 1. Clonar (só na primeira vez)
+git clone https://github.com/sedec-dpm-cgnat/tutorial-trigrs.git
+cd tutorial-trigrs
+
+# 2. Antes de começar a trabalhar, sempre atualizar
+git pull
+
+# 3. Criar/editar um capítulo: por ex. 06-bacia-hsl.qmd
+#    (usar um capítulo existente como modelo)
+
+# 4. Registrar o novo capítulo no _quarto.yml (lista "chapters:")
+
+# 5. Renderizar e conferir localmente (abre o site no navegador)
+quarto preview
+
+# 6. Renderizar a versão final (gera o site na pasta docs/)
+quarto render
+
+# 7. Versionar e publicar
+git add -A
+git commit -m "Adiciona capítulo: preparação das grades da bacia HSL"
+git push
+```
+
+Ao dar `git push`, o **GitHub Pages** publica automaticamente o conteúdo da pasta `docs/` —
+em 1–2 minutos o site está atualizado.
+
+## Boas práticas
+
+- **Um capítulo por etapa vencida** (ex.: preparação do MDE, calibração, análise de
+  sensibilidade). Capítulos curtos e frequentes valem mais que um capítulo gigante no final.
+- **Commits pequenos com mensagens descritivas** — eles são o "caderno de laboratório" da
+  pesquisa.
+- Erros e becos sem saída também merecem registro (uma seção "o que não funcionou" vale ouro
+  para quem vier depois — e para a dissertação).
+- Dados pesados (MDEs, shapefiles grandes) **não entram no Git** — ficam na pasta de rede/OneDrive
+  do projeto; o capítulo documenta a origem e o pré-processamento.
+- Figuras geradas por código (R/QGIS) são preferíveis a prints de tela — são reproduzíveis.
+
+## Estrutura de um capítulo típico
+
+````markdown
+# Título do capítulo
+
+Contexto: o que esta etapa faz e por quê.
+
+## Dados usados
+Origem, resolução, CRS...
+
+## Procedimento
+Passo a passo (comandos, parâmetros escolhidos e justificativa).
+
+```{{r}}
+# código R que gera figuras/tabelas a partir dos resultados
+```
+
+## Resultados e interpretação
+
+## Problemas encontrados e soluções
+````

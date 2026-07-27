@@ -1,0 +1,73 @@
+# Baixar e compilar o TRIGRS
+
+## Baixar o código-fonte
+
+Baixe a release oficial **2.1.0** no GitLab do USGS:
+<https://code.usgs.gov/usgs/landslides-trigrs/-/releases/v2.1.0>
+
+Extraia o `.zip` para uma pasta de trabalho, por exemplo `C:\TRIGRS\landslides-trigrs-2.1.0\`.
+A pasta `src\` contém quatro programas:
+
+| Programa | Função |
+|---|---|
+| `TRIGRS` | Modelo principal: infiltração transiente + fator de segurança |
+| `TopoIndex` | Pré-processador topográfico: roteamento do runoff e dimensionamento das matrizes |
+| `GridMatch` | Verifica se as grades de entrada são congruentes entre si |
+| `UnitConvert` | Conversão de unidades das grades |
+
+## Compilar
+
+Abra o PowerShell **na pasta `src\`** do código-fonte extraído e execute os quatro blocos
+abaixo. A ordem dos arquivos **importa** (módulos primeiro) — copie e cole exatamente:
+
+```powershell
+# TopoIndex
+gfortran -O2 -w -static -o topoindex.exe TopoIndex\ssizgrd.f95 TopoIndex\tpindx.f90 `
+  TopoIndex\nxtcel.f90 TopoIndex\isvgrd.f TopoIndex\mpfldr.f TopoIndex\rdflodir.f `
+  TopoIndex\sindex.f TopoIndex\slofac.f TopoIndex\srdgrd1.f
+```
+
+```powershell
+# TRIGRS (versão serial — resolve bacias pequenas e médias em segundos)
+gfortran -O2 -w -static -o trigrs.exe TRIGRS\grids.f95 TRIGRS\input_file_defs.f95 `
+  TRIGRS\input_vars.f95 TRIGRS\model_vars.f95 TRIGRS\dsimps.f95 TRIGRS\iverson.f95 `
+  TRIGRS\pstpi.f95 TRIGRS\satfin.f95 TRIGRS\savage.f95 TRIGRS\steady.f95 TRIGRS\trini.f95 `
+  TRIGRS\unsinf.f95 TRIGRS\ivestp.f95 TRIGRS\pstpf.f95 TRIGRS\rnoff.f95 TRIGRS\satinf.f95 `
+  TRIGRS\smallt.f95 TRIGRS\svgstp.f95 TRIGRS\unsfin.f95 TRIGRS\unsth.f95 TRIGRS\ssizgrd.f95 `
+  TRIGRS\svlist.f95 TRIGRS\trigrs.f90 TRIGRS\flux.f90 TRIGRS\prpijz.f90 TRIGRS\svxmdv.f90 `
+  TRIGRS\svijz.f90 TRIGRS\dzero_brac.f90 TRIGRS\calerf.f TRIGRS\dbsct.f TRIGRS\derfc.f `
+  TRIGRS\irdgrd.f TRIGRS\irdswm.f TRIGRS\isvgrd.f TRIGRS\roots.f TRIGRS\srdgrd.f `
+  TRIGRS\srdswm.f TRIGRS\ssvgrd.f
+```
+
+```powershell
+# GridMatch
+gfortran -O2 -w -static -o gridmatch.exe GridMatch\ssizgrd.f95 GridMatch\gridmatch.f90 `
+  GridMatch\srdgrd.f GridMatch\ssvgrd.f
+```
+
+```powershell
+# UnitConvert (este precisa da flag -fdec por causa de um formato Fortran antigo no código)
+gfortran -O2 -w -static -fdec -o unitconvert.exe UnitConvert\unitconvert.f90 `
+  UnitConvert\srdgrd.f UnitConvert\ssvgrd.f
+```
+
+Ao final, a pasta `src\` terá `topoindex.exe`, `trigrs.exe`, `gridmatch.exe` e
+`unitconvert.exe`. Guarde-os em uma pasta `bin\` — eles serão copiados para a pasta de cada
+projeto/rodada.
+
+::: {.callout-note}
+## Sobre a versão paralela
+O `Makefile` que acompanha o código usa `mpif90` (MPI) e também compila uma versão paralela
+(`trigrs_p`), útil para áreas muito grandes. Para este minicurso ela **não é necessária** —
+a versão serial acima é suficiente.
+:::
+
+## Significado das opções de compilação
+
+| Opção | Efeito |
+|---|---|
+| `-O2` | Otimização (código mais rápido) |
+| `-w` | Suprime avisos de estilo do código antigo (inofensivos) |
+| `-static` | Embute as bibliotecas no executável — **é o que evita o problema da DLL** |
+| `-fdec` | Aceita extensões DEC antigas (necessário só no UnitConvert) |

@@ -1,0 +1,52 @@
+# Apresentação {.unnumbered}
+
+::: {layout="[55,45]" layout-valign="center"}
+![](logos/DPM-Circular.png){fig-alt="Logo do Departamento de Prevenção e Mitigação de Desastres" width="320"}
+
+![](logos/logo_marca_sedec.png){fig-alt="Selo Proteção e Defesa Civil Brasil" width="230"}
+:::
+
+Este minicurso documenta, **passo a passo e com todo o histórico versionado no GitHub**, a
+aplicação do modelo **TRIGRS** (*Transient Rainfall Infiltration and Grid-based Regional
+Slope-Stability Analysis*, USGS) para mapeamento de estabilidade de encostas deflagradas por
+chuva — da instalação do compilador à aplicação em uma bacia real.
+
+O material nasce da pesquisa de mestrado de **Érico de Castro Borges**, co-orientada por
+**Cássio Guilherme Rampinelli** (DPM/SEDEC/MIDR), cujo objetivo é acoplar os resultados do
+TRIGRS à estimativa de **volumes de fluxo de detritos** da metodologia **GIDES/JICA**
+(volumes Vdy1/Vdy2), com estudo de caso na bacia do Hospital São Lucas (Nova Friburgo/RJ,
+megadesastre de janeiro/2011) e incorporação de cenários de **mudança climática** na chuva
+de projeto.
+
+## Como este minicurso funciona {.unnumbered}
+
+- Cada etapa vencida vira um **capítulo** neste site (um arquivo `.qmd` no repositório).
+- O histórico completo — acertos, erros e correções — fica registrado nos *commits* do
+  repositório: <https://github.com/sedec-dpm-cgnat/tutorial-trigrs>.
+- Qualquer pessoa pode reproduzir os passos: os dados do exemplo e os arquivos de
+  configuração corrigidos estão na pasta [`exemplo_01/`](https://github.com/sedec-dpm-cgnat/tutorial-trigrs/tree/main/exemplo_01).
+
+## Parte 1 — O essencial (disponível) {.unnumbered}
+
+| Capítulo | Conteúdo |
+|---|---|
+| [Instalação](01-instalacao.qmd) | Instalar o compilador gfortran no Windows |
+| [Compilação](02-compilacao.qmd) | Baixar o código-fonte oficial e compilar o TRIGRS 2.1 |
+| [O exemplo tutorial](03-exemplo.qmd) | Anatomia dos arquivos de entrada (grades, unidades, inicialização) |
+| [Primeira rodada](04-rodando.qmd) | Rodar TopoIndex e TRIGRS no exemplo oficial do USGS |
+| [Resultados no R](05-resultados-r.qmd) | Visualizar e interpretar FS, profundidade de ruptura e volumes |
+
+## Próximas partes (em construção) {.unnumbered}
+
+- **Parte 2 — Bacia real:** preparação das grades no QGIS para a bacia do Hospital São Lucas
+  (Nova Friburgo/RJ), calibração com o inventário de cicatrizes de 2011.
+- **Parte 3 — Volumes de fluxo de detritos:** acoplamento TRIGRS → Vdy2 (metodologia GIDES/JICA).
+- **Parte 4 — Mudança climática:** chuvas de projeto sob cenários CMIP6 e efeito nos volumes.
+
+::: {.callout-note}
+## Sobre o TRIGRS
+O TRIGRS é um programa de domínio público do *U.S. Geological Survey* que resolve a
+infiltração transiente da chuva (soluções analíticas 1-D, saturado/não saturado) e calcula o
+**Fator de Segurança** de talude infinito célula a célula de uma grade raster, ao longo do
+tempo de uma chuva. Referências completas no [apêndice](referencias.qmd).
+:::

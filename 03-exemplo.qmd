@@ -1,0 +1,65 @@
+# O exemplo tutorial
+
+Antes de aplicar o modelo a uma bacia real, vamos dominar o fluxo de trabalho no **exemplo
+tutorial oficial do USGS**: uma grade minúscula de **10 × 10 células**, com 2 zonas de
+propriedades, chuva em 2 períodos e 60 h de simulação. Ele roda em ~1 segundo e permite
+entender cada arquivo sem esperar processamento.
+
+Os arquivos estão na pasta [`exemplo_01/`](https://github.com/sedec-dpm-cgnat/tutorial-trigrs/tree/main/exemplo_01)
+deste repositório, **já com as correções necessárias** (ver nota ao final).
+
+## Estrutura de pastas
+
+```
+exemplo_01\
+├── tpx_in.txt      <- inicialização do TopoIndex
+├── tr_in.txt       <- inicialização do TRIGRS (JÁ CORRIGIDO)
+├── data\           <- grades de entrada (formato ESRI ASCII)
+│   ├── dem.asc         MDE (elevação, m)
+│   ├── directions.asc  direção de fluxo D8
+│   ├── slope.asc       declividade (graus)
+│   ├── zones.asc       zonas de propriedades (inteiros 1, 2, ...)
+│   ├── zmax.asc        profundidade máxima do solo (m)
+│   ├── depthwt.asc     profundidade inicial do lençol freático (m)
+│   ├── rizero.asc      infiltração antecedente de longo prazo (m/s)
+│   └── ri1.asc, ri2.asc  intensidade de chuva dos períodos 1 e 2 (m/s)
+└── Resultados\     <- saídas do TRIGRS (criar antes de rodar!)
+```
+
+## Os arquivos de inicialização
+
+Cada programa lê um arquivo de texto com parâmetros e caminhos, **na pasta onde é executado**:
+
+- **`tpx_in.txt`** (TopoIndex): aponta o MDE e a grade de direções de fluxo; define o esquema
+  de numeração D8 (ESRI = 1, TopoIndex = 2) e quais listas/grades auxiliares salvar.
+- **`tr_in.txt`** (TRIGRS): o coração da rodada. Define, entre outros:
+  - número de zonas e **parâmetros geotécnicos/hidráulicos de cada zona**
+    (coesão em Pa, ângulo de atrito φ em graus, peso específico em N/m³, difusividade em
+    m²/s, K~sat~ em m/s, θ~sat~, θ~res~, α de Gardner);
+  - períodos de chuva (`nper`), instantes de troca (`capt`) e intensidades (`cri` ou grades `ri*.asc`);
+  - profundidade da simulação, condição inicial do lençol e opções do modelo
+    (saturado/não saturado, profundidade finita/infinita);
+  - tempos de saída e quais grades gravar.
+
+## Unidades — a pegadinha nº 1 {#sec-unidades}
+
+O TRIGRS trabalha em **SI**: metros, segundos, Pascal. A chuva entra em **m/s**:
+
+$$ 50\ \text{mm/h} = \frac{50}{1000 \times 3600} = 1{,}39 \times 10^{-5}\ \text{m/s} $$
+
+No exemplo, os períodos de chuva usam `3{,}0\times10^{-7}` m/s (~1,1 mm/h) por 48 h e
+`9{,}0\times10^{-5}` m/s (~324 mm/h) por 12 h — um período de chuva fraca antecedente seguido
+de uma tempestade intensa.
+
+::: {.callout-important}
+## Correções que fizemos no exemplo original do USGS
+Se você baixar o exemplo direto da distribuição oficial, três ajustes são necessários
+(nesta pasta do repositório eles **já estão feitos**):
+
+1. No `tr_in.txt`, os caminhos apontavam para `Data/tutorial/`, pasta que não existe na
+   distribuição — ajustados para `data/`;
+2. A grade `TIdscelGrid_tutorial` é gravada pelo TopoIndex com extensão `.txt` (não `.asc`)
+   — o nome no `tr_in.txt` foi ajustado;
+3. A pasta de saída (`Resultados/`) precisa **existir antes** de rodar — o TRIGRS não a cria
+   e falha silenciosamente na gravação.
+:::
