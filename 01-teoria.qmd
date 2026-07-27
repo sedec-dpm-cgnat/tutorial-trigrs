@@ -340,6 +340,165 @@ $$
 
 em que $A_{px}$ é a área da célula (resolução², ex.: grade de 10 m → 100 m² por pixel).
 
+### Como o manual GIDES contabiliza os volumes {#sec-gides}
+
+Para entender **onde** esse $V_{TRIGRS}$ se encaixa, é preciso ver como o *Manual Técnico
+para Concepção de Intervenções para Fluxo de Detritos* (JICA/MI, 2018 — Projeto GIDES)
+estima o volume de sedimentos que chega ao **ponto de referência** da bacia (por exemplo,
+onde se planeja uma barragem Sabo). O manual compara **dois volumes** e adota o **menor**:
+
+**① Vdy1 — o que a bacia PODE gerar** (volume potencial), com duas parcelas levantadas em
+campo (seção 2.5.1.1 do manual):
+
+- **Vdy11 — sedimentos do leito:** material já depositado nos talvegues, passível de ser
+  arrastado (estimado por seções do canal: largura × espessura mobilizável × comprimento);
+- **Vdy12 — sedimentos de rupturas de encostas:** áreas de encosta que podem romper durante
+  o evento × espessura do solo — hoje estimadas por **inspeção de campo e inventários**.
+
+**② Vdy2 — o que a chuva CONSEGUE transportar** (volume transportável, seção 2.5.1.2,
+Equação 6 — correlação empírica da experiência japonesa):
+
+$$
+V_{dy2} \;=\; \frac{10^3 \cdot P_d \cdot A}{1-\lambda} \;\cdot\; K_{f2} \;\cdot\; \frac{C_d}{1-C_d}
+$$
+
+| Termo | Significado | Como se obtém |
+|---|---|---|
+| $P_d$ | precipitação máxima diária (mm) para o TR adotado (mín. 100 anos p/ obras Sabo) | análise de frequência de chuvas |
+| $A$ | área da bacia (km²) | GIS |
+| $\lambda$ | porosidade do depósito (≈ 0,4) | padrão do manual |
+| $K_{f2}$ | taxa de correção do escoamento (0,1–0,5) | gráfico × área da bacia (Fig. 14 do manual) |
+| $C_d$ | concentração do fluxo de detritos | fórmula de equilíbrio no anexo do manual |
+
+A @fig-gides-bacia resume a contabilidade (redesenhada a partir do conceito do manual):
+
+```{r}
+#| label: fig-gides-bacia
+#| fig-cap: "Contabilidade de volumes da metodologia GIDES (adaptado de JICA/MI, 2018). Esquerda: a bacia em planta — os sedimentos vêm do leito dos talvegues (Vdy11, laranja) e das rupturas de encostas (Vdy12, vermelho), e são medidos no ponto de referência. Direita: o volume do plano é o MENOR entre o potencial (Vdy1) e o transportável pela chuva de projeto (Vdy2), somado ao volume de troncos."
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5.4
+layout(matrix(1:2, nrow = 1), widths = c(1.15, 1))
+
+## ---------- esquerda: bacia em planta ----------
+par(mar = c(0.4, 0.4, 1.6, 0.4))
+plot.new(); plot.window(xlim = c(0, 10), ylim = c(0, 10.4), asp = 1)
+bx <- c(5.0, 3.0, 1.8, 1.7, 2.6, 4.4, 6.2, 7.9, 8.5, 8.0, 6.6, 5.0)
+by <- c(0.9, 1.9, 3.6, 5.9, 8.0, 9.4, 9.5, 8.2, 6.0, 3.6, 1.8, 0.9)
+polygon(bx, by, col = "#eef3e6", border = "#5a7a4d", lwd = 2)
+
+# canal principal e afluentes
+cp <- cbind(c(4.9, 4.6, 5.1, 4.8, 5.0, 5.0), c(8.9, 7.2, 5.6, 4.0, 2.4, 1.0))
+lines(cp, lwd = 3, col = "#4292c6")
+lines(c(2.6, 3.6, 4.7), c(7.4, 6.9, 6.4), lwd = 2, col = "#4292c6")
+lines(c(7.6, 6.5, 5.0), c(7.0, 6.2, 5.9), lwd = 2, col = "#4292c6")
+lines(c(7.4, 6.3, 4.9), c(3.4, 3.2, 3.1), lwd = 2, col = "#4292c6")
+
+# Vdy11: trechos do leito com deposito mobilizavel (laranja, por cima do canal)
+lines(cbind(c(4.6, 5.1, 4.8), c(7.2, 5.6, 4.0)), lwd = 7,
+      col = adjustcolor("#ff7f00", 0.75))
+lines(c(6.5, 5.0), c(6.2, 5.9), lwd = 6, col = adjustcolor("#ff7f00", 0.75))
+
+# Vdy12: manchas de ruptura nas encostas (vermelho) com setas ao canal
+mancha <- function(cx, cy, rx, ry, ang) {
+  t <- seq(0, 2 * pi, length.out = 40)
+  x <- rx * cos(t); y <- ry * sin(t)
+  a <- ang * pi / 180
+  polygon(cx + x * cos(a) - y * sin(a), cy + x * sin(a) + y * cos(a),
+          col = adjustcolor("#e31a1c", 0.55), border = "#b30000")
+}
+mancha(3.4, 7.9, 0.55, 0.3, -35); arrows(3.6, 7.6, 4.0, 7.0, length = 0.07, col = "#b30000", lwd = 1.6)
+mancha(7.5, 7.9, 0.5, 0.28, 30);  arrows(7.4, 7.6, 6.8, 6.5, length = 0.07, col = "#b30000", lwd = 1.6)
+mancha(3.1, 4.6, 0.5, 0.28, 20);  arrows(3.4, 4.5, 4.5, 4.15, length = 0.07, col = "#b30000", lwd = 1.6)
+mancha(7.0, 2.6, 0.45, 0.25, -15); arrows(6.8, 2.7, 5.6, 3.0, length = 0.07, col = "#b30000", lwd = 1.6)
+
+# ponto de referencia (barragem sabo)
+polygon(c(4.6, 5.4, 5.0), c(1.15, 1.15, 0.62), col = "#333333")
+text(5.05, 0.28, "ponto de referência\n(ex.: barragem Sabo)", cex = 0.8)
+
+text(2.1, 9.6, "divisor da bacia", cex = 0.8, col = "#5a7a4d", adj = 0)
+text(1.15, 2.6, "Vdy12: rupturas\nde encostas", cex = 0.85, col = "#b30000", adj = 0)
+text(5.55, 4.75, "Vdy11:\ndepósitos do leito", cex = 0.85, col = "#cc5500", adj = 0)
+title(main = "De onde vem o sedimento (planta da bacia)", cex.main = 0.95)
+
+## ---------- direita: a regra do menor ----------
+par(mar = c(0.4, 0.4, 1.6, 0.4))
+plot.new(); plot.window(xlim = c(0, 10), ylim = c(0, 10.4))
+title(main = "A regra de decisão do GIDES", cex.main = 0.95)
+
+caixa <- function(x1, y1, x2, y2, txt, fill, border, cx = 0.82) {
+  rect(x1, y1, x2, y2, col = fill, border = border, lwd = 1.6)
+  text((x1 + x2) / 2, (y1 + y2) / 2, txt, cex = cx)
+}
+caixa(0.4, 8.3, 4.7, 9.7, "Vdy11\n(leito dos talvegues)", adjustcolor("#ff7f00", 0.25), "#cc5500")
+caixa(5.3, 8.3, 9.6, 9.7, "Vdy12\n(rupturas de encostas)", adjustcolor("#e31a1c", 0.25), "#b30000")
+arrows(2.55, 8.3, 4.0, 7.15, length = 0.08); arrows(7.45, 8.3, 6.0, 7.15, length = 0.08)
+caixa(2.2, 5.9, 7.8, 7.1, expression(bold(V[dy1] == V[dy11] + V[dy12]) ~ "(potencial)"),
+      "#f4f4f2", "#666666", cx = 0.9)
+caixa(2.2, 4.0, 7.8, 5.2,
+      expression(bold(V[dy2]) ~ "(transportável, Eq. 6:" ~ P[d] * "," ~ A * "," ~ lambda * "," ~ K[f2] * "," ~ C[d] * ")"),
+      adjustcolor("#4292c6", 0.20), "#2166ac", cx = 0.85)
+# Vdy1 desce pelo lado direito ate a caixa do "menor"; Vdy2 desce direto
+segments(7.8, 6.5, 9.3, 6.5); segments(9.3, 6.5, 9.3, 2.35)
+arrows(9.3, 2.35, 8.45, 2.35, length = 0.08)
+arrows(5.0, 4.0, 5.0, 3.05, length = 0.08)
+caixa(1.6, 1.7, 8.4, 3.0, "volume de sedimentos do plano\n= MENOR (Vdy1 , Vdy2)",
+      "#fff3cd", "#d97706", cx = 0.95)
+arrows(5.0, 1.7, 5.0, 1.05, length = 0.08)
+text(5.0, 0.55, "+ volume de troncos  →  volume total de detritos do plano", cex = 0.9)
+```
+
+### Onde o TRIGRS se encaixa nessa contabilidade
+
+Repare no elo frágil do caminho empírico: o **Vdy12** depende de inspeção de campo e
+inventário (o que rompeu no passado), e o **Vdy2** é uma correlação ajustada a eventos do
+**Japão**. A proposta da pesquisa é usar o TRIGRS como **caminho físico paralelo**, alimentado
+pela **mesma chuva de projeto** $P_d$:
+
+```{mermaid}
+%%| fig-cap: "Conexão entre a metodologia GIDES (caminho empírico, à esquerda) e a proposta com TRIGRS (caminho físico, à direita). Os dois partem da mesma chuva de projeto Pd; o V_TRIGRS pode substituir/refinar o Vdy12, ser confrontado com o Vdy2 e propagar cenários de mudança climática."
+flowchart TB
+  PD["Chuva de projeto P_d (TR adotado)"]
+
+  subgraph EMP["Caminho empírico — Manual GIDES"]
+    CAMPO["Levantamento de campo /<br/>inventário"] --> V11["Vdy11<br/>(leito)"]
+    CAMPO --> V12["Vdy12<br/>(rupturas de encostas)"]
+    V11 --> V1["Vdy1 = Vdy11 + Vdy12"]
+    V12 --> V1
+    EQ6["Equação 6<br/>(empírica, Japão)"] --> V2["Vdy2<br/>(transportável)"]
+    V1 --> MIN["volume do plano =<br/>menor(Vdy1, Vdy2)"]
+    V2 --> MIN
+  end
+
+  subgraph FIS["Caminho físico — proposta com TRIGRS"]
+    TRG["TRIGRS: FS(Z,t)<br/>com o hietograma de P_d"] --> ZC["células FS &lt; 1 +<br/>profundidade crítica Z_cr"]
+    ZC --> VT["V_TRIGRS = Σ A_px·Z_cr<br/>× 1/(1−λ)"]
+  end
+
+  PD --> EQ6
+  PD --> TRG
+  VT -. "estimativa física do Vdy12" .-> V12
+  VT -. "confronto / validação" .-> V2
+  MIN --> OBRA["dimensionamento das intervenções"]
+
+  classDef default fill:#ffffff,stroke:#64748b,color:#111827
+  style EMP fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+  style FIS fill:#dbeafe,stroke:#1f78b4,color:#0f172a
+  style PD fill:#fff3cd,stroke:#d97706,color:#0f172a
+```
+
+Em três frentes:
+
+1. **Substituir/refinar o Vdy12:** em vez de depender só do inventário do passado, o TRIGRS
+   diz *quais encostas rompem para a chuva de projeto* e *com que espessura* — uma estimativa
+   física, específica da bacia e da chuva;
+2. **Confrontar o Vdy2:** a Equação 6 foi calibrada no Japão; comparar $V_{TRIGRS}$ × Vdy2
+   nas bacias da Região Serrana testa a transferibilidade da correlação ao contexto
+   brasileiro (e o evento de 2011 fornece a verdade de campo);
+3. **Mudança climática:** como a chuva entra explicitamente nos dois caminhos (via $P_d$),
+   basta majorar a chuva de projeto com os fatores de mudança climática e propagar — os
+   volumes respondem fisicamente, não por extrapolação da correlação.
+
 ::: {.callout-note}
 ## Dois cuidados na comparação com o Vdy2
 1. **Empolamento/porosidade:** o $V_{TRIGRS}$ é volume de solo *in situ*; o Vdy2 do manual

@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -231,6 +260,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#fator-de-segurança-ao-longo-da-chuva" id="toc-fator-de-segurança-ao-longo-da-chuva" class="nav-link" data-scroll-target="#fator-de-segurança-ao-longo-da-chuva"><span class="header-section-number">6.2</span> Fator de segurança ao longo da chuva</a></li>
   <li><a href="#onde-e-a-que-profundidade-romperia" id="toc-onde-e-a-que-profundidade-romperia" class="nav-link" data-scroll-target="#onde-e-a-que-profundidade-romperia"><span class="header-section-number">6.3</span> Onde e a que profundidade romperia?</a></li>
   <li><a href="#quantificando-da-instabilidade-ao-volume" id="toc-quantificando-da-instabilidade-ao-volume" class="nav-link" data-scroll-target="#quantificando-da-instabilidade-ao-volume"><span class="header-section-number">6.4</span> Quantificando: da instabilidade ao volume</a></li>
+  <li><a href="#sec-aplicando-vdy2" id="toc-sec-aplicando-vdy2" class="nav-link" data-scroll-target="#sec-aplicando-vdy2"><span class="header-section-number">6.5</span> Aplicando a proposta: do TRIGRS ao Vdy2</a>
+  <ul class="collapse">
+  <li><a href="#passo-1-volume-mobilizável-físico-vtrigrs" id="toc-passo-1-volume-mobilizável-físico-vtrigrs" class="nav-link" data-scroll-target="#passo-1-volume-mobilizável-físico-vtrigrs"><span class="header-section-number">6.5.1</span> Passo 1 — Volume mobilizável físico (V<sub>TRIGRS</sub>)</a></li>
+  <li><a href="#passo-2-volume-transportável-empírico-vdy2-equação-6" id="toc-passo-2-volume-transportável-empírico-vdy2-equação-6" class="nav-link" data-scroll-target="#passo-2-volume-transportável-empírico-vdy2-equação-6"><span class="header-section-number">6.5.2</span> Passo 2 — Volume transportável empírico (V<sub>dy2</sub>, Equação 6)</a></li>
+  <li><a href="#passo-3-o-confronto-a-regra-do-menor" id="toc-passo-3-o-confronto-a-regra-do-menor" class="nav-link" data-scroll-target="#passo-3-o-confronto-a-regra-do-menor"><span class="header-section-number">6.5.3</span> Passo 3 — O confronto (a regra do menor)</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/edit/main/06-resultados-r.qmd" class="toc-action"><i class="bi bi-github"></i>Editar essa página</a></li><li><a href="https://github.com/sedec-dpm-cgnat/tutorial-trigrs/issues/new" class="toc-action"><i class="bi empty"></i>Criar uma issue</a></li></ul></div></nav>
     </div>
@@ -342,9 +377,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 1                16             1600                 1.74                  2790</code></pre>
 </div>
 </div>
-<p>Esse último número — <strong>área instável × profundidade de ruptura</strong> — é a ponte entre o TRIGRS e a estimativa de <strong>volume de fluxo de detritos</strong>, exatamente como ilustrado na <a href="./01-teoria.html#sec-volume">seção “Da profundidade crítica ao volume mobilizável”</a> do capítulo teórico. Na metodologia <strong>GIDES/JICA</strong>, o volume de sedimentos do plano é o menor entre o volume potencial gerável na bacia (<strong>Vdy1</strong>, com a parcela <strong>Vdy12</strong> vinda de rupturas de encostas) e o volume transportável pela chuva de projeto (<strong>Vdy2</strong>, função da precipitação máxima diária <code>Pd</code>). A proposta da pesquisa é usar o TRIGRS para estimar fisicamente essa parcela — e, como a chuva entra explicitamente no modelo, avaliar cenários de <strong>mudança climática</strong>. Este será o tema das próximas partes do minicurso.</p>
+<p>Esse último número — <strong>área instável × profundidade de ruptura</strong> — é a ponte entre o TRIGRS e a estimativa de <strong>volume de fluxo de detritos</strong>, exatamente como ilustrado na <a href="./01-teoria.html#sec-volume">seção “Da profundidade crítica ao volume mobilizável”</a> do capítulo teórico. Vamos fechar o ciclo aplicando a proposta completa.</p>
+</section>
+<section id="sec-aplicando-vdy2" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-aplicando-vdy2"><span class="header-section-number">6.5</span> Aplicando a proposta: do TRIGRS ao Vdy2</h2>
+<p>Nesta seção reproduzimos, <strong>na grade do exemplo tutorial</strong>, os dois caminhos descritos na <a href="./01-teoria.html#sec-gides">teoria</a>: o <strong>caminho físico</strong> (V<sub>TRIGRS</sub>, das grades <code>TRfs_min</code> e <code>TRz_at_fs_min</code>) e o <strong>caminho empírico</strong> do manual GIDES (V<sub>dy2</sub>, Equação 6), comparando-os ao final como faria o projetista.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Números ilustrativos!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A grade do tutorial é sintética (100 células de 10 m) e a chuva do exemplo é irreal de propósito (a tempestade equivale a centenas de mm/h, para fins didáticos do USGS). Por isso adotamos aqui uma chuva de projeto <strong>ilustrativa</strong> de <span class="math inline">\(P_d\)</span> = 180 mm/dia e valores típicos de <span class="math inline">\(K_{f2}\)</span> e <span class="math inline">\(C_d\)</span>. O que importa é o <strong>procedimento</strong> — nas bacias reais da pesquisa, cada número desses será obtido da análise de frequência local e do manual.</p>
+</div>
+</div>
+<section id="passo-1-volume-mobilizável-físico-vtrigrs" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="passo-1-volume-mobilizável-físico-vtrigrs"><span class="header-section-number">6.5.1</span> Passo 1 — Volume mobilizável físico (V<sub>TRIGRS</sub>)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.4</span>                                    <span class="co"># porosidade do deposito (manual GIDES)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>V_insitu <span class="ot">&lt;-</span> n_inst <span class="sc">*</span> area_celula <span class="sc">*</span> z_medio       <span class="co"># solo intacto que rompe (m3)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>V_solto  <span class="ot">&lt;-</span> V_insitu <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> lambda)              <span class="co"># corrigido p/ volume com vazios (empolado)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Células instáveis (FS&lt;1):"</span>, n_inst,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">V in situ  ="</span>, <span class="fu">round</span>(V_insitu), <span class="st">"m³"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">V solto    ="</span>, <span class="fu">round</span>(V_solto), <span class="st">"m³  (comparável aos volumes do GIDES)</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Células instáveis (FS&lt;1): 16 
+V in situ  = 2790 m³ 
+V solto    = 4650 m³  (comparável aos volumes do GIDES)</code></pre>
+</div>
+</div>
+<p>A correção <span class="math inline">\(1/(1-\lambda)\)</span> coloca o volume na mesma base do manual: o GIDES trabalha com o <strong>sedimento depositado, com vazios</strong>, não com o solo intacto da encosta.</p>
+</section>
+<section id="passo-2-volume-transportável-empírico-vdy2-equação-6" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="passo-2-volume-transportável-empírico-vdy2-equação-6"><span class="header-section-number">6.5.2</span> Passo 2 — Volume transportável empírico (V<sub>dy2</sub>, Equação 6)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># area da bacia = celulas validas x area da celula (em km2)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_total <span class="ot">&lt;-</span> <span class="fu">global</span>(<span class="sc">!</span><span class="fu">is.na</span>(fs60), <span class="st">"sum"</span>)[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>A_km2   <span class="ot">&lt;-</span> n_total <span class="sc">*</span> area_celula <span class="sc">/</span> <span class="fl">1e6</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Pd  <span class="ot">&lt;-</span> <span class="dv">180</span>    <span class="co"># mm/dia -- chuva de projeto ILUSTRATIVA (TR definido pela analise de frequencia)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Kf2 <span class="ot">&lt;-</span> <span class="fl">0.5</span>    <span class="co"># taxa de correcao: limite superior, tipico de bacias muito pequenas (Fig. 14)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Cd  <span class="ot">&lt;-</span> <span class="fl">0.35</span>   <span class="co"># concentracao do fluxo de detritos (formula de equilibrio no anexo do manual)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>Vdy2 <span class="ot">&lt;-</span> <span class="fl">1e3</span> <span class="sc">*</span> Pd <span class="sc">*</span> A_km2 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> lambda) <span class="sc">*</span> Kf2 <span class="sc">*</span> Cd <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> Cd)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Área da bacia A ="</span>, A_km2, <span class="st">"km²"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">Vdy2 = 10³ ×"</span>, Pd, <span class="st">"×"</span>, A_km2, <span class="st">"/ (1 −"</span>, lambda, <span class="st">") ×"</span>, Kf2,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"×"</span>, Cd, <span class="st">"/ (1 −"</span>, Cd, <span class="st">") ="</span>, <span class="fu">round</span>(Vdy2), <span class="st">"m³</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Área da bacia A = 0.01 km² 
+Vdy2 = 10³ × 180 × 0.01 / (1 − 0.4 ) × 0.5 × 0.35 / (1 − 0.35 ) = 808 m³</code></pre>
+</div>
+</div>
+</section>
+<section id="passo-3-o-confronto-a-regra-do-menor" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="passo-3-o-confronto-a-regra-do-menor"><span class="header-section-number">6.5.3</span> Passo 3 — O confronto (a regra do menor)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">caminho  =</span> <span class="fu">c</span>(<span class="st">"físico (TRIGRS, solto)"</span>, <span class="st">"empírico (Vdy2, Eq. 6)"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">volume_m3 =</span> <span class="fu">round</span>(<span class="fu">c</span>(V_solto, Vdy2)),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">papel =</span> <span class="fu">c</span>(<span class="st">"o que as encostas mobilizam p/ esta chuva"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"o que a chuva consegue transportar"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 caminho volume_m3                                     papel
+1 físico (TRIGRS, solto)      4650 o que as encostas mobilizam p/ esta chuva
+2 empírico (Vdy2, Eq. 6)       808        o que a chuva consegue transportar</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Volume a considerar (regra do menor, análoga ao GIDES):"</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">min</span>(V_solto, Vdy2)), <span class="st">"m³</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Volume a considerar (regra do menor, análoga ao GIDES): 808 m³</code></pre>
+</div>
+</div>
+<p>Leitura do resultado: se <span class="math inline">\(V_{TRIGRS} &gt; V_{dy2}\)</span>, as encostas produzem mais sedimento do que a chuva transporta — o transporte limita (cenário <em>transport-limited</em>); se <span class="math inline">\(V_{TRIGRS} &lt; V_{dy2}\)</span>, a produção nas encostas é o gargalo (<em>supply-limited</em>). Essa comparação, célula de um lado e correlação japonesa do outro, é exatamente o experimento que a pesquisa fará nas bacias reais — com a vantagem de que, mudando apenas <span class="math inline">\(P_d\)</span> (por exemplo, majorada por cenários climáticos), <strong>os dois caminhos respondem de forma consistente</strong>. Na metodologia <strong>GIDES/JICA</strong>, o volume de sedimentos do plano é o menor entre o volume potencial gerável na bacia (<strong>Vdy1</strong>, com a parcela <strong>Vdy12</strong> vinda de rupturas de encostas) e o volume transportável pela chuva de projeto (<strong>Vdy2</strong>, função da precipitação máxima diária <code>Pd</code>). A proposta da pesquisa é usar o TRIGRS para estimar fisicamente essa parcela — e, como a chuva entra explicitamente no modelo, avaliar cenários de <strong>mudança climática</strong>. Este será o tema das próximas partes do minicurso.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

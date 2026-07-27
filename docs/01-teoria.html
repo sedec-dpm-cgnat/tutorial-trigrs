@@ -228,7 +228,11 @@ window.Quarto = {
   <li><a href="#o-problema-físico-em-uma-frase" id="toc-o-problema-físico-em-uma-frase" class="nav-link active" data-scroll-target="#o-problema-físico-em-uma-frase"><span class="header-section-number">1.1</span> O problema físico em uma frase</a></li>
   <li><a href="#ingrediente-1-o-talude-infinito" id="toc-ingrediente-1-o-talude-infinito" class="nav-link" data-scroll-target="#ingrediente-1-o-talude-infinito"><span class="header-section-number">1.2</span> Ingrediente 1 — o talude infinito</a></li>
   <li><a href="#ingrediente-2-a-infiltração-transiente" id="toc-ingrediente-2-a-infiltração-transiente" class="nav-link" data-scroll-target="#ingrediente-2-a-infiltração-transiente"><span class="header-section-number">1.3</span> Ingrediente 2 — a infiltração transiente</a></li>
-  <li><a href="#sec-volume" id="toc-sec-volume" class="nav-link" data-scroll-target="#sec-volume"><span class="header-section-number">1.4</span> Da profundidade crítica ao volume mobilizável (o papel do Vdy2)</a></li>
+  <li><a href="#sec-volume" id="toc-sec-volume" class="nav-link" data-scroll-target="#sec-volume"><span class="header-section-number">1.4</span> Da profundidade crítica ao volume mobilizável (o papel do Vdy2)</a>
+  <ul class="collapse">
+  <li><a href="#sec-gides" id="toc-sec-gides" class="nav-link" data-scroll-target="#sec-gides"><span class="header-section-number">1.4.1</span> Como o manual GIDES contabiliza os volumes</a></li>
+  <li><a href="#onde-o-trigrs-se-encaixa-nessa-contabilidade" id="toc-onde-o-trigrs-se-encaixa-nessa-contabilidade" class="nav-link" data-scroll-target="#onde-o-trigrs-se-encaixa-nessa-contabilidade"><span class="header-section-number">1.4.2</span> Onde o TRIGRS se encaixa nessa contabilidade</a></li>
+  </ul></li>
   <li><a href="#premissas-e-limitações-ler-antes-de-confiar-no-mapa" id="toc-premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="nav-link" data-scroll-target="#premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.5</span> Premissas e limitações (ler antes de confiar no mapa!)</a></li>
   <li><a href="#sec-fluxograma" id="toc-sec-fluxograma" class="nav-link" data-scroll-target="#sec-fluxograma"><span class="header-section-number">1.6</span> O fluxograma geral da metodologia</a></li>
   <li><a href="#onde-cada-coisa-está-no-minicurso" id="toc-onde-cada-coisa-está-no-minicurso" class="nav-link" data-scroll-target="#onde-cada-coisa-está-no-minicurso"><span class="header-section-number">1.7</span> Onde cada coisa está no minicurso</a></li>
@@ -415,6 +419,123 @@ Figura&nbsp;1.4: Modelo de ruptura para uma dada chuva, num dado instante, em qu
 V_{TRIGRS}(t) \;=\; \sum_{i \,:\, FS_i(t) &lt; 1} A_{px} \cdot Z_{cr,i}(t)
 \]</span></p>
 <p>em que <span class="math inline">\(A_{px}\)</span> é a área da célula (resolução², ex.: grade de 10 m → 100 m² por pixel).</p>
+<section id="sec-gides" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="sec-gides"><span class="header-section-number">1.4.1</span> Como o manual GIDES contabiliza os volumes</h3>
+<p>Para entender <strong>onde</strong> esse <span class="math inline">\(V_{TRIGRS}\)</span> se encaixa, é preciso ver como o <em>Manual Técnico para Concepção de Intervenções para Fluxo de Detritos</em> (JICA/MI, 2018 — Projeto GIDES) estima o volume de sedimentos que chega ao <strong>ponto de referência</strong> da bacia (por exemplo, onde se planeja uma barragem Sabo). O manual compara <strong>dois volumes</strong> e adota o <strong>menor</strong>:</p>
+<p><strong>① Vdy1 — o que a bacia PODE gerar</strong> (volume potencial), com duas parcelas levantadas em campo (seção 2.5.1.1 do manual):</p>
+<ul>
+<li><strong>Vdy11 — sedimentos do leito:</strong> material já depositado nos talvegues, passível de ser arrastado (estimado por seções do canal: largura × espessura mobilizável × comprimento);</li>
+<li><strong>Vdy12 — sedimentos de rupturas de encostas:</strong> áreas de encosta que podem romper durante o evento × espessura do solo — hoje estimadas por <strong>inspeção de campo e inventários</strong>.</li>
+</ul>
+<p><strong>② Vdy2 — o que a chuva CONSEGUE transportar</strong> (volume transportável, seção 2.5.1.2, Equação 6 — correlação empírica da experiência japonesa):</p>
+<p><span class="math display">\[
+V_{dy2} \;=\; \frac{10^3 \cdot P_d \cdot A}{1-\lambda} \;\cdot\; K_{f2} \;\cdot\; \frac{C_d}{1-C_d}
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termo</th>
+<th>Significado</th>
+<th>Como se obtém</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(P_d\)</span></td>
+<td>precipitação máxima diária (mm) para o TR adotado (mín. 100 anos p/ obras Sabo)</td>
+<td>análise de frequência de chuvas</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(A\)</span></td>
+<td>área da bacia (km²)</td>
+<td>GIS</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\lambda\)</span></td>
+<td>porosidade do depósito (≈ 0,4)</td>
+<td>padrão do manual</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(K_{f2}\)</span></td>
+<td>taxa de correção do escoamento (0,1–0,5)</td>
+<td>gráfico × área da bacia (Fig. 14 do manual)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(C_d\)</span></td>
+<td>concentração do fluxo de detritos</td>
+<td>fórmula de equilíbrio no anexo do manual</td>
+</tr>
+</tbody>
+</table>
+<p>A <a href="#fig-gides-bacia" class="quarto-xref">Figura&nbsp;<span>1.5</span></a> resume a contabilidade (redesenhada a partir do conceito do manual):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-gides-bacia" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gides-bacia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01-teoria_files/figure-html/fig-gides-bacia-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gides-bacia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1.5: Contabilidade de volumes da metodologia GIDES (adaptado de JICA/MI, 2018). Esquerda: a bacia em planta — os sedimentos vêm do leito dos talvegues (Vdy11, laranja) e das rupturas de encostas (Vdy12, vermelho), e são medidos no ponto de referência. Direita: o volume do plano é o MENOR entre o potencial (Vdy1) e o transportável pela chuva de projeto (Vdy2), somado ao volume de troncos.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="onde-o-trigrs-se-encaixa-nessa-contabilidade" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="onde-o-trigrs-se-encaixa-nessa-contabilidade"><span class="header-section-number">1.4.2</span> Onde o TRIGRS se encaixa nessa contabilidade</h3>
+<p>Repare no elo frágil do caminho empírico: o <strong>Vdy12</strong> depende de inspeção de campo e inventário (o que rompeu no passado), e o <strong>Vdy2</strong> é uma correlação ajustada a eventos do <strong>Japão</strong>. A proposta da pesquisa é usar o TRIGRS como <strong>caminho físico paralelo</strong>, alimentado pela <strong>mesma chuva de projeto</strong> <span class="math inline">\(P_d\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  PD["Chuva de projeto P_d (TR adotado)"]
+
+  subgraph EMP["Caminho empírico — Manual GIDES"]
+    CAMPO["Levantamento de campo /&lt;br/&gt;inventário"] --&gt; V11["Vdy11&lt;br/&gt;(leito)"]
+    CAMPO --&gt; V12["Vdy12&lt;br/&gt;(rupturas de encostas)"]
+    V11 --&gt; V1["Vdy1 = Vdy11 + Vdy12"]
+    V12 --&gt; V1
+    EQ6["Equação 6&lt;br/&gt;(empírica, Japão)"] --&gt; V2["Vdy2&lt;br/&gt;(transportável)"]
+    V1 --&gt; MIN["volume do plano =&lt;br/&gt;menor(Vdy1, Vdy2)"]
+    V2 --&gt; MIN
+  end
+
+  subgraph FIS["Caminho físico — proposta com TRIGRS"]
+    TRG["TRIGRS: FS(Z,t)&lt;br/&gt;com o hietograma de P_d"] --&gt; ZC["células FS &amp;lt; 1 +&lt;br/&gt;profundidade crítica Z_cr"]
+    ZC --&gt; VT["V_TRIGRS = Σ A_px·Z_cr&lt;br/&gt;× 1/(1−λ)"]
+  end
+
+  PD --&gt; EQ6
+  PD --&gt; TRG
+  VT -. "estimativa física do Vdy12" .-&gt; V12
+  VT -. "confronto / validação" .-&gt; V2
+  MIN --&gt; OBRA["dimensionamento das intervenções"]
+
+  classDef default fill:#ffffff,stroke:#64748b,color:#111827
+  style EMP fill:#f8fafc,stroke:#94a3b8,color:#0f172a
+  style FIS fill:#dbeafe,stroke:#1f78b4,color:#0f172a
+  style PD fill:#fff3cd,stroke:#d97706,color:#0f172a
+</pre>
+</div>
+<p></p><figcaption> Conexão entre a metodologia GIDES (caminho empírico, à esquerda) e a proposta com TRIGRS (caminho físico, à direita). Os dois partem da mesma chuva de projeto Pd; o V_TRIGRS pode substituir/refinar o Vdy12, ser confrontado com o Vdy2 e propagar cenários de mudança climática.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>Em três frentes:</p>
+<ol type="1">
+<li><strong>Substituir/refinar o Vdy12:</strong> em vez de depender só do inventário do passado, o TRIGRS diz <em>quais encostas rompem para a chuva de projeto</em> e <em>com que espessura</em> — uma estimativa física, específica da bacia e da chuva;</li>
+<li><strong>Confrontar o Vdy2:</strong> a Equação 6 foi calibrada no Japão; comparar <span class="math inline">\(V_{TRIGRS}\)</span> × Vdy2 nas bacias da Região Serrana testa a transferibilidade da correlação ao contexto brasileiro (e o evento de 2011 fornece a verdade de campo);</li>
+<li><strong>Mudança climática:</strong> como a chuva entra explicitamente nos dois caminhos (via <span class="math inline">\(P_d\)</span>), basta majorar a chuva de projeto com os fatores de mudança climática e propagar — os volumes respondem fisicamente, não por extrapolação da correlação.</li>
+</ol>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -432,6 +553,7 @@ Dois cuidados na comparação com o Vdy2
 </div>
 </div>
 <p>É exatamente esse cálculo que faremos, na prática, no capítulo de <a href="./06-resultados-r.html">Resultados no R</a> — o bloco final de código computa <code>n_células instáveis × área × Z_cr médio</code> para o exemplo tutorial.</p>
+</section>
 </section>
 <section id="premissas-e-limitações-ler-antes-de-confiar-no-mapa" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="premissas-e-limitações-ler-antes-de-confiar-no-mapa"><span class="header-section-number">1.5</span> Premissas e limitações (ler antes de confiar no mapa!)</h2>
